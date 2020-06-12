@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import { Selection, DataColumn, HoldingsCustomizationParameters, AvailableColumnOptions } from 'wri-holdings';
+import { Selection, DataColumn, HoldingsCustomizationOptions, AvailableColumnOptions } from 'wri-holdings';
 
 @Component({
   selector: 'app-holdings-customization',
@@ -43,7 +43,7 @@ export class HoldingsCustomizationComponent implements OnInit {
   }
 
   constructor(public dialogRef: MatDialogRef<HoldingsCustomizationComponent>,
-    @Inject(MAT_DIALOG_DATA) public params: HoldingsCustomizationParameters) {
+    @Inject(MAT_DIALOG_DATA) public params: HoldingsCustomizationOptions) {
     // Setup the column options from previous selection.
     for (const option of AvailableColumnOptions.columnOptions) {
       let found = false;

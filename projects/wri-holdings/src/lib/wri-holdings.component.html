@@ -16,7 +16,7 @@
             <th *ngIf="i < numberOfColumnsToShow" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
           </ng-container>
         </tr>
-        <tr *ngFor="let row of dataTable">
+        <tr *ngFor="let row of uncategorized.categoryData">
           <ng-container *ngFor="let column of options.dataColumns; index as i;">
             <td *ngIf="i < numberOfColumnsToShow" class="data {{column.value}}">
               <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>

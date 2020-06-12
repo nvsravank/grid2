@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BaseReportBuilderComponent } from '../base-report-builder-component.class';
 import { MatDialog } from '@angular/material/dialog';
 import { HoldingsCustomizationComponent } from './holdings-customization.component';
-import { HoldingsCustomizationParameters, AvailableColumnOptions } from 'wri-holdings';
+import { HoldingsCustomizationOptions, AvailableColumnOptions } from 'wri-holdings';
 @Component({
   selector: 'app-holdings-report-builder',
   templateUrl: './holdings-report-builder.component.html',
   styleUrls: ['./holdings-report-builder.component.scss']
 })
 export class HoldingsReportBuilderComponent extends BaseReportBuilderComponent implements OnInit, OnDestroy {
-  options: HoldingsCustomizationParameters;
+  options: HoldingsCustomizationOptions;
   numberOfColumnsToShow: number = 10;
   constructor(public dialog: MatDialog) {
     super();
@@ -74,7 +74,7 @@ export class HoldingsReportBuilderComponent extends BaseReportBuilderComponent i
         left: 0
       });
     }
-    const newOptions: HoldingsCustomizationParameters = {
+    const newOptions: HoldingsCustomizationOptions = {
       category1: this.options.category1,
       category2: this.options.category2,
       category3: this.options.category3,
