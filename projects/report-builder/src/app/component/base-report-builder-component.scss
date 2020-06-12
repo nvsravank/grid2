@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+.icon {
+  max-width: 20px;
+}
+
+.edit {
+  z-index: 2;
+  position: absolute;
+  right: 40px;
+  top: -20px
+}

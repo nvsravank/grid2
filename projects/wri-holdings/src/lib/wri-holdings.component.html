@@ -1,0 +1,178 @@
+<div class="headerDate" *ngIf="categories.length !== 0">
+  As of: 3/31/20
+</div>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col" *ngIf="options.dataColumns.length === 0">
+      Data Columns are not selected. Please select data columns.
+    </div>
+    <div class="col-12 font-weight-bold text-right pt-1 pb-1" *ngIf="categories.length === 0">
+      As of: 3/31/20
+    </div>
+    <div class="col" *ngIf="options.dataColumns.length !== 0 && categories.length === 0">
+      <table width="100%">
+        <tr>
+          <ng-container *ngFor="let column of options.dataColumns; index as i;">
+            <th *ngIf="i < numberOfColumnsToShow" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+          </ng-container>
+        </tr>
+        <tr *ngFor="let row of dataTable">
+          <ng-container *ngFor="let column of options.dataColumns; index as i;">
+            <td *ngIf="i < numberOfColumnsToShow" class="data {{column.value}}">
+              <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+              <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+              <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+            </td>
+          </ng-container>
+        </tr>
+        <tr>
+          <ng-container *ngFor="let column of options.dataColumns; index as m;">
+            <td *ngIf="m === 0 " class="total {{column.value}} text-right">Total:</td>
+            <td *ngIf="m !==0 && m < numberOfColumnsToShow" class="total {{column.value}}">
+              <span *ngIf="uncategorized.summaryData[column.value] !== 0">{{uncategorized.summaryData[column.value] | number:'1.2-3'}}</span>
+              <span *ngIf="uncategorized.summaryData[column.value] === 0">--</span>
+            </td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+    <div class="col" *ngIf="options.dataColumns.length !== 0 && categories.length !== 0">
+      <ng-container *ngFor="let category1 of categories">
+        <div class="row" *ngIf="options.category1Data.length !== 0">
+          <ng-container *ngFor="let dataColumn of options.category1Data; index as j">
+            <div class="col-12 cat1Title mb-1" *ngIf="j === 0">{{category1.categoryData[0][dataColumn.value]}}</div>
+            <div class="col-6 cat1Detail" *ngIf="j !== 0 && category1.categoryData[0][dataColumn.value] !== null">{{dataColumn.viewValue | uppercase}}: {{category1.categoryData[0][dataColumn.value]}}</div>
+          </ng-container>
+        </div>
+        <div class="row pb-3" *ngIf="category1.categoryData.length !== 0 && options.category2 === null">
+          <div class="col">
+            <table width="100%">
+              <tr>
+                <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                  <th *ngIf="i < numberOfColumnsToShow" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+                </ng-container>
+              </tr>
+              <tr *ngFor="let row of category1.categoryData">
+                <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                  <td *ngIf="i < numberOfColumnsToShow" class="data {{column.value}}">
+                    <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                    <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                    <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr *ngIf="options.category1Data.length !== 0">
+                <ng-container *ngFor="let column of options.dataColumns; index as m;">
+                  <td *ngIf="m === 0 " class="total {{column.value}} text-right">{{category1.categoryData[0][options.category1Data[0].value]}} Total:</td>
+                  <td *ngIf="m !==0 && m < numberOfColumnsToShow" class="total {{column.value}}">
+                    <span *ngIf="category1.summaryData[column.value] !== 0">{{category1.summaryData[column.value] | number:'1.2-3'}}</span>
+                    <span *ngIf="category1.summaryData[column.value] === 0">--</span>
+                  </td>
+                </ng-container>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <ng-container *ngIf="options.category2 !== null">
+          <ng-container *ngFor="let category2 of category1.subCategories; index as cat2Index">
+            <div class="row" *ngIf="options.category2Data.length !== 0">
+              <ng-container *ngFor="let dataColumn of options.category2Data; index as k">
+                <div class="col-12 cat2Detail" *ngIf="k === 0 && category2.categoryData[0][dataColumn.value] !== null"><span class="font-weight-bold">{{dataColumn.viewValue}}:</span> {{category2.categoryData[0][dataColumn.value] | uppercase}}</div>
+                <div class="col-12 cat2Detail" *ngIf="k !== 0 && category2.categoryData[0][dataColumn.value] !== null"><span class="font-weight-bold">{{dataColumn.viewValue}}:</span> {{category2.categoryData[0][dataColumn.value]}}</div>
+              </ng-container>    
+            </div>
+            <div class="row pb-3" *ngIf="category2.categoryData.length !== 0 && options.category3 === null">
+              <div class="col">
+                <table width="100%">
+                  <tr>
+                    <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                      <th *ngIf="i < numberOfColumnsToShow" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+                    </ng-container>
+                  </tr>
+                  <tr *ngFor="let row of category2.categoryData">
+                    <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                      <td *ngIf="i < numberOfColumnsToShow" class="data {{column.value}}">
+                        <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                        <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                        <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <tr *ngIf="options.category2Data.length !== 0">
+                    <ng-container *ngFor="let column of options.dataColumns; index as m;">
+                      <td *ngIf="m === 0 " class="total {{column.value}} text-right">{{category2.categoryData[0][options.category2Data[0].value]}} Total:</td>
+                      <td *ngIf="m !==0 && m < numberOfColumnsToShow" class="total {{column.value}}">
+                        <span *ngIf="category2.summaryData[column.value] !== 0">{{category2.summaryData[column.value] | number:'1.2-3'}}</span>
+                        <span *ngIf="category2.summaryData[column.value] === 0">--</span>
+                      </td>
+                    </ng-container>
+                  </tr>
+                  <tr *ngIf="valueColumnIndex !== 0 && category1.subCategories.length === (cat2Index+1) && options.category1Data.length !== 0 && (valueColumnIndex <= numberOfColumnsToShow)">
+                    <ng-container *ngFor="let column of options.dataColumns; index as n;">
+                      <td *ngIf="n === 0" colspan="5" class="cat1Total {{column.value}} text-right">{{category1.categoryData[0][options.category1Data[0].value]}} Total:</td>
+                      <td *ngIf="n === valueColumnIndex" class="cat1TotalValue {{column.value}}">$ {{category1.summaryData["value"] | number:'1.2-3'}}</td>
+                      <td *ngIf="n > valueColumnIndex && n < numberOfColumnsToShow" class="cat1Total">&nbsp;</td>
+                    </ng-container>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <ng-container *ngIf="options.category3 !== null">
+              <ng-container *ngFor="let category3 of category2.subCategories; index as cat3Index">
+                <div class="row" *ngIf="options.category3Data.length !== 0">
+                  <ng-container *ngFor="let dataColumn of options.category3Data; index as m">
+                    <div class="col-12 cat3Title mb-1 ml-3 mt-2" *ngIf="m === 0">{{category3.categoryData[0][dataColumn.value]}}</div>
+                    <div class="col-4 cat3Detail" *ngIf="m !== 0 && category3.categoryData[0][dataColumn.value] !== null">{{dataColumn.viewValue | uppercase}}: {{category3.categoryData[0][dataColumn.value]}}</div>
+                  </ng-container>    
+                </div>
+                <div class="row pb-3" *ngIf="category3.categoryData.length !== 0">
+                  <div class="col">
+                    <table width="100%">
+                      <tr>
+                        <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                          <th *ngIf="i < numberOfColumnsToShow" class="{{column.value}}">{{column.viewValue | uppercase}}</th>
+                        </ng-container>
+                      </tr>
+                      <tr *ngFor="let row of category3.categoryData">
+                        <ng-container *ngFor="let column of options.dataColumns; index as i;">
+                          <td *ngIf="i < numberOfColumnsToShow" class="data {{column.value}}">
+                            <span *ngIf="column.isNumber && row[column.value] !== 0">{{row[column.value] | number:'1.2-3'}}</span>
+                            <span *ngIf="column.isNumber && row[column.value] === 0">--</span>
+                            <span *ngIf="!column.isNumber">{{row[column.value] | uppercase}}</span>
+                          </td>
+                        </ng-container>
+                      </tr>
+                      <tr *ngIf="options.category3Data.length !== 0">
+                        <ng-container *ngFor="let column of options.dataColumns; index as m;">
+                          <td *ngIf="m === 0" class="total {{column.value}} text-right">{{category3.categoryData[0][options.category3Data[0].value]}} Total:</td>
+                          <td *ngIf="m !==0 && m < numberOfColumnsToShow" class="total {{column.value}}">
+                            <span *ngIf="category3.summaryData[column.value] !== 0">{{category3.summaryData[column.value] | number:'1.2-3'}}</span>
+                            <span *ngIf="category3.summaryData[column.value] === 0">--</span>
+                          </td>
+                        </ng-container>
+                      </tr>
+                      <tr *ngIf="valueColumnIndex !== 0 && category2.subCategories.length === (cat3Index+1) && options.category2Data.length !== 0 && (valueColumnIndex <= numberOfColumnsToShow)">
+                        <ng-container *ngFor="let column of options.dataColumns; index as n;">
+                          <td *ngIf="n === 0" [attr.colspan]="valueColumnIndex" class="cat2Total {{column.value}} text-right">{{category2.categoryData[0][options.category2Data[0].value]}} Total:</td>
+                          <td *ngIf="n === valueColumnIndex" class="cat2Total {{column.value}}">$ {{category2.summaryData["value"] | number:'1.2-3'}}</td>
+                          <td *ngIf="n > valueColumnIndex && n < numberOfColumnsToShow" class="cat2Total">&nbsp;</td>
+                        </ng-container>
+                      </tr>
+                      <tr *ngIf="valueColumnIndex !== 0 && category2.subCategories.length === (cat3Index+1) && category1.subCategories.length === (cat2Index+1) && options.category1Data.length !== 0 && ( valueColumnIndex <= numberOfColumnsToShow)">
+                        <ng-container *ngFor="let column of options.dataColumns; index as n;">
+                          <td *ngIf="n === 0" [attr.colspan]="valueColumnIndex" class="cat1Total {{column.value}} text-right">{{category1.categoryData[0][options.category1Data[0].value]}} Total:</td>
+                          <td *ngIf="n === valueColumnIndex" class="cat1TotalValue {{column.value}}">$ {{category1.summaryData["value"] | number:'1.2-3'}}</td>
+                          <td *ngIf="n > valueColumnIndex && n < numberOfColumnsToShow" class="cat1Total">&nbsp;</td>
+                        </ng-container>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </ng-container>    
+            </ng-container>
+          </ng-container>    
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

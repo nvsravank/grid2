@@ -2,5 +2,340 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "report-builder": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/report-builder",
+      "sourceRoot": "projects/report-builder/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/report-builder",
+            "index": "projects/report-builder/src/index.html",
+            "main": "projects/report-builder/src/main.ts",
+            "polyfills": "projects/report-builder/src/polyfills.ts",
+            "tsConfig": "projects/report-builder/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/report-builder/src/favicon.ico",
+              "projects/report-builder/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
+              "node_modules/angular-bootstrap-md/assets/scss/bootstrap/bootstrap.scss",
+              "node_modules/angular-bootstrap-md/assets/scss/mdb.scss",
+              "node_modules/animate.css/animate.css",
+              "projects/report-builder/src/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
+              "node_modules/hammerjs/hammer.min.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/report-builder/src/environments/environment.ts",
+                  "with": "projects/report-builder/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "report-builder:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "report-builder:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "report-builder:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/report-builder/src/test.ts",
+            "polyfills": "projects/report-builder/src/polyfills.ts",
+            "tsConfig": "projects/report-builder/tsconfig.spec.json",
+            "karmaConfig": "projects/report-builder/karma.conf.js",
+            "assets": [
+              "projects/report-builder/src/favicon.ico",
+              "projects/report-builder/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/report-builder/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/report-builder/tsconfig.app.json",
+              "projects/report-builder/tsconfig.spec.json",
+              "projects/report-builder/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/report-builder/e2e/protractor.conf.js",
+            "devServerTarget": "report-builder:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "report-builder:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "holdings": {
+      "projectType": "library",
+      "root": "projects/holdings",
+      "sourceRoot": "projects/holdings/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/holdings/tsconfig.lib.json",
+            "project": "projects/holdings/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/holdings/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/holdings/src/test.ts",
+            "tsConfig": "projects/holdings/tsconfig.spec.json",
+            "karmaConfig": "projects/holdings/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/holdings/tsconfig.lib.json",
+              "projects/holdings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "header": {
+      "projectType": "library",
+      "root": "projects/header",
+      "sourceRoot": "projects/header/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/header/tsconfig.lib.json",
+            "project": "projects/header/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/header/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/header/src/test.ts",
+            "tsConfig": "projects/header/tsconfig.spec.json",
+            "karmaConfig": "projects/header/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/header/tsconfig.lib.json",
+              "projects/header/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "wri-holdings": {
+      "projectType": "library",
+      "root": "projects/wri-holdings",
+      "sourceRoot": "projects/wri-holdings/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/wri-holdings/tsconfig.lib.json",
+            "project": "projects/wri-holdings/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/wri-holdings/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/wri-holdings/src/test.ts",
+            "tsConfig": "projects/wri-holdings/tsconfig.spec.json",
+            "karmaConfig": "projects/wri-holdings/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/wri-holdings/tsconfig.lib.json",
+              "projects/wri-holdings/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "wri-header": {
+      "projectType": "library",
+      "root": "projects/wri-header",
+      "sourceRoot": "projects/wri-header/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/wri-header/tsconfig.lib.json",
+            "project": "projects/wri-header/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/wri-header/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/wri-header/src/test.ts",
+            "tsConfig": "projects/wri-header/tsconfig.spec.json",
+            "karmaConfig": "projects/wri-header/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/wri-header/tsconfig.lib.json",
+              "projects/wri-header/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "wri-footer": {
+      "projectType": "library",
+      "root": "projects/wri-footer",
+      "sourceRoot": "projects/wri-footer/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/wri-footer/tsconfig.lib.json",
+            "project": "projects/wri-footer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/wri-footer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/wri-footer/src/test.ts",
+            "tsConfig": "projects/wri-footer/tsconfig.spec.json",
+            "karmaConfig": "projects/wri-footer/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/wri-footer/tsconfig.lib.json",
+              "projects/wri-footer/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "report-builder"
 }

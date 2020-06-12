@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 port_head">
+      Customize Report - Portfolio Snapshot Summary
+    </div>
+  </div>
+</div>
+<div class="ml-3 mr-3">
+  <div class="container-fluid report-builder rounded-lg p-2">
+    <div class="row align-items-center">
+      <div class="col-auto" *ngIf="showComponents">
+        <button mat-stroked-button class="hide-tiles pl-2 pr-2" (click)="showHideTiles()">Hide Tiles&nbsp;&nbsp;<mdb-icon fas icon="angle-double-left" size="lg"></mdb-icon></button>
+      </div>
+      <div class="col-auto" *ngIf="!showComponents">
+        <button mat-stroked-button class="show-tiles pl-2 pr-2" (click)="showHideTiles()">Show Tiles&nbsp;&nbsp;<mdb-icon fas icon="angle-double-right" size="lg"></mdb-icon></button>
+      </div>
+      <div class="col-auto">
+        Orientation:
+      </div>
+      <div class="col-auto" *ngIf="!portraitOrientation">
+        <button mat-stroked-button  (click)="changeOrientation()">Landscape&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
+      </div>
+      <div class="col-auto" *ngIf="portraitOrientation">
+        <button mat-stroked-button  (click)="changeOrientation()">Portrait&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
+      </div>
+      <div class="col-auto">
+        Page Type:
+      </div>
+      <div class="col-auto" *ngIf="pageType === 0">
+        <button mat-stroked-button  (click)="changePageType()">Single Page&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
+      </div>
+      <div class="col-auto" *ngIf="pageType === 1">
+        <button mat-stroked-button  (click)="changePageType()">Multi Page&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
+      </div>
+      <div class="col-auto" *ngIf="pageType === 1">
+        <button mat-stroked-button  (click)="addNewSection(3)">Add new section</button>
+      </div>
+      <div class="col"> &nbsp;</div>
+      <div class="col-auto">
+        <button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1">Preview</button>
+        <button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="save()">Save</button>
+        <button mat-stroked-button class="hide-tiles pl-2 pr-2 ml-1 mr-1">Cancel</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <hr />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto border ml-3 pt-2 pb-2 componentContainer" *ngIf="showComponents">
+        <ng-container *ngFor="let component of components; index as i">
+          <div class="componentPreview border mb-2 mt-2" draggable="true" (dragstart)="dragStartHandler($event, i)">
+            {{component.label}}<br>
+            Minimum Columns: {{component.cols}}
+          </div>  
+        </ng-container>
+      </div>
+      <div class="col">&nbsp;</div>
+      <div class="col-auto">
+        <ng-container *ngFor=" let section of sections">
+          <!--Section Component Grid-->
+          <div class="row">
+            <div class="col-auto" *ngIf="section.hasLayoutError">
+              Error! The Section below has components laid out in a way that cannot be rendered. Make sure components are aligned.
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-auto" [style.min-width.px]="gridWidth" [style.max-width.px]="gridWidth" [style.min-height.px]="section.height" [style.max-height.px]="section.height">
+              <gridster [options]="section.sectionOptions" class="gridsterstyles">
+                <gridster-item [item]="item" *ngFor="let item of section.dashboard">
+                  <div class="container-fluid pl-1 pr-1">
+                    <div class="d-flex justify-content-between row" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
+                      <div class="col-10">&nbsp;</div>
+                      <div class="item-buttons col-auto" style="z-index: 2; position: absolute; left: 0px;">
+                        <a class="drag-handler" *ngIf="item.dragEnabled">
+                          <img class="icon" src="assets/move.png"/>
+                        </a>
+                      </div>
+                      <div class="item-buttons col-auto" style="z-index: 2; position: absolute; right: 0px;">
+                        <a *ngIf="item.delete" (mousedown)="section.removeItem($event, item)"
+                          (touchstart)="section.removeItem($event, item)">
+                          <img class="icon" src="assets/remove.png"/>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div *ngIf="!item.hasContent" class="gridster-item-content col">
+                        <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
+                      </div>
+                      <div *ngIf="item.hasContent" class="gridster-item-content col">
+                        <ndc-dynamic [ndcDynamicComponent]="item.type"
+                          [ndcDynamicInputs]="{widget: item, resizeEvent: resizeEvent, portraitOrientation: portraitOrientation}"
+                          [ndcDynamicOutputs]="item.outputs"
+                        >
+                        </ndc-dynamic>
+                      </div>
+                    </div>
+                  </div>
+                </gridster-item>
+              </gridster>
+            </div>
+          </div>
+          <!--End Section Component-->
+        </ng-container>
+      </div>
+      <div class="col">&nbsp;</div>
+    </div>
+  </div>
+</div>

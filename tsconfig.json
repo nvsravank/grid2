@@ -14,7 +14,29 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "holdings": [
+        "dist/holdings/holdings",
+        "dist/holdings"
+      ],
+      "header": [
+        "dist/header/header",
+        "dist/header"
+      ],
+      "wri-holdings": [
+        "dist/wri-holdings/wri-holdings",
+        "dist/wri-holdings"
+      ],
+      "wri-header": [
+        "dist/wri-header/wri-header",
+        "dist/wri-header"
+      ],
+      "wri-footer": [
+        "dist/wri-footer/wri-footer",
+        "dist/wri-footer"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

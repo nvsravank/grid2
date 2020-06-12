@@ -1,0 +1,98 @@
+@import '~@angular/material/theming';
+
+th {
+  font-family: Arial;
+  box-sizing: border-box;
+  height: 31px;
+  background-color: var(--wri-header-color,#07518F);
+  color: #FFFFFF;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 11px;
+  padding: 5px;
+  vertical-align: bottom;
+}
+
+td {
+  border-top: 1px solid #E1E1E1;
+  border-bottom: 0px solid #E1E1E1;
+  height: 22px;
+  vertical-align: middle;
+  font-family: Arial;
+  font-size: 12px;
+  letter-spacing: 9;
+  line-height: 14px;
+  padding-right: 5px;
+}
+
+.assetName, .acctName, .combinedAccountName, .assetClass1Name, .assetClass2Name,
+.assetClass3Name, .investorName, .combinedAccountName, .mgrName, .productName, .style {
+  min-width: 220px;
+  width: 22%;
+}
+
+.value, .price, .quantity, .ror, .yield, .percentageOfAccount, .estimatedAnnualIncome,
+.cost, .unrealizedGainLoss, .beginningValue, .netContribution, .changeInValue {
+  min-width: 60px;
+  text-align: right;
+  width: 6%;
+}
+
+.ticker {
+  min-width: 40px;
+  width: 4%;
+}
+.mgmtCompany, .morningstarRating, .assetType, .acctNum, .accountType, .taxStatus {
+  min-width: 60px;
+  width: 6%;
+}
+
+.cat1Title {
+  color: #07518F;
+  font-size: 14px;
+  font-weight: bolder;
+  font-stretch: wider;
+}
+
+.cat3Title {
+  border-bottom: 1px solid #DCDDDE;
+  border-left: 6px solid #DCDDDE;
+  color: #A29060;
+  font-weight: bolder;
+  font-stretch: wider;
+}
+
+.headerDate {
+  z-index: 2;
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+  border-bottom: 0px;
+  font-size: 12px;
+  border-top: 1px solid #07518F;
+}
+
+.cat2Total {
+  border: none;
+  font-weight: bold;
+}
+
+.cat1Total, .cat1TotalValue {
+  border: none;
+  font-weight: bold;
+}
+
+.cat1TotalValue {
+  color: #A29060;
+}
+
+.color-icon {
+  min-width: 20px;
+  height: 15px;
+  border: none;
+}
