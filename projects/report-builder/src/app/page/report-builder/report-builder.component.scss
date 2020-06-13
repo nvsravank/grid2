@@ -1,5 +1,4 @@
 @import '~@angular/material/theming';
-
 .icon {
   max-width: 20px;
 }
@@ -7,17 +6,6 @@
 .gridsterstyles {
   background-color: #01579b;
   overflow: hidden;
-}
-
-.port_head {
-  color: #333;
-  font-size: 20px;
-  margin: 20px 0px 10px 0px;
-}
-
-.report-builder {
-  border: 1px solid #cfcfcf;
-  background-color: #FFF;
 }
 
 .hide-tiles {
@@ -66,4 +54,27 @@ hr {
 
 .componentContainer {
   background-image: url(/assets/background.png);
+  min-width: 240px;
+  max-width: 240px;
+}
+.fixedPosition {
+  position: fixed;
+}
+.spacer {
+  min-width: 10px;
+}
+
+.controlsSection {
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-top: -8px;
+  padding-top: 10px;
+  background-color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.designer {
+  min-width: 1450px;
 }

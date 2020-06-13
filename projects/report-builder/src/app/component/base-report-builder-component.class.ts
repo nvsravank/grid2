@@ -11,5 +11,6 @@ export class BaseReportBuilderComponent {
   resizeEvent : EventEmitter<any>;
   @Input()
   portraitOrientation: boolean;
+
   resizeSub: Subscription;
 }

@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 port_head">
+      Report Builder
+    </div>
+  </div>
+</div>
+<div class="ml-3 mr-3 designer">
+  <div class="container-fluid report-builder rounded-lg p-2">
+    <div class="row">
+      <div class="col pl-2 border-right">
+        <div class="row">
+          <div class="col-auto">
+            <div class="sectionTitle">
+              <button mat-button *ngIf="!myReportPanelOpenState" (click)="myReportPanelOpenState = true"><mat-icon>add_circle</mat-icon></button>
+              <button mat-button *ngIf="myReportPanelOpenState" (click)="myReportPanelOpenState = false"><mat-icon>remove_circle</mat-icon></button>
+              My Reports ({{reportList.customReportCount}})
+            </div>
+          </div>
+          <div class="col">&nbsp;</div>
+          <div class="col-auto">
+            <div class="thinButton" (click)="createNewReport()">Create New Report</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col ml-2">
+            <mat-expansion-panel
+              [expanded]="myReportPanelOpenState"
+              (opened)="myReportPanelOpenState = true"
+              (closed)="myReportPanelOpenState = false"
+              hideToggle>
+              <ng-container *ngFor="let category of reportList.categoryList">
+                <div class="row" *ngIf="(category.categoryId === 9999)">
+                  <ng-container *ngFor="let report of category.reportsList">
+                    <div class="col-3">
+                      <div class="square">
+                        <div class="squareContent">
+                          <div class="reportTitle pl-1 pt-2">{{report.reportName}}</div>
+                          <div class="reportActions">
+                            <a><i class="fas fa-star pr-2" [class.orange-text]="(report.popularReport === 'Y' || report.reportType === 'C')"></i></a>
+                            <a (click)="editReport(report.reportId, 'U', 'C')"><i class="fas fa-pencil-alt"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </mat-expansion-panel>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-auto">
+            <div class="sectionTitle">
+              <button mat-button *ngIf="!allReportPanelOpenState" (click)="allReportPanelOpenState = true"><mat-icon>add_circle</mat-icon></button>
+              <button mat-button *ngIf="allReportPanelOpenState" (click)="allReportPanelOpenState = false"><mat-icon>remove_circle</mat-icon></button>
+              Base Reports ({{reportList.totalReportCount}})
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col ml-2">
+            <mat-expansion-panel
+              [expanded]="allReportPanelOpenState"
+              (opened)="allReportPanelOpenState = true"
+              (closed)="allReportPanelOpenState = false"
+              hideToggle>
+              <mat-tab-group animationDuration="0ms">
+                <ng-container *ngFor="let category of reportList.categoryList">
+                  <ng-container *ngIf="!(category.categoryId === 9999)">
+                    <mat-tab label="{{category.categoryName}}">
+                      <div class="row">
+                        <ng-container *ngFor="let report of category.reportsList">
+                          <div class="col-3">
+                            <div class="square">
+                              <div class="squareContent">
+                                <div class="reportTitle pl-1 pt-2">{{report.reportName}}</div>
+                                <div class="reportActions">
+                                  <a><i class="fas fa-star pr-2" [class.orange-text]="(report.popularReport === 'Y' || report.reportType === 'C')"></i></a>
+                                  <a (click)="editReport(report.reportId, 'U', 'C')"><i class="fas fa-pencil-alt"></i></a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-container>    
+                      </div>
+                    </mat-tab>
+                  </ng-container>
+                </ng-container>
+              </mat-tab-group>
+            </mat-expansion-panel>
+          </div>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="border">&nbsp;
+          <input name="text" type="text" readonly placeholder="Report Name" autocomplete="off" class="border border-0 searchBox">
+          <i class="fas fa-search searchIcon"></i>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

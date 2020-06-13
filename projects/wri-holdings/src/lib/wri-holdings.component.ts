@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, } from '@angular/core';
-import { WRIHoldingsService, HoldingsCustomizationOptions, Category, HoldingsParameters } from './wri-holdings.service';
+import { WRIHoldingsService, HoldingsCustomizationOptions, Category, CategorizedData } from './wri-holdings.service';
 import { isArray } from 'util';
 
 @Component({
@@ -11,7 +11,7 @@ export class WRIHoldingsComponent implements OnInit {
   @Input()
   options: HoldingsCustomizationOptions;
   @Input()
-  switchDataSet: boolean = false;
+  useDummyData: boolean = false;
   @Input()
   numberOfColumnsToShow: number = 10;
   categories: Category[] = [];
@@ -21,13 +21,16 @@ export class WRIHoldingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const returnValue = this.service.getDummyData(this.options);
-    if (returnValue.isCategorized) {
-      this.categories = returnValue.categorizedData;
-    } else {
-      this.uncategorized = returnValue.uncategorizedData;
-    }
-    this.setValueColumnIndex();
+    this.service.getData(this.options, this.useDummyData).subscribe(
+      (returnValue: CategorizedData) => {
+        if (returnValue.isCategorized) {
+          this.categories = returnValue.categorizedData;
+        } else {
+          this.uncategorized = returnValue.uncategorizedData;
+        }
+        this.setValueColumnIndex();    
+      }
+    );
   }
 
   setValueColumnIndex(){

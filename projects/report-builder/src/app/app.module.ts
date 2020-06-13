@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { DynamicModule } from 'ng-dynamic-component';
 import { GridsterModule } from 'angular-gridster2';
@@ -28,6 +30,7 @@ import { HeaderReportBuilderComponent } from './component/header-report-builder/
 import { FooterReportBuilderComponent } from './component/footer-report-builder/footer-report-builder.component';
 import { GraphTableReportBuilderComponent } from './component/graph-table-report-builder/graph-table-report-builder.component';
 import { HoldingsCustomizationComponent } from './component/holdings-report-builder/holdings-customization.component';
+import { ReportListComponent } from './page/report-list/report-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import { HoldingsCustomizationComponent } from './component/holdings-report-buil
     FooterReportBuilderComponent,
     GraphTableReportBuilderComponent,
     ReportBuilderComponent,
-    HoldingsCustomizationComponent
+    HoldingsCustomizationComponent,
+    ReportListComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,8 @@ import { HoldingsCustomizationComponent } from './component/holdings-report-buil
     BrowserAnimationsModule,
     FormsModule,
     DragDropModule,
-    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, 
+    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule,
+    MatTabsModule,
     MDBBootstrapModule.forRoot(),
     NavbarModule,
     WavesModule,

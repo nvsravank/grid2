@@ -61,7 +61,6 @@ export class HoldingsReportBuilderComponent extends BaseReportBuilderComponent i
   sizing() {
     const mincolumns = [0,0,0,0,2,3,4,5,6,7,8,9,10];
     if (this.widget.cols <=12) {this.numberOfColumnsToShow = mincolumns[this.widget.cols]; }
-    console.log("dosomething");
   }
   openDialog(): void {
     const doc = document.documentElement;

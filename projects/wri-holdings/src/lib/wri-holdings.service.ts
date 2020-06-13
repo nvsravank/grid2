@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpParams, HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 export interface Selection {
   value: string;
@@ -64,11 +67,6 @@ export interface HoldingsCustomizationOptions {
   dataColumns?: Array<DataColumn>;
 }
 
-export interface HoldingsParameters {
-  loginToken: string;
-  dummyData: boolean;
-  optionalParameter1?: string;
-}
 
 export class CategorizedData {
   isCategorized: boolean;
@@ -79,13 +77,48 @@ export class CategorizedData {
 
 @Injectable()
 export class WRIHoldingsService {
+  jwtToken: string = '';
+  serviceURL: string = '';
+  advisorID: string = '';
   private dataSet1 = [];
   private dataSet2 = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    const pageData = (<any> window).AppSettings;
+    if (pageData && pageData.jwtToken) this.jwtToken = pageData.jwtToken;
+    if (pageData && pageData.serviceBusURL) {
+      this.serviceURL = pageData.serviceBusURL + '/report-builder-service';
+    }
+    else {
+      this.serviceURL = 'https://dummylocation.com/report-builder-service';
+    }
+    if (pageData && pageData.advisorID) this.advisorID = pageData.advisorID;
+  }
 
-  getData(parameters: HoldingsParameters, options: HoldingsCustomizationOptions) {
+  getData(options: HoldingsCustomizationOptions, dummyData: boolean = false) {
+    if (dummyData) {
+      return of(this.getDummyData(options));
+    }
 
+    let postParams = new HttpParams();
+    postParams.append('srcDefConst','reportBuilder');
+    postParams.append('pageMode','componentData');
+    postParams.append('formatType','html');
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    headers = headers.set('Authorization', `Bearer ${this.jwtToken}`);
+    headers = headers.set('X-JWT-Assertion', this.jwtToken);
+
+    const jsonRequestBody = {advisorTaxId: this.advisorID};
+    return this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers})
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    return throwError(error.status);
   }
 
   getDummyData(options: HoldingsCustomizationOptions) {

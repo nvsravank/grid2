@@ -5,9 +5,9 @@
     </div>
   </div>
 </div>
-<div class="ml-3 mr-3">
+<div class="ml-3 mr-3 designer">
   <div class="container-fluid report-builder rounded-lg p-2">
-    <div class="row align-items-center">
+    <div class="row align-items-center controlsSection">
       <div class="col-auto" *ngIf="showComponents">
         <button mat-stroked-button class="hide-tiles pl-2 pr-2" (click)="showHideTiles()">Hide Tiles&nbsp;&nbsp;<mdb-icon fas icon="angle-double-left" size="lg"></mdb-icon></button>
       </div>
@@ -41,23 +41,23 @@
         <button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="save()">Save</button>
         <button mat-stroked-button class="hide-tiles pl-2 pr-2 ml-1 mr-1">Cancel</button>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <hr />
       </div>
     </div>
-    <div class="row">
+    <div class="row justify-content-between">
       <div class="col-auto border ml-3 pt-2 pb-2 componentContainer" *ngIf="showComponents">
-        <ng-container *ngFor="let component of components; index as i">
-          <div class="componentPreview border mb-2 mt-2" draggable="true" (dragstart)="dragStartHandler($event, i)">
-            {{component.label}}<br>
-            Minimum Columns: {{component.cols}}
-          </div>  
-        </ng-container>
+        <div class="fixedPosition">
+          <ng-container *ngFor="let component of components; index as i">
+            <div class="componentPreview border mb-2 mt-2" draggable="true" (dragstart)="dragStartHandler($event, i)">
+              {{component.label}}<br>
+              Minimum Columns: {{component.cols}}
+            </div>  
+          </ng-container>  
+        </div>
       </div>
-      <div class="col">&nbsp;</div>
-      <div class="col-auto">
+      <div class="col spacer"></div>
+      <div class="col">
         <ng-container *ngFor=" let section of sections">
           <!--Section Component Grid-->
           <div class="row">
@@ -104,7 +104,7 @@
           <!--End Section Component-->
         </ng-container>
       </div>
-      <div class="col">&nbsp;</div>
+      <div class="col spacer"></div>
     </div>
   </div>
 </div>

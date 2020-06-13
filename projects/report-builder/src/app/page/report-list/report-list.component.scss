@@ -1,0 +1,49 @@
+.designer {
+  min-width: 1450px;
+}
+.sectionTitle {
+  font-size: 16px;
+  color: #333333;
+}
+
+.square {
+  float:left;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* = width for a 1:1 aspect ratio */
+  margin:1.66%;
+  overflow:hidden;
+  background-color: #F3F3F3;
+}
+
+.squareContent {
+  position:absolute;
+  height:98%; /* = 100% - 2*10% padding */
+  width:96%; /* = 100% - 2*5% padding */
+  padding: 1% 2%;
+}
+
+.reportTitle {
+  width: 70%;
+  font-size: 12px;
+}
+
+.reportActions {
+  position: absolute;
+  right: 2px;
+  top: 10px;
+}
+
+.yellowStar {
+  color: yellow;
+}
+
+.searchBox{
+  width: 80%;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+}

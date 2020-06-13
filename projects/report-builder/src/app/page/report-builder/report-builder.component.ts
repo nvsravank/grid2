@@ -39,6 +39,7 @@ export class ReportBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(window.history.state);
     let headerSection: Section = new Section(SectionType.Header);
     let footerSection: Section = new Section(SectionType.Footer);
     // Setup header and footer.
