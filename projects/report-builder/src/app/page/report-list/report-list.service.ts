@@ -13,7 +13,6 @@ export class ReportListService {
   private jwtToken: string = '';
   private serviceURL: string = '';
   private advisorID: string = '';
-  private reportListCache: any = null;
 
   constructor(private http: HttpClient) {
     const pageData = (<any> window).AppSettings;
@@ -31,9 +30,6 @@ export class ReportListService {
     if (!environment.production) {
       return of(allReportsData);
     }
-    if (!isNull(this.reportListCache)) {
-      return of(this.reportListCache);
-    }
 
     let postParams = new HttpParams();
     postParams.append('srcDefConst','reportBuilder');
@@ -46,16 +42,10 @@ export class ReportListService {
     headers = headers.set('X-JWT-Assertion', this.jwtToken);
 
     const jsonRequestBody = {advisorTaxId: this.advisorID};
-    let retObservable = this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers})
+    return this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers})
     .pipe(
       catchError(this.handleError)
     );
-    retObservable.subscribe(
-      (reportList) => {
-      this.reportListCache = reportList;
-      console.log(reportList);
-    });
-    return retObservable;
   }
 
   private handleError(error: HttpErrorResponse) {
