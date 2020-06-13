@@ -42,14 +42,7 @@ export class ReportListService {
     headers = headers.set('X-JWT-Assertion', this.jwtToken);
 
     const jsonRequestBody = {advisorTaxId: this.advisorID};
-    return this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers})
-    .pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    return throwError(error.status);
+    return this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers});
   }
 
 }

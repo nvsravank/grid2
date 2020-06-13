@@ -31,6 +31,8 @@ import { FooterReportBuilderComponent } from './component/footer-report-builder/
 import { GraphTableReportBuilderComponent } from './component/graph-table-report-builder/graph-table-report-builder.component';
 import { HoldingsCustomizationComponent } from './component/holdings-report-builder/holdings-customization.component';
 import { ReportListComponent } from './page/report-list/report-list.component';
+import { HttpErrorInterceptor } from './utilities/http-error.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { ReportListComponent } from './page/report-list/report-list.component';
     WRIHeaderModule,
     WRIFooterModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
