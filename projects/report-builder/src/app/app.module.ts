@@ -33,6 +33,8 @@ import { HoldingsCustomizationComponent } from './component/holdings-report-buil
 import { ReportListComponent } from './page/report-list/report-list.component';
 import { HttpErrorInterceptor } from './utilities/http-error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { PurifyHTMLPipe } from './utilities/purify-html.pipe';
+import { SaveReportComponent } from './page/report-builder/save-report/save-report.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     GraphTableReportBuilderComponent,
     ReportBuilderComponent,
     HoldingsCustomizationComponent,
-    ReportListComponent
+    ReportListComponent,
+    PurifyHTMLPipe,
+    SaveReportComponent
   ],
   imports: [
     BrowserModule,

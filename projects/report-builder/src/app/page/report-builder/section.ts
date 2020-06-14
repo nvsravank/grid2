@@ -13,6 +13,11 @@ export interface Safe extends GridsterConfig {
   draggable: Draggable;
 }
 
+export enum PageType {
+  SinglePage,
+  MultiPage
+}
+
 export enum SectionType {
   Header,
   Footer,

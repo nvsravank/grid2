@@ -4,16 +4,12 @@ import { HoldingsReportBuilderComponent } from '../../component/holdings-report-
 import { FooterReportBuilderComponent } from '../../component/footer-report-builder/footer-report-builder.component';
 import { HeaderReportBuilderComponent } from '../../component/header-report-builder/header-report-builder.component';
 import { GraphTableReportBuilderComponent } from '../../component/graph-table-report-builder/graph-table-report-builder.component';
-import { Safe, Section, SectionType } from './section';
+import { Safe, Section, SectionType, PageType } from './section';
+import { MessageType, Message } from '../../utilities/common-classes';
 import {
   GridsterItem,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
-
-enum PageType {
-  SinglePage,
-  MultiPage
-}
 
 @Component({
   selector: 'app-report-builder',
@@ -28,6 +24,11 @@ export class ReportBuilderComponent implements OnInit {
   resizeEvent: EventEmitter<any> = new EventEmitter<any>();
   showComponents = true;
   components: Array<GridsterItem> = [];
+  showMsg: boolean = false;
+  messageDesc: string = '<strong> bold text </strong> unbold text';
+  messageType: MessageType = MessageType.Inform;
+  MessageType = MessageType;
+  timerId: any;
 
   constructor() {
     // Initialize componenets that can be added.
@@ -112,10 +113,13 @@ export class ReportBuilderComponent implements OnInit {
     }
   }
 
-  save() {
-    this.sections.forEach(section => {
-      console.log(JSON.stringify(section.dashboard));
-    });
+  showMessage(message: Message) {
+    this.messageDesc = message.messageDesc;
+    this.messageType = message.messageType;
+    this.showMsg = true;
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(function () {
+      this.showMsg = false;
+    }.bind(this), 5000);
   }
-
 }

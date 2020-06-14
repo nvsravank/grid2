@@ -34,3 +34,27 @@ body {
   height: 25px;
   border-radius: 0px !important; 
 }
+
+.informMsg, .successMsg, .failureMsg, .warningMsg{
+  vertical-align: middle;
+  background-color: #F0F0F0;
+  border-radius: 3px;
+  min-height: 25px;
+  color: #333;
+}
+.informMsg i, .successMsg i, .failureMsg i, .warningMsg i{
+  font-size: 30px;
+}
+
+.informMsg i {
+  color: #0066FF;
+}
+.successMsg i {
+  color: #08AB05;
+}
+.failureMsg i {
+  color: #E35205;
+}
+.warningMsg i {
+  color: #FEBF00;
+}

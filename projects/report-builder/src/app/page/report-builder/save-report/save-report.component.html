@@ -1,0 +1,12 @@
+<button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="save(dialog)">Save</button>
+
+<ng-template #dialog>
+  <h2 matDialogTitle>Dialog!</h2>
+  <mat-dialog-content>
+    <p>The content of this dialog came from an <code>ng-template</code>! Amazing, right?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose="yes" color="primary">Save</button>
+    <button mat-button matDialogClose="no" color="primary">Cancel</button>
+  </mat-dialog-actions>
+</ng-template>
