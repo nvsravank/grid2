@@ -1,1 +1,6 @@
-<p>graph-table-report-builder works!</p>
+<app-multi-selection
+  [name]="'Rows'"
+  [maxSelections]=5
+  [selections]="rowMultiSelection"
+  (newOptions)="rowSelected($event)"
+></app-multi-selection>

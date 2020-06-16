@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
@@ -33,11 +33,12 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   newOptions = new EventEmitter<MultiSelectSelection[]>();
 
   dialogRef: MatDialogRef<any>;
+  
+  // @ViewChild("myButton", { read: ElementRef }) buttonRef: ElementRef;
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-
   }
   ngOnChanges(changes: SimpleChanges) {
     this.currentSelected = 0;
@@ -56,13 +57,19 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   show(dialogTemplate: TemplateRef<any>) {
-    console.log("1");
+    // const rect = this.buttonRef.nativeElement.getBoundingClientRect();
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: true,
-      width: '500px',
-      hasBackdrop: true
+      width: '400px',
+      hasBackdrop: true,
+      /*
+      position: {
+        top: rect.bottom + 'px',
+        left: (rect.right - 400) + 'px',
+      }
+      */
     });
-    console.log("2");
+    // Positioning the drop down appropriately needs more work
   }
 
 

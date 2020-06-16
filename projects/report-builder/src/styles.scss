@@ -41,6 +41,19 @@ body {
   border-radius: 3px;
   min-height: 25px;
   color: #333;
+  border: 1px solid;
+}
+.informMsg {
+  border-color: #0066FF;
+}
+.successMsg {
+  border-color: #08AB05;
+}
+.failureMsg {
+  border-color: #E35205;
+}
+.warningMsg {
+  border-color: #FEBF00;
 }
 .informMsg i, .successMsg i, .failureMsg i, .warningMsg i{
   font-size: 30px;
