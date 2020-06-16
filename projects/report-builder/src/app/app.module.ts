@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { DynamicModule } from 'ng-dynamic-component';
 import { GridsterModule } from 'angular-gridster2';
@@ -35,6 +36,7 @@ import { HttpErrorInterceptor } from './utilities/http-error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PurifyHTMLPipe } from './utilities/purify-html.pipe';
 import { SaveReportComponent } from './page/report-builder/save-report/save-report.component';
+import { MultiSelectionComponent } from './common/presentation/multi-selection/multi-selection.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { SaveReportComponent } from './page/report-builder/save-report/save-repo
     HoldingsCustomizationComponent,
     ReportListComponent,
     PurifyHTMLPipe,
-    SaveReportComponent
+    SaveReportComponent,
+    MultiSelectionComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +59,7 @@ import { SaveReportComponent } from './page/report-builder/save-report/save-repo
     BrowserAnimationsModule,
     FormsModule,
     DragDropModule,
-    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule,
+    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule, MatCheckboxModule,
     MatTabsModule,
     MDBBootstrapModule.forRoot(),
     NavbarModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { Section, PageType } from '../section';
 import { MessageType, Message } from '../../../utilities/common-classes';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ReportService } from '../report.service';
 
 @Component({

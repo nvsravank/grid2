@@ -16,6 +16,13 @@
             </mat-form-field>      
           </div>
           <div class="col" *ngIf="params.category1 !== null">
+            <app-multi-selection
+              [name]="'Detail to show for ' + params.category1"
+              [maxSelections]=5
+              [selections]="category1MultiSelections"
+              (newOptions)="category1ColumnsSelected($event)"
+            ></app-multi-selection>
+            <!--
             Detail to show for {{params.category1}}
             <div class="row">
               <div class="col">
@@ -45,6 +52,7 @@
               </div>
           
             </div>
+            -->
           </div>
         </div>
         <div class="row m-3" *ngIf="params.category2 !== null">
@@ -66,6 +74,13 @@
             </mat-form-field>      
           </div>
           <div class="col" *ngIf="params.category2 !== null">
+            <app-multi-selection
+            [name]="'Detail to show for ' + params.category2"
+            [maxSelections]=5
+              [selections]="category2MultiSelections"
+              (newOptions)="category2ColumnsSelected($event)"
+            ></app-multi-selection>
+            <!--
             Detail to show for {{params.category2}}
             <div class="row">
               <div class="col">
@@ -94,6 +109,7 @@
                 </div>
               </div>
             </div>
+            -->
           </div>
         </div>
         <div class="row m-3" *ngIf="params.category3 !== null">
@@ -115,6 +131,13 @@
             </mat-form-field>      
           </div>
           <div class="col" *ngIf="params.category3 !== null">
+            <app-multi-selection
+            [name]="'Detail to show for ' + params.category3"
+            [maxSelections]=5
+              [selections]="category3MultiSelections"
+              (newOptions)="category3ColumnsSelected($event)"
+            ></app-multi-selection>
+            <!--
             Detail to show for {{params.category3}}
             <div class="row">
               <div class="col">
@@ -143,12 +166,20 @@
                 </div>
               </div>
             </div>
+            -->
           </div>
         </div>
 
       </div>
     </div>
     <div class="col-4">
+      <app-multi-selection
+        [name]="'Data Table Columns'"
+        [maxSelections]=10
+        [selections]="columnMultiSelection"
+        (newOptions)="columnsSelected($event)"
+      ></app-multi-selection>
+      <!--  
       <div class="row">
         <div class="col">Columns to show in main holdings table under each category.</div>
       </div>
@@ -178,6 +209,7 @@
           </div>
         </div>  
       </div>
+      -->
     </div>
   </div>
 </div>

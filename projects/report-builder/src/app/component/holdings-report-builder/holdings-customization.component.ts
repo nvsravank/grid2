@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Selection, DataColumn, HoldingsCustomizationOptions, AvailableColumnOptions } from 'wri-holdings';
+import { MultiSelectSelection } from '../../common/presentation/multi-selection/multi-selection.component';
 
 @Component({
   selector: 'app-holdings-customization',
@@ -29,6 +30,10 @@ export class HoldingsCustomizationComponent implements OnInit {
   category1UnSelectedDataColumns: DataColumn[] = [];
   category2UnSelectedDataColumns: DataColumn[] = [];
   category3UnSelectedDataColumns: DataColumn[] = [];
+  columnMultiSelection: MultiSelectSelection[] = [];
+  category1MultiSelections: MultiSelectSelection[] = [];
+  category2MultiSelections: MultiSelectSelection[] = [];
+  category3MultiSelections: MultiSelectSelection[] = [];
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -78,7 +83,64 @@ export class HoldingsCustomizationComponent implements OnInit {
     }
     // Available options and basic column option selection is complete. Now separate the available data columns based on the category selections and selected columsn for the category.
     this.setupAndFixSelections();
-    // console.log(this);
+  }
+
+  columnsSelected(newSelections: MultiSelectSelection[]){
+    this.params.dataColumns = [];
+    for (const selection of newSelections) {
+      if(selection.selected) {
+        this.params.dataColumns.push(selection.element);
+      }
+    }
+  }
+
+  category1ColumnsSelected(newSelections: MultiSelectSelection[]){
+    this.params.category1Data = [];
+    for (const selection of newSelections) {
+      if(selection.selected) {
+        this.params.category1Data.push(selection.element);
+      }
+    }
+  }
+  category2ColumnsSelected(newSelections: MultiSelectSelection[]){
+    this.params.category2Data = [];
+    for (const selection of newSelections) {
+      if(selection.selected) {
+        this.params.category2Data.push(selection.element);
+      }
+    }
+  }
+  category3ColumnsSelected(newSelections: MultiSelectSelection[]){
+    this.params.category3Data = [];
+    for (const selection of newSelections) {
+      if(selection.selected) {
+        this.params.category3Data.push(selection.element);
+      }
+    }
+  }
+
+  setupMultiSelections(list: MultiSelectSelection[], selectedDataColumns: DataColumn[], unselectedDataColumns: DataColumn[]) {
+    let multiSelectSelection: MultiSelectSelection = null;
+    for (const selected of selectedDataColumns) {
+      multiSelectSelection = {
+        draggable: true,
+        selected: true,
+        disabled: false,
+        element: selected,
+        name: selected.viewValue
+      };
+      list.push(multiSelectSelection);
+    }
+    for (const unselected of unselectedDataColumns) {
+      multiSelectSelection = {
+        draggable: true,
+        selected: false,
+        disabled: false,
+        element: unselected,
+        name: unselected.viewValue
+      };
+      list.push(multiSelectSelection);
+    }
   }
 
   setupAndFixSelections() {
@@ -104,6 +166,14 @@ export class HoldingsCustomizationComponent implements OnInit {
     if(this.params.category1 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
     if(this.params.category2 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
     if(this.params.category3 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
+    this.category1MultiSelections = [];
+    this.category2MultiSelections = [];
+    this.category3MultiSelections = [];
+    this.columnMultiSelection = [];
+    this.setupMultiSelections(this.category1MultiSelections, this.params.category1Data, this.category1UnSelectedDataColumns);
+    this.setupMultiSelections(this.category2MultiSelections, this.params.category2Data, this.category2UnSelectedDataColumns);
+    this.setupMultiSelections(this.category3MultiSelections, this.params.category3Data, this.category3UnSelectedDataColumns);
+    this.setupMultiSelections(this.columnMultiSelection, this.params.dataColumns, this.columnOptions);
   }
   sortSelectedColumns(availableColumns: DataColumn[], selectedColumns: DataColumn[], unSelectedColumns: DataColumn[]) {
     for (let index = 0; index < availableColumns.length; index++) {

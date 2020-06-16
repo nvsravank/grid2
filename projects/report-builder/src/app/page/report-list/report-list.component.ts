@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportListService } from './report-list.service';
+import { ReportListService, ReportList } from './report-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./report-list.component.scss']
 })
 export class ReportListComponent implements OnInit {
-  reportList: any;
+  reportList: ReportList;
   myReportPanelOpenState: boolean = true;
   allReportPanelOpenState: boolean = true;
 

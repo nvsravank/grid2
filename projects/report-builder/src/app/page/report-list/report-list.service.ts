@@ -1,10 +1,33 @@
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { HttpParams, HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { of, Observable } from 'rxjs';
+import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { allReportsData } from './mock-data';
 import { environment } from '../../../environments/environment';
-import { isNull } from 'util';
+
+export enum ReportType {
+  Custom = 'C',
+  Default = 'D',
+  FIDefault = 'F'
+}
+
+export interface ReportSummary {
+  reportid: number;
+  reportName: string;
+  reportType: ReportType
+}
+
+export interface ReportCategory {
+  categoryId: number;
+  categoryName: string;
+  reportList: ReportSummary[];
+}
+
+export interface ReportList {
+  popularCount: number;
+  totalReportCount: number;
+  customReportCount: number;
+  categoryList: ReportCategory[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +49,7 @@ export class ReportListService {
     if (pageData && pageData.advisorID) this.advisorID = pageData.advisorID;
   }
 
-  getReportList() {
+  getReportList(): Observable<ReportList> {
     if (!environment.production) {
       return of(allReportsData);
     }
@@ -42,7 +65,7 @@ export class ReportListService {
     headers = headers.set('X-JWT-Assertion', this.jwtToken);
 
     const jsonRequestBody = {advisorTaxId: this.advisorID};
-    return this.http.post(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers});
+    return this.http.post<ReportList>(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers});
   }
 
 }
