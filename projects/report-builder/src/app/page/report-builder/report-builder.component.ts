@@ -10,6 +10,7 @@ import {
   GridsterItem,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-report-builder',
@@ -30,7 +31,7 @@ export class ReportBuilderComponent implements OnInit {
   MessageType = MessageType;
   timerId: any;
 
-  constructor() {
+  constructor( private route: ActivatedRoute) {
     // Initialize componenets that can be added.
     this.components = [
       {cols: 4, rows: 1, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
@@ -41,6 +42,7 @@ export class ReportBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(window.history.state);
+    console.log(this.route);
     let headerSection: Section = new Section(SectionType.Header);
     let footerSection: Section = new Section(SectionType.Footer);
     // Setup header and footer.

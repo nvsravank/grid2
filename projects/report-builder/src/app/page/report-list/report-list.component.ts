@@ -29,7 +29,7 @@ export class ReportListComponent implements OnInit {
       method: 'C',
       reportType: 'C'
     };
-    this.router.navigate(['../design'], {relativeTo: this.route, skipLocationChange: false, state: navigationParams});
+    this.router.navigate(['../design'], {relativeTo: this.route, skipLocationChange: false, replaceUrl: false, state: navigationParams});
   }
 
   editReport(reportId, method, reportType) {
@@ -38,7 +38,7 @@ export class ReportListComponent implements OnInit {
       method,
       reportType
     };
-    this.router.navigate(['../design'], {relativeTo: this.route, skipLocationChange: false, state: navigationParams});
+    this.router.navigate(['../design'], {relativeTo: this.route, skipLocationChange: false, replaceUrl: false, state: navigationParams});
   }
 
 }

@@ -33,13 +33,11 @@ export interface ReportList {
   providedIn: 'root'
 })
 export class ReportListService {
-  private jwtToken: string = '';
   private serviceURL: string = '';
   private advisorID: string = '';
 
   constructor(private http: HttpClient) {
     const pageData = (<any> window).AppSettings;
-    if (pageData && pageData.jwtToken) this.jwtToken = pageData.jwtToken;
     if (pageData && pageData.serviceBusURL) {
       this.serviceURL = pageData.serviceBusURL + '/report-builder-service';
     }
@@ -61,8 +59,6 @@ export class ReportListService {
 
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
-    headers = headers.set('Authorization', `Bearer ${this.jwtToken}`);
-    headers = headers.set('X-JWT-Assertion', this.jwtToken);
 
     const jsonRequestBody = {advisorTaxId: this.advisorID};
     return this.http.post<ReportList>(this.serviceURL + '/get-default-reports-list-metadata', jsonRequestBody, {headers: headers});

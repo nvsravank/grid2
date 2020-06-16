@@ -174,6 +174,17 @@ export class HoldingsCustomizationComponent implements OnInit {
     this.setupMultiSelections(this.category2MultiSelections, this.params.category2Data, this.category2UnSelectedDataColumns);
     this.setupMultiSelections(this.category3MultiSelections, this.params.category3Data, this.category3UnSelectedDataColumns);
     this.setupMultiSelections(this.columnMultiSelection, this.params.dataColumns, this.columnOptions);
+    const insuranceSelection: MultiSelectSelection = {
+      draggable: false,
+      selected: true,
+      disabled: false,
+      element: null,
+      name: 'Insurance Information'
+    };
+    if(this.params.category1 === "account") { this.category1MultiSelections.push(insuranceSelection); }
+    if(this.params.category2 === "account") { this.category2MultiSelections.push(insuranceSelection); }
+    if(this.params.category3 === "account") { this.category3MultiSelections.push(insuranceSelection); }
+
   }
   sortSelectedColumns(availableColumns: DataColumn[], selectedColumns: DataColumn[], unSelectedColumns: DataColumn[]) {
     for (let index = 0; index < availableColumns.length; index++) {

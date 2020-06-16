@@ -33,6 +33,7 @@ import { GraphTableReportBuilderComponent } from './component/graph-table-report
 import { HoldingsCustomizationComponent } from './component/holdings-report-builder/holdings-customization.component';
 import { ReportListComponent } from './page/report-list/report-list.component';
 import { HttpErrorInterceptor } from './utilities/http-error.interceptor';
+import { HttpAuthInterceptor } from './utilities/http-auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PurifyHTMLPipe } from './utilities/purify-html.pipe';
 import { SaveReportComponent } from './page/report-builder/save-report/save-report.component';
@@ -72,7 +73,8 @@ import { MultiSelectionComponent } from './common/presentation/multi-selection/m
     WRIFooterModule,
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

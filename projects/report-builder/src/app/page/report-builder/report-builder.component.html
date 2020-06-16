@@ -1,11 +1,3 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 port_head">
-      Customize Report - Portfolio Snapshot Summary
-    </div>
-  </div>
-</div>
-
 <div class="ml-3 mr-3 designer">
   <div class="messageArea">
     <div class="{{messageType}} border border-rounded mb-2 p-2 container-fluid" *ngIf="showMsg">
@@ -89,14 +81,13 @@
               <gridster [options]="section.sectionOptions" class="gridsterstyles">
                 <gridster-item [item]="item" *ngFor="let item of section.dashboard">
                   <div class="container-fluid pl-1 pr-1">
-                    <div class="d-flex justify-content-between row" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
-                      <div class="col-10">&nbsp;</div>
-                      <div class="item-buttons col-auto" style="z-index: 2; position: absolute; left: 0px;">
+                    <div class="d-flex justify-content-between row pt-1 pb-1 border-bottom" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
+                      <div class="item-buttons col-auto">
                         <a class="drag-handler" *ngIf="item.dragEnabled">
                           <img class="icon" src="assets/move.png"/>
                         </a>
                       </div>
-                      <div class="item-buttons col-auto" style="z-index: 2; position: absolute; right: 0px;">
+                      <div class="item-buttons col-auto">
                         <a *ngIf="item.delete" (mousedown)="section.removeItem($event, item)"
                           (touchstart)="section.removeItem($event, item)">
                           <img class="icon" src="assets/remove.png"/>

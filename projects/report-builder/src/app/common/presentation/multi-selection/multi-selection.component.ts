@@ -34,9 +34,10 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   dialogRef: MatDialogRef<any>;
   
-  // @ViewChild("myButton", { read: ElementRef }) buttonRef: ElementRef;
+  @ViewChild("myButton", { read: ElementRef }) buttonRef: ElementRef;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
   }
@@ -57,17 +58,15 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   show(dialogTemplate: TemplateRef<any>) {
-    // const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    let position = {
+      left: (rect.right - 400) + 'px',
+    };
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: true,
       width: '400px',
       hasBackdrop: true,
-      /*
-      position: {
-        top: rect.bottom + 'px',
-        left: (rect.right - 400) + 'px',
-      }
-      */
+      position: position
     });
     // Positioning the drop down appropriately needs more work
   }
@@ -95,7 +94,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   onChecked(i: number, isChecked: boolean){
-    console.log(i, isChecked); // {}, true || false
+    // console.log(i, isChecked); // {}, true || false
     if(isChecked) {
       moveItemInArray(this.newSelections, i, this.currentSelected);
       this.currentSelected++;

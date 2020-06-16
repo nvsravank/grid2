@@ -9,7 +9,7 @@
     <div class="container-fluid">
       <div class="row mb-1 align-items-center">
         <div class="col" ><h4>{{name}}</h4></div>
-        <div class="col-auto subHeading" *ngIf="maxSelections < newSelections.length"><h5>select up to {{maxSelections}} {{name}}</h5></div>
+        <div class="col-6 subHeading" *ngIf="maxSelections < newSelections.length"><h5>Select up to {{maxSelections}} {{name}}</h5></div>
       </div>
       <div class="row mb-1 informMsg align-items-center p-1" *ngIf="(maxSelections == currentSelected && maxSelections < newSelections.length)">
         <div class="col-auto">
@@ -24,9 +24,10 @@
       <div class="example-box" *ngFor="let selection of newSelections; index as i" cdkDrag>
         <div class="box">
           <div class="pr-1"><mat-icon>drag_indicator</mat-icon></div>
-          <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && currentSelected == maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onChecked(i, $event)">&nbsp;&nbsp;{{selection.name}}</div>
+          <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && currentSelected == maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onChecked(i, $event)"></div>
+          <div class="ml-2 selectionName">{{selection.name}}</div>
         </div>
-        <div>
+        <div class="arrows">
           <a *ngIf="i !== 0 && (selection.selected || currentSelected < maxSelections)" (click)="moveItemInArray(newSelections,i,i-1)"><i class="fa fa-arrow-up"></i></a>
           <a *ngIf="i === 0 || (!selection.selected && currentSelected >= maxSelections)"><i class="fa fa-arrow-up disabledIcon"></i></a>
           &nbsp;
@@ -36,13 +37,14 @@
         </div>
       </div>
     </div>
-    <div class="example-box" *ngFor="let selection of fixedSelections; index as i">
-      <div class="box">
-        <div class="pr-3">&nbsp;&nbsp;&nbsp;</div>
-        <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && currentSelected == maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onChecked(i, $event)">&nbsp;&nbsp;{{selection.name}}</div>
-      </div>
-    </div>
   </mat-dialog-content>
+  <div class="example-box" *ngFor="let selection of fixedSelections; index as i">
+    <div class="box">
+      <div class="pr-3">&nbsp;&nbsp;&nbsp;</div>
+      <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && currentSelected == maxSelections)" [(ngModel)]="selection.selected"></div>
+      <div class="ml-1">{{selection.name}}</div>
+    </div>
+  </div>
   <hr>
   <mat-dialog-actions align="end">
     <button mat-button color="primary" (click)="save()">Save</button>
