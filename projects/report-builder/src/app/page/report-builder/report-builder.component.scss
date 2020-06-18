@@ -3,8 +3,8 @@
   max-width: 20px;
 }
 
-.gridsterstyles {
-  background-color: #01579b;
+.gridsterStyles {
+  background-color: #F0F0F0;
   overflow: hidden;
 }
 
@@ -79,3 +79,31 @@ hr {
   min-width: 1450px;
 }
 
+.editableArea {
+  background-color: #FBFBFB;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: #979797;
+  padding: 25px;
+}
+.section {
+  background-color: #FBFBFB;
+  border-width: 1px;
+  border-style: dashed;
+  border-color: #979797;
+  border-top: none;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.simpleSection {
+  border: 1px dashed #979797;
+}
+.gridsterActions {
+  min-height: 30px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.disabledIcon {
+  color: #BBBBBB
+}

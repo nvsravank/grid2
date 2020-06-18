@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, } from '@angular/core';
 import { WRIHoldingsService, HoldingsCustomizationOptions, Category, CategorizedData } from './wri-holdings.service';
-import { isArray } from 'util';
 
 @Component({
   selector: 'wri-holdings',

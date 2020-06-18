@@ -32,14 +32,14 @@
       <div class="col-auto">
         Page Type:
       </div>
-      <div class="col-auto" *ngIf="pageType === 0">
+      <div class="col-auto" *ngIf="pageType === PageType.SinglePage">
         <button mat-stroked-button  (click)="changePageType()">Single Page&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
       </div>
-      <div class="col-auto" *ngIf="pageType === 1">
+      <div class="col-auto" *ngIf="pageType === PageType.MultiPage">
         <button mat-stroked-button  (click)="changePageType()">Multi Page&nbsp;&nbsp;<mat-icon>arrow_drop_down</mat-icon></button>
       </div>
-      <div class="col-auto" *ngIf="pageType === 1">
-        <button mat-stroked-button  (click)="addNewSection(3)">Add new section</button>
+      <div class="col-auto" *ngIf="pageType === PageType.MultiPage">
+        <button mat-stroked-button  (click)="addNewSection(SectionType.Dynamic)">Add new section</button>
       </div>
       <div class="col"> &nbsp;</div>
       <div class="col-auto">
@@ -69,50 +69,65 @@
       </div>
       <div class="col spacer"></div>
       <div class="col">
-        <ng-container *ngFor=" let section of sections">
-          <!--Section Component Grid-->
-          <div class="row">
-            <div class="col-auto" *ngIf="section.hasLayoutError">
-              Error! The Section below has components laid out in a way that cannot be rendered. Make sure components are aligned.
+        <div class="editableArea">
+          <ng-container *ngFor=" let section of sections; index as i">
+            <!--Section Component Grid-->
+            <div class="mt-2 mb-2" *ngIf="section.type !== SectionType.Header && pageType === PageType.MultiPage">
+              <button mat-stroked-button  (click)="addNewSection(SectionType.Dynamic,i)">+Add New Section</button>
             </div>
-          </div>
-          <div class="row mb-4">
-            <div class="col-auto" [style.min-width.px]="gridWidth" [style.max-width.px]="gridWidth" [style.min-height.px]="section.height" [style.max-height.px]="section.height">
-              <gridster [options]="section.sectionOptions" class="gridsterstyles">
-                <gridster-item [item]="item" *ngFor="let item of section.dashboard">
-                  <div class="container-fluid pl-1 pr-1">
-                    <div class="d-flex justify-content-between row pt-1 pb-1 border-bottom" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
-                      <div class="item-buttons col-auto">
-                        <a class="drag-handler" *ngIf="item.dragEnabled">
-                          <img class="icon" src="assets/move.png"/>
-                        </a>
+            <div class="row justify-content-between align-items-center gridsterActions border" *ngIf="section.type === SectionType.Dynamic || section.type === SectionType.Fixed">
+              <div class="col-auto">
+                <span  *ngIf="section.hasLayoutError">Error! The Section below has components laid out in a way that cannot be rendered. Make sure components are aligned.</span>
+              </div>
+              <div class="col-auto">
+                <ng-container *ngIf="pageType === PageType.MultiPage">
+                  <a *ngIf="i > 1" (click)="moveItemInArray(sections,i,i-1)"><i class="fa fa-arrow-up"></i></a>
+                  <a *ngIf="i <= 1"><i class="fa fa-arrow-up disabledIcon"></i></a>
+                  &nbsp;&nbsp;
+                  <a *ngIf="(i < (sections.length - 2))" (click)="moveItemInArray(sections,i+1,i)"><i class="fa fa-arrow-down"></i></a>
+                  <a *ngIf="(i === (sections.length - 2))"><i class="fa fa-arrow-down disabledIcon"></i></a>
+                  <a class=" ml-4 pl-4 border-left" (click)="deleteSection(section,i)"><i class="fa fa-trash-alt" ></i> Remove Section</a>  
+                </ng-container>
+              </div>
+            </div>
+            <div class="row section mt-2 mb-2" [class.simpleSection]="section.type === SectionType.Header || section.type === SectionType.Footer">
+              <div class="col-auto p-1 m-0" [style.min-width.px]="gridWidth" [style.max-width.px]="gridWidth" [style.min-height.px]="section.height" [style.max-height.px]="section.height">
+                <gridster [options]="section.sectionOptions" class="gridsterStyles">
+                  <gridster-item [item]="item" *ngFor="let item of section.dashboard">
+                    <div class="container-fluid pl-0 pr-0">
+                      <div class="d-flex justify-content-between row pl-0 pr-0 pt-1 pb-1 border-bottom gridsterActions" style="position: relative" *ngIf="item.dragEnabled || item.delete || item.edit">
+                        <div class="item-buttons col-auto">
+                          <a class="drag-handler" *ngIf="item.dragEnabled">
+                            <img class="icon" src="assets/move.png"/>
+                          </a>
+                        </div>
+                        <div class="item-buttons col-auto">
+                          <a *ngIf="item.delete" (mousedown)="section.removeItem($event, item)"
+                            (touchstart)="section.removeItem($event, item)">
+                            <img class="icon" src="assets/remove.png"/>
+                          </a>
+                        </div>
                       </div>
-                      <div class="item-buttons col-auto">
-                        <a *ngIf="item.delete" (mousedown)="section.removeItem($event, item)"
-                          (touchstart)="section.removeItem($event, item)">
-                          <img class="icon" src="assets/remove.png"/>
-                        </a>
+                      <div class="row">
+                        <div *ngIf="!item.hasContent" class="gridster-item-content col">
+                          <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
+                        </div>
+                        <div *ngIf="item.hasContent" class="gridster-item-content col">
+                          <ndc-dynamic [ndcDynamicComponent]="item.type"
+                            [ndcDynamicInputs]="{widget: item, resizeEvent: resizeEvent, portraitOrientation: portraitOrientation}"
+                            [ndcDynamicOutputs]="item.outputs"
+                          >
+                          </ndc-dynamic>
+                        </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div *ngIf="!item.hasContent" class="gridster-item-content col">
-                        <textarea matInput rows="4" placeholder="Label will be:" class="font-weight-bold blue-text">{{item.label}}</textarea>
-                      </div>
-                      <div *ngIf="item.hasContent" class="gridster-item-content col">
-                        <ndc-dynamic [ndcDynamicComponent]="item.type"
-                          [ndcDynamicInputs]="{widget: item, resizeEvent: resizeEvent, portraitOrientation: portraitOrientation}"
-                          [ndcDynamicOutputs]="item.outputs"
-                        >
-                        </ndc-dynamic>
-                      </div>
-                    </div>
-                  </div>
-                </gridster-item>
-              </gridster>
+                  </gridster-item>
+                </gridster>
+              </div>
             </div>
-          </div>
-          <!--End Section Component-->
-        </ng-container>
+            <!--End Section Component-->
+          </ng-container>  
+        </div>
       </div>
       <div class="col spacer"></div>
     </div>

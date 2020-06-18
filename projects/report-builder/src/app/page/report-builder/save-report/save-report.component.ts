@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, DoCheck } from '@angular/core';
 import { Section, PageType } from '../section';
 import { MessageType, Message } from '../../../utilities/common-classes';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { ReportService } from '../report.service';
   templateUrl: './save-report.component.html',
   styleUrls: ['./save-report.component.scss']
 })
-export class SaveReportComponent implements OnInit {
+export class SaveReportComponent implements OnInit, DoCheck {
 
   @Input()
   sections: Section[];
@@ -23,13 +23,19 @@ export class SaveReportComponent implements OnInit {
   @Output()
   message = new EventEmitter<Message>();
 
+  reportSaveEnabled = true;
+
   constructor(public dialog: MatDialog, private service: ReportService) { }
+
+  ngDoCheck() {
+    this.checkIfReportCanBeSaved();
+  }
 
   ngOnInit(): void {
   }
 
   save(dialogTemplate: TemplateRef<any>) {
-    if (!this.checkIfReportCanBeSaved()) {
+    if (!this.reportSaveEnabled) {
       this.showMessage(MessageType.Failure, 'Report Has Errors');
       return;
     }
@@ -52,8 +58,16 @@ export class SaveReportComponent implements OnInit {
 
 
   checkIfReportCanBeSaved(){
-
-    return true;
+    this.reportSaveEnabled = true;
+    for (let index = 0; index < this.sections.length; index++) {
+      const element = this.sections[index];
+      if (element.hasLayoutError){
+        this.reportSaveEnabled = false;
+        return this.reportSaveEnabled;
+      }
+      
+    }
+    return this.reportSaveEnabled;
   }
 
   showMessage(type: MessageType, msg: string) {

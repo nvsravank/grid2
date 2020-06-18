@@ -6,11 +6,13 @@ import { HeaderReportBuilderComponent } from '../../component/header-report-buil
 import { GraphTableReportBuilderComponent } from '../../component/graph-table-report-builder/graph-table-report-builder.component';
 import { Safe, Section, SectionType, PageType } from './section';
 import { MessageType, Message } from '../../utilities/common-classes';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   GridsterItem,
   GridsterItemComponentInterface,
 } from 'angular-gridster2';
 import { ActivatedRoute } from '@angular/router';
+import { isUndefined, isNull } from 'util';
 
 @Component({
   selector: 'app-report-builder',
@@ -30,13 +32,16 @@ export class ReportBuilderComponent implements OnInit {
   messageType: MessageType = MessageType.Inform;
   MessageType = MessageType;
   timerId: any;
+  SectionType = SectionType;
+  PageType = PageType;
+  moveItemInArray = moveItemInArray;
 
   constructor( private route: ActivatedRoute) {
     // Initialize componenets that can be added.
     this.components = [
-      {cols: 4, rows: 1, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
-      {cols: 6, rows: 1, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
-      {cols: 3, rows: 1, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
+      {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
+      {cols: 6, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
+      {cols: 3, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
     ];
   }
 
@@ -47,10 +52,10 @@ export class ReportBuilderComponent implements OnInit {
     let footerSection: Section = new Section(SectionType.Footer);
     // Setup header and footer.
     headerSection.dashboard = [
-      {cols: 12, rows: 1, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderReportBuilderComponent, edit: true},
+      {cols: headerSection.sectionOptions.maxCols, rows: 1, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderReportBuilderComponent, edit: true},
     ];
     footerSection.dashboard = [
-      {cols: 12, rows: 1, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'footer', delete: false,  type: FooterReportBuilderComponent, edit: false},
+      {cols: footerSection.sectionOptions.maxCols, rows: 1, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'footer', delete: false,  type: FooterReportBuilderComponent, edit: false},
     ];
   
     this.sections.push(headerSection);
@@ -84,7 +89,8 @@ export class ReportBuilderComponent implements OnInit {
     this.showComponents = !this.showComponents;
   }
 
-  addNewSection(type: SectionType) {
+  addNewSection(type: SectionType, index?: number) {
+    if(isUndefined(index) || isNull(index) || index===0) index = this.sections.length-1;
     const newSection = new Section(type);
     newSection.dashboard = [];
     newSection.sectionOptions.emptyCellDropCallback = newSection.emptyCellDrop.bind(newSection);
@@ -101,7 +107,7 @@ export class ReportBuilderComponent implements OnInit {
     };
     newSection.components = this.components;
     newSection.sectionOptions.gridSizeChangedCallback = (grid) => {newSection.gridSizeChanged(grid); }
-    this.sections.splice(this.sections.length-1, 0, newSection);
+    this.sections.splice(index, 0, newSection);
   }
 
   changePageType() {
@@ -123,5 +129,10 @@ export class ReportBuilderComponent implements OnInit {
     this.timerId = setTimeout(function () {
       this.showMsg = false;
     }.bind(this), 5000);
+  }
+
+  deleteSection(section: Section, index: number) {
+    const location = this.sections.indexOf(section);
+    this.sections.splice(index,1);
   }
 }

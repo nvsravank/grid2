@@ -71,12 +71,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     // Positioning the drop down appropriately needs more work
   }
 
-
   save(){
-    for (const selection of this.fixedSelections) {
-      this.newSelections.push(selection);
-    }
-    this.newOptions.emit(this.newSelections);
+    this.newOptions.emit([...this.newSelections,...this.fixedSelections]);
     this.dialogRef.close();
   }
 

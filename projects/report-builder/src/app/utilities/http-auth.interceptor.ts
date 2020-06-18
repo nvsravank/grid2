@@ -21,7 +21,6 @@ export class HttpAuthInterceptor implements HttpInterceptor {
         // If we have a token, we append it to our new headers
         newHeaders = newHeaders.append('Authorization', `Bearer ${jwtToken}`);
         newHeaders = newHeaders.append('X-JWT-Assertion', jwtToken);
-    
     }
     // Finally we have to clone our request with our new headers
     // This is required because HttpRequests are immutable

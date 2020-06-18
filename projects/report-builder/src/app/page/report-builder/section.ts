@@ -43,11 +43,11 @@ export class Section {
       swap: true,
       margin: 2,
       outerMargin: true,
-      minCols: 12,
-      maxCols: 12,
+      minCols: 20,
+      maxCols: 20,
       minRows: 1,
       minItemCols: 1,
-      maxItemCols: 12,
+      maxItemCols: 20,
       minItemRows: 1,
       minItemArea: 1,
       defaultItemCols: 1,
@@ -56,7 +56,7 @@ export class Section {
     const headerOptions = {
       ...baseoptions,
       gridType: GridType.VerticalFixed,
-      fixedRowHeight: 120,
+      fixedRowHeight: 132,
       compactType: CompactType.None,
       maxRows: 1,
       maxItemRows: 1,
@@ -84,11 +84,11 @@ export class Section {
     const dynamicOptions = {
       ...baseoptions,
       gridType: GridType.VerticalFixed,
-      fixedRowHeight: 200,
+      fixedRowHeight: 80,
       compactType: CompactType.CompactUp,
-      minRows: 2,
-      maxRows: 10,
-      maxItemRows: 5,
+      minRows: 5,
+      maxRows: 30,
+      maxItemRows: 10,
       enableEmptyCellDrop: true,
       enableOccupiedCellDrop: true,
       pushItems: true,
@@ -132,11 +132,11 @@ export class Section {
     switch (type) {
       case SectionType.Header:
         this.sectionOptions = headerOptions;
-        this.height = 124;
+        this.height = 144;
       break;
       case SectionType.Footer:
         this.sectionOptions = footerOptions;
-        this.height = 84;
+        this.height = 92;
       break;
       case SectionType.Dynamic:
         this.sectionOptions = dynamicOptions;
@@ -159,7 +159,7 @@ export class Section {
   }
   gridSizeChanged(grid: GridsterComponentInterface) {
     // console.info('gridSizeChanged', grid);
-    if (this.type === SectionType.Dynamic) {this.height = grid.rows * 202 + 2; }
+    if (this.type === SectionType.Dynamic) {this.height = grid.rows * 82 + 2; }
   };
   emptyCellDrop(event: DragEvent, item: GridsterItem) {
     let index = +event.dataTransfer.getData('text/plain');

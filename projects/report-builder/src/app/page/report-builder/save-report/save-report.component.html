@@ -1,4 +1,5 @@
-<button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="save(dialog)">Save</button>
+<button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="save(dialog)" *ngIf="reportSaveEnabled">Save</button>
+<button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" disabled *ngIf="!reportSaveEnabled">Save</button>
 
 <ng-template #dialog>
   <h2 matDialogTitle>Dialog!</h2>
