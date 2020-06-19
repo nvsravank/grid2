@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { NavbarModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -63,9 +62,6 @@ import { MultiSelectionComponent } from './common/presentation/multi-selection/m
     MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule, MatCheckboxModule,
     MatTabsModule,
     MDBBootstrapModule.forRoot(),
-    NavbarModule,
-    WavesModule,
-    ButtonsModule,
     GridsterModule,
     DynamicModule.withComponents([GraphTableReportBuilderComponent, HeaderReportBuilderComponent, FooterReportBuilderComponent, HoldingsReportBuilderComponent, GraphReportBuilderComponent]),
     WRIHoldingsModule,
