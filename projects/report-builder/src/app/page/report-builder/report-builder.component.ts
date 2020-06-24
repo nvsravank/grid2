@@ -5,7 +5,7 @@ import { FooterReportBuilderComponent } from '../../component/footer-report-buil
 import { HeaderReportBuilderComponent } from '../../component/header-report-builder/header-report-builder.component';
 import { GraphTableReportBuilderComponent } from '../../component/graph-table-report-builder/graph-table-report-builder.component';
 import { Safe, Section, SectionType, PageType } from './section';
-import { MessageType, Message } from '../../utilities/common-classes';
+import { MessageType, SimpleMessage } from '../../common/messaging/messaging.component';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   GridsterItem,
@@ -27,9 +27,11 @@ export class ReportBuilderComponent implements OnInit {
   resizeEvent: EventEmitter<any> = new EventEmitter<any>();
   showComponents = true;
   components: Array<GridsterItem> = [];
-  showMsg: boolean = false;
-  messageDesc: string = '<strong> bold text </strong> unbold text';
-  messageType: MessageType = MessageType.Inform;
+  message: SimpleMessage = {
+    messageDesc:  '',
+    messageType: MessageType.INFORM
+  };
+
   MessageType = MessageType;
   timerId: any;
   SectionType = SectionType;
@@ -42,12 +44,16 @@ export class ReportBuilderComponent implements OnInit {
       {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
       {cols: 6, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
       {cols: 3, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
+      {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
+      {cols: 6, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
+      {cols: 3, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
+      {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
+      {cols: 6, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
+      {cols: 3, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
     ];
   }
 
   ngOnInit(): void {
-    console.log(window.history.state);
-    console.log(this.route);
     let headerSection: Section = new Section(SectionType.Header);
     let footerSection: Section = new Section(SectionType.Footer);
     // Setup header and footer.
@@ -121,14 +127,8 @@ export class ReportBuilderComponent implements OnInit {
     }
   }
 
-  showMessage(message: Message) {
-    this.messageDesc = message.messageDesc;
-    this.messageType = message.messageType;
-    this.showMsg = true;
-    clearTimeout(this.timerId);
-    this.timerId = setTimeout(function () {
-      this.showMsg = false;
-    }.bind(this), 5000);
+  showMessage(message: SimpleMessage) {
+    this.message = message;
   }
 
   deleteSection(section: Section, index: number) {

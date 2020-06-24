@@ -1,8 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, OnInit, Inject, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Selection, DataColumn, HoldingsCustomizationOptions, AvailableColumnOptions } from 'wri-holdings';
-import { MultiSelectSelection } from '../../common/presentation/multi-selection/multi-selection.component';
+import { MultiSelectSelection } from '../../common/multi-selection/multi-selection.component';
 
 @Component({
   selector: 'app-holdings-customization',
@@ -27,28 +26,19 @@ export class HoldingsCustomizationComponent implements OnInit {
   assetClass1AvailableDataColumns: DataColumn[] = [];
   assetClass2AvailableDataColumns: DataColumn[] = [];
   assetClass3AvailableDataColumns: DataColumn[] = [];
-  category1UnSelectedDataColumns: DataColumn[] = [];
-  category2UnSelectedDataColumns: DataColumn[] = [];
-  category3UnSelectedDataColumns: DataColumn[] = [];
   columnMultiSelection: MultiSelectSelection[] = [];
   category1MultiSelections: MultiSelectSelection[] = [];
   category2MultiSelections: MultiSelectSelection[] = [];
   category3MultiSelections: MultiSelectSelection[] = [];
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
-    }
-    this.disableSaveIfRequiredColumnsNotSelected();
-  }
+  categoriesDialogRef: MatDialogRef<any>;
+  @ViewChild("myButton", { read: ElementRef }) buttonRef: ElementRef;
+  category1PanelOpen = false;
+  category2PanelOpen = false;
+  category3PanelOpen = false;
 
-  constructor(public dialogRef: MatDialogRef<HoldingsCustomizationComponent>,
-    @Inject(MAT_DIALOG_DATA) public params: HoldingsCustomizationOptions) {
+  constructor(public selfDialogRef: MatDialogRef<HoldingsCustomizationComponent>,
+    @Inject(MAT_DIALOG_DATA) public params: HoldingsCustomizationOptions, public dialog: MatDialog) {
     // Setup the column options from previous selection.
     for (const option of AvailableColumnOptions.columnOptions) {
       let found = false;
@@ -85,105 +75,131 @@ export class HoldingsCustomizationComponent implements OnInit {
     this.setupAndFixSelections();
   }
 
+  show(dialogTemplate: TemplateRef<any>) {
+    const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    let position = {
+      left: (rect.right - 400) + 'px',
+      top: (rect.bottom) + 'px'
+    };
+    this.categoriesDialogRef = this.dialog.open(dialogTemplate, {
+      disableClose: false,
+      width: '400px',
+      maxHeight: '600px',
+      hasBackdrop: true,
+      position: position
+    });
+    // Positioning the drop down appropriately needs more work
+  }
+
+  save(){
+    this.categoriesDialogRef.close();
+  }
+
+  cancel() {
+    this.categoriesDialogRef.close();
+  }
+
+
   columnsSelected(newSelections: MultiSelectSelection[]){
-    this.params.dataColumns = [];
+    let newDataColumns: DataColumn[] = [];
     for (const selection of newSelections) {
       if(selection.selected) {
-        this.params.dataColumns.push(selection.element);
+        newDataColumns.push(selection.element);
       }
     }
+    this.params.dataColumns = newDataColumns;
+    this.disableSaveIfRequiredColumnsNotSelected()
   }
 
   category1ColumnsSelected(newSelections: MultiSelectSelection[]){
-    this.params.category1Data = [];
+    let newDataColumns: DataColumn[] = [];
     for (const selection of newSelections) {
       if(selection.selected) {
-        this.params.category1Data.push(selection.element);
+        newDataColumns.push(selection.element);
       }
     }
+    this.params.category1Data = newDataColumns;
+    this.disableSaveIfRequiredColumnsNotSelected()
   }
   category2ColumnsSelected(newSelections: MultiSelectSelection[]){
-    this.params.category2Data = [];
+    let newDataColumns: DataColumn[] = [];
     for (const selection of newSelections) {
       if(selection.selected) {
-        this.params.category2Data.push(selection.element);
+        newDataColumns.push(selection.element);
       }
     }
+    this.params.category2Data = newDataColumns;
+    this.disableSaveIfRequiredColumnsNotSelected()
   }
   category3ColumnsSelected(newSelections: MultiSelectSelection[]){
-    this.params.category3Data = [];
+    let newDataColumns: DataColumn[] = [];
     for (const selection of newSelections) {
       if(selection.selected) {
-        this.params.category3Data.push(selection.element);
+        newDataColumns.push(selection.element);
       }
     }
+    this.params.category3Data = newDataColumns;
+    this.disableSaveIfRequiredColumnsNotSelected()
   }
 
-  setupMultiSelections(list: MultiSelectSelection[], selectedDataColumns: DataColumn[], unselectedDataColumns: DataColumn[]) {
+  setupMultiSelections(selectedDataColumns: DataColumn[], availableDataColumns: DataColumn[]) {
+    let list: MultiSelectSelection[] = [];
     let multiSelectSelection: MultiSelectSelection = null;
-    for (const selected of selectedDataColumns) {
+    for (const selectedColumn of selectedDataColumns) {
       multiSelectSelection = {
         draggable: true,
         selected: true,
         disabled: false,
-        element: selected,
-        name: selected.viewValue
+        element: selectedColumn,
+        name: selectedColumn.viewValue
       };
       list.push(multiSelectSelection);
     }
-    for (const unselected of unselectedDataColumns) {
-      multiSelectSelection = {
-        draggable: true,
-        selected: false,
-        disabled: false,
-        element: unselected,
-        name: unselected.viewValue
-      };
-      list.push(multiSelectSelection);
+    for (const avaiableColumn of availableDataColumns) {
+      let found = false;
+      for (const selectedColumn of selectedDataColumns) {
+        if (selectedColumn.value === avaiableColumn.value) {
+          found = true;
+          break
+        }
+      }
+      if(!found) {
+        multiSelectSelection = {
+          draggable: true,
+          selected: false,
+          disabled: false,
+          element: avaiableColumn,
+          name: avaiableColumn.viewValue
+        };
+        list.push(multiSelectSelection);
+      }
+
     }
+    return list;
   }
 
   setupAndFixSelections() {
     this.disableSaveIfRequiredColumnsNotSelected();
-    this.category1UnSelectedDataColumns = [];
-    this.category2UnSelectedDataColumns = [];
-    this.category3UnSelectedDataColumns = [];
-    if(this.params.category1 === "account") {this.sortSelectedColumns(this.accountAvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "account") {this.sortSelectedColumns(this.accountAvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "account") {this.sortSelectedColumns(this.accountAvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    if(this.params.category1 === "investor") {this.sortSelectedColumns(this.investorAvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "investor") {this.sortSelectedColumns(this.investorAvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "investor") {this.sortSelectedColumns(this.investorAvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    if(this.params.category1 === "asset") {this.sortSelectedColumns(this.assetAvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "asset") {this.sortSelectedColumns(this.assetAvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "asset") {this.sortSelectedColumns(this.assetAvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    if(this.params.category1 === "assetClass1") {this.sortSelectedColumns(this.assetClass1AvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "assetClass1") {this.sortSelectedColumns(this.assetClass1AvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "assetClass1") {this.sortSelectedColumns(this.assetClass1AvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    if(this.params.category1 === "assetClass2") {this.sortSelectedColumns(this.assetClass2AvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "assetClass2") {this.sortSelectedColumns(this.assetClass2AvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "assetClass2") {this.sortSelectedColumns(this.assetClass2AvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    if(this.params.category1 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category1Data, this.category1UnSelectedDataColumns);}
-    if(this.params.category2 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category2Data, this.category2UnSelectedDataColumns);}
-    if(this.params.category3 === "assetClass3") {this.sortSelectedColumns(this.assetClass3AvailableDataColumns, this.params.category3Data, this.category3UnSelectedDataColumns);}
-    this.category1MultiSelections = [];
-    this.category2MultiSelections = [];
-    this.category3MultiSelections = [];
-    this.columnMultiSelection = [];
-    this.setupMultiSelections(this.category1MultiSelections, this.params.category1Data, this.category1UnSelectedDataColumns);
-    this.setupMultiSelections(this.category2MultiSelections, this.params.category2Data, this.category2UnSelectedDataColumns);
-    this.setupMultiSelections(this.category3MultiSelections, this.params.category3Data, this.category3UnSelectedDataColumns);
-    this.setupMultiSelections(this.columnMultiSelection, this.params.dataColumns, this.columnOptions);
-    const insuranceSelection: MultiSelectSelection = {
-      draggable: false,
-      selected: true,
-      disabled: false,
-      element: null,
-      name: 'Insurance Information'
-    };
-    if(this.params.category1 === "account") { this.category1MultiSelections.push(insuranceSelection); }
-    if(this.params.category2 === "account") { this.category2MultiSelections.push(insuranceSelection); }
-    if(this.params.category3 === "account") { this.category3MultiSelections.push(insuranceSelection); }
+
+    if(this.params.category1 === "account") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.accountAvailableDataColumns);}
+    if(this.params.category2 === "account") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.accountAvailableDataColumns);}
+    if(this.params.category3 === "account") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.accountAvailableDataColumns);}
+    if(this.params.category1 === "investor") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.investorAvailableDataColumns);}
+    if(this.params.category2 === "investor") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.investorAvailableDataColumns);}
+    if(this.params.category3 === "investor") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.investorAvailableDataColumns);}
+    if(this.params.category1 === "asset") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.assetAvailableDataColumns);}
+    if(this.params.category2 === "asset") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.assetAvailableDataColumns);}
+    if(this.params.category3 === "asset") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.assetAvailableDataColumns);}
+    if(this.params.category1 === "assetClass1") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.assetClass1AvailableDataColumns);}
+    if(this.params.category2 === "assetClass1") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.assetClass1AvailableDataColumns);}
+    if(this.params.category3 === "assetClass1") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.assetClass1AvailableDataColumns);}
+    if(this.params.category1 === "assetClass2") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.assetClass2AvailableDataColumns);}
+    if(this.params.category2 === "assetClass2") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.assetClass2AvailableDataColumns);}
+    if(this.params.category3 === "assetClass2") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.assetClass2AvailableDataColumns);}
+    if(this.params.category1 === "assetClass3") {this.category1MultiSelections = this.setupMultiSelections(this.params.category1Data, this.assetClass3AvailableDataColumns);}
+    if(this.params.category2 === "assetClass3") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.assetClass3AvailableDataColumns);}
+    if(this.params.category3 === "assetClass3") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.assetClass3AvailableDataColumns);}
+    this.columnMultiSelection = this.setupMultiSelections(this.params.dataColumns, AvailableColumnOptions.columnOptions);
 
   }
   sortSelectedColumns(availableColumns: DataColumn[], selectedColumns: DataColumn[], unSelectedColumns: DataColumn[]) {
@@ -212,50 +228,19 @@ export class HoldingsCustomizationComponent implements OnInit {
   }
   onNoClick(): void {
     // console.log('The dialog is being closed:' + JSON.stringify(this.params));
-    this.dialogRef.close();
+    this.selfDialogRef.close();
   }
 
-  switchCategories1and2(){
-    const tempCategory1 = this.params.category1;
-    const tempCategory1Data = this.params.category1Data;
-    const tempCategory1UnselectedData = this.category1UnSelectedDataColumns;
-
-    this.params.category1 = this.params.category2;
-    this.params.category1Data = this.params.category2Data;
-    this.category1UnSelectedDataColumns = this.category2UnSelectedDataColumns;
-
-    this.params.category2 = tempCategory1;
-    this.params.category2Data = tempCategory1Data;
-    this.category2UnSelectedDataColumns = tempCategory1UnselectedData;
-    this.setupAndFixSelections();
-  }
-  switchCategories2and3(){
-    const tempCategory2 = this.params.category2;
-    const tempCategory2Data = this.params.category2Data;
-    const tempCategory2UnselectedData = this.category2UnSelectedDataColumns;
-
-    this.params.category2 = this.params.category3;
-    this.params.category2Data = this.params.category3Data;
-    this.category2UnSelectedDataColumns = this.category3UnSelectedDataColumns;
-
-    this.params.category3 = tempCategory2;
-    this.params.category3Data = tempCategory2Data;
-    this.category3UnSelectedDataColumns = tempCategory2UnselectedData;
-    this.setupAndFixSelections();
-  }
   onChange1(){
     this.params.category1Data=[];
-    this.category1UnSelectedDataColumns=[];
     this.onChange();
   }
   onChange2(){
     this.params.category2Data=[];
-    this.category2UnSelectedDataColumns=[];
     this.onChange();
   }
   onChange3(){
     this.params.category3Data=[];
-    this.category3UnSelectedDataColumns=[];
     this.onChange();
   }
 

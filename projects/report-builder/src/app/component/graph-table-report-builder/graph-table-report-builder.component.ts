@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MultiSelectSelection } from '../../common/presentation/multi-selection/multi-selection.component';
+import { MultiSelectSelection } from '../../common/multi-selection/multi-selection.component';
 
 @Component({
   selector: 'app-graph-table-report-builder',

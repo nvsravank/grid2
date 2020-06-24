@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -23,6 +24,8 @@ import { WRIHoldingsModule } from 'wri-holdings';
 import { WRIHeaderModule } from 'wri-header';
 import { WRIFooterModule } from 'wri-footer';
 
+import { FilterArrayPipe } from './common/filter-array.pipe';
+
 import { ReportBuilderComponent } from './page/report-builder/report-builder.component';
 import { GraphReportBuilderComponent } from './component/graph-report-builder/graph-report-builder.component';
 import { HoldingsReportBuilderComponent } from './component/holdings-report-builder/holdings-report-builder.component';
@@ -31,15 +34,17 @@ import { FooterReportBuilderComponent } from './component/footer-report-builder/
 import { GraphTableReportBuilderComponent } from './component/graph-table-report-builder/graph-table-report-builder.component';
 import { HoldingsCustomizationComponent } from './component/holdings-report-builder/holdings-customization.component';
 import { ReportListComponent } from './page/report-list/report-list.component';
-import { HttpErrorInterceptor } from './utilities/http-error.interceptor';
-import { HttpAuthInterceptor } from './utilities/http-auth.interceptor';
+import { HttpErrorInterceptor } from './core/http-error.interceptor';
+import { HttpAuthInterceptor } from './core/http-auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { PurifyHTMLPipe } from './utilities/purify-html.pipe';
+import { PurifyHTMLPipe } from './common/purify-html.pipe';
 import { SaveReportComponent } from './page/report-builder/save-report/save-report.component';
-import { MultiSelectionComponent } from './common/presentation/multi-selection/multi-selection.component';
+import { MultiSelectionComponent } from './common/multi-selection/multi-selection.component';
+import { MessagingComponent } from './common/messaging/messaging.component';
 
 @NgModule({
   declarations: [
+    FilterArrayPipe,
     AppComponent,
     GraphReportBuilderComponent,
     HoldingsReportBuilderComponent,
@@ -51,12 +56,14 @@ import { MultiSelectionComponent } from './common/presentation/multi-selection/m
     ReportListComponent,
     PurifyHTMLPipe,
     SaveReportComponent,
-    MultiSelectionComponent
+    MultiSelectionComponent,
+    MessagingComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     FormsModule,
     DragDropModule,
     MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule, MatCheckboxModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { SimpleMessage, MessageType } from '../messaging/messaging.component';
 
 export interface MultiSelectSelection {
   draggable: boolean;
@@ -28,7 +29,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   newSelections: MultiSelectSelection[] = [];
   fixedSelections: MultiSelectSelection[] = [];
-
+  message: SimpleMessage = {
+    messageDesc:  'To select an additional column, remove an existing column.',
+    messageType: MessageType.INFORM
+  };
+  
   @Output()
   newOptions = new EventEmitter<MultiSelectSelection[]>();
 

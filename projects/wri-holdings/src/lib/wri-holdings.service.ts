@@ -65,6 +65,7 @@ export interface HoldingsCustomizationOptions {
   category2Data?: Array<DataColumn>;
   category3Data?: Array<DataColumn>;
   dataColumns?: Array<DataColumn>;
+  showInsuranceData?: boolean;
 }
 
 

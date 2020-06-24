@@ -1,17 +1,9 @@
 <div class="ml-3 mr-3 designer">
-  <div class="messageArea">
-    <div class="{{messageType}} border border-rounded mb-2 p-2 container-fluid" *ngIf="showMsg">
-      <div class="row align-items-center">
-        <div class="col-auto">
-          <i class="fa fa-check-circle" *ngIf="messageType === MessageType.Success"></i>
-          <i class="fa fa-exclamation-triangle" *ngIf="messageType === MessageType.Warning"></i>
-          <i class="fa fa-times-circle" *ngIf="messageType === MessageType.Failure"></i>
-          <i class="fa fa-info-circle" *ngIf="messageType === MessageType.Inform"></i>  
-        </div>
-        <div class="col-auto" [innerHTML]="messageDesc | purifyHTML"></div>
-      </div>
-    </div>
-  </div>
+  <common-messaging class="mb-2"
+  displayType="inpage"
+    [message]="message"
+  >
+  </common-messaging>
   <div class="container-fluid report-builder rounded-lg p-2">
     <div class="row align-items-center controlsSection">
       <div class="col-auto" *ngIf="showComponents">
@@ -56,8 +48,8 @@
         <hr />
       </div>
     </div>
-    <div class="row justify-content-between">
-      <div class="col-auto border ml-3 pt-2 pb-2 componentContainer" *ngIf="showComponents">
+    <div class="row justify-content-start">
+      <div class="col-auto ml-3 pt-0 pl-0 pr-0 componentContainer" *ngIf="showComponents">
         <div class="fixedPosition">
           <ng-container *ngFor="let component of components; index as i">
             <div class="componentPreview border mb-2 mt-2" draggable="true" (dragstart)="dragStartHandler($event, i)">
@@ -67,8 +59,7 @@
           </ng-container>  
         </div>
       </div>
-      <div class="col spacer"></div>
-      <div class="col">
+      <div class="col-auto">
         <div class="editableArea">
           <ng-container *ngFor=" let section of sections; index as i">
             <!--Section Component Grid-->
@@ -129,7 +120,6 @@
           </ng-container>  
         </div>
       </div>
-      <div class="col spacer"></div>
     </div>
   </div>
 </div>

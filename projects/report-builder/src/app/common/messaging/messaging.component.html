@@ -1,0 +1,23 @@
+<div class="{{message.messageType + 'Msg'}} border border-rounded p-2" *ngIf="enableInpageMessage">
+  <i class="fa fa-check-circle" *ngIf="message.messageType === MessageType.CONFIRM"></i>
+  <i class="fa fa-exclamation-triangle" *ngIf="message.messageType === MessageType.WARN"></i>
+  <i class="fa fa-times-circle" *ngIf="message.messageType === MessageType.ERROR"></i>
+  <i class="fa fa-info-circle" *ngIf="message.messageType === MessageType.INFORM"></i>  
+  <span class="pl-3 textArea" [innerHTML]="message.messageDesc | purifyHTML"></span>
+  <span class="pl-3"><a (click)="hideMessage()"><span class="fa fa-times"></span></a></span>
+</div>
+
+<ng-template #dialog>
+  <mat-dialog-content>
+    <div class="{{message.messageType + 'Msg'}} border border-rounded p-2">
+      <i class="fa fa-check-circle" *ngIf="message.messageType === MessageType.CONFIRM"></i>
+      <i class="fa fa-exclamation-triangle" *ngIf="message.messageType === MessageType.WARN"></i>
+      <i class="fa fa-times-circle" *ngIf="message.messageType === MessageType.ERROR"></i>
+      <i class="fa fa-info-circle" *ngIf="message.messageType === MessageType.INFORM"></i>  
+      <span class="pl-3 textArea" [innerHTML]="message.messageDesc | purifyHTML"></span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button matDialogClose="OK" color="primary" class="small-button">{{buttonLabel}}</button>
+  </mat-dialog-actions>
+</ng-template>

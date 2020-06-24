@@ -16,6 +16,7 @@ describe('HeaderReportBuilderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderReportBuilderComponent);
     component = fixture.componentInstance;
+    component.widget =  {cols: 12, rows: 1, y: 0, x: 0, hasContent: true, dragEnabled: false, resizeEnabled: false, label: 'Header', delete: false,  type: HeaderReportBuilderComponent, edit: true};
     fixture.detectChanges();
   });
 

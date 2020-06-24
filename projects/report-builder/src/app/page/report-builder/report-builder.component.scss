@@ -27,8 +27,8 @@ hr {
 }
 
 .componentPreview {
-  width: 200px;
-  height: 200px;
+  width: 190px;
+  height: 190px;
   border: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   cursor: move;
@@ -53,12 +53,16 @@ hr {
 }
 
 .componentContainer {
-  background-image: url(/assets/background.png);
-  min-width: 240px;
-  max-width: 240px;
+  min-width: 230px;
+  max-width: 230px;
+  max-height: 100%;
 }
 .fixedPosition {
   position: fixed;
+  overflow-y: auto;
+  max-height: 88vh;
+  border-right: 1px solid #333333;
+  padding-right: 10px;
 }
 .spacer {
   min-width: 10px;
@@ -72,11 +76,15 @@ hr {
   background-color: #FFFFFF;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
+}
+
+.report-builder {
+  min-height: 95vh;
 }
 
 .designer {
-  min-width: 1450px;
+  min-width: 1400px;
 }
 
 .editableArea {
@@ -84,7 +92,7 @@ hr {
   border-width: 1px;
   border-style: dashed;
   border-color: #979797;
-  padding: 25px;
+  padding: 10px;
 }
 .section {
   background-color: #FBFBFB;

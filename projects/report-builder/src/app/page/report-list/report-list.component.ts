@@ -11,6 +11,7 @@ export class ReportListComponent implements OnInit {
   reportList: ReportList;
   myReportPanelOpenState: boolean = true;
   allReportPanelOpenState: boolean = true;
+  searchText: string = '';
 
   constructor(private service: ReportListService, private router: Router, private route: ActivatedRoute) { }
 

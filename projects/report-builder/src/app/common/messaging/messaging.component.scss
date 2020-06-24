@@ -1,0 +1,41 @@
+
+.informMsg, .successMsg, .failureMsg, .warningMsg{
+  vertical-align: middle;
+  background-color: #F0F0F0;
+  border-radius: 3px;
+  min-height: 25px;
+  color: #333;
+  border: 1px solid;
+}
+.informMsg {
+  border-color: #0066FF;
+}
+.confirmMsg {
+  border-color: #08AB05;
+}
+.errorMsg {
+  border-color: #E35205;
+}
+.warnMsg {
+  border-color: #FEBF00;
+}
+.informMsg i, .confirmMsg i, .errorMsg i, .warnMsg i{
+  font-size: 20px;
+}
+
+.informMsg i {
+  color: #0066FF;
+}
+.confirmMsg i {
+  color: #08AB05;
+}
+.errorMsg i {
+  color: #E35205;
+}
+.warnMsg i {
+  color: #FEBF00;
+}
+
+.textArea {
+  line-height: 20px;
+}

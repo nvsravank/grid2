@@ -11,12 +11,12 @@
         <div class="col" ><h4>{{name}}</h4></div>
         <div class="col-6 subHeading" *ngIf="maxSelections < newSelections.length"><h5>Select up to {{maxSelections}} {{name}}</h5></div>
       </div>
-      <div class="row mb-1 informMsg align-items-center p-1" *ngIf="(maxSelections == currentSelected && maxSelections < newSelections.length)">
-        <div class="col-auto">
-          <i class="fa fa-info-circle"></i>
-        </div>
+      <div class="row mb-1 p-1" *ngIf="(maxSelections == currentSelected && maxSelections < newSelections.length)">
         <div class="col">
-          To select an additional column, remove an existing column.
+          <common-messaging  
+            displayType="inpage"
+            [message]="message"
+          ></common-messaging>  
         </div>
       </div>
     </div>

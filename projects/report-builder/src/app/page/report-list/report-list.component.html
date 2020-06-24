@@ -12,6 +12,9 @@
           </div>
           <div class="col">&nbsp;</div>
           <div class="col-auto">
+            <input [(ngModel)]="searchText" placeHolder="Search Reports">
+          </div>
+          <div class="col-auto">
             <div class="thinButton" (click)="createNewReport()">Create New Report</div>
           </div>
         </div>
@@ -24,7 +27,7 @@
               hideToggle>
               <ng-container *ngFor="let category of reportList.categoryList">
                 <div class="row" *ngIf="(category.categoryId === 9999)">
-                  <ng-container *ngFor="let report of category.reportsList">
+                  <ng-container *ngFor="let report of category.reportsList | filterArray: 'reportName' : searchText">
                     <div class="col-3">
                       <div class="square">
                         <div class="squareContent">
@@ -60,10 +63,10 @@
               hideToggle>
               <mat-tab-group animationDuration="0ms">
                 <ng-container *ngFor="let category of reportList.categoryList">
-                  <ng-container *ngIf="!(category.categoryId === 9999)">
+                  <ng-container *ngIf="!(category.categoryId === 9999) && (category.reportsList | filterArray: 'reportName' : searchText).length !== 0">
                     <mat-tab label="{{category.categoryName}}">
                       <div class="row">
-                        <ng-container *ngFor="let report of category.reportsList">
+                        <ng-container *ngFor="let report of category.reportsList | filterArray: 'reportName' : searchText">
                           <div class="col-3">
                             <div class="square">
                               <div class="squareContent">

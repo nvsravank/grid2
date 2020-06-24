@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, DoCheck } from '@angular/core';
 import { Section, PageType } from '../section';
-import { MessageType, Message } from '../../../utilities/common-classes';
+import { MessageType, SimpleMessage } from '../../../common/messaging/messaging.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ReportService } from '../report.service';
 
@@ -21,7 +21,7 @@ export class SaveReportComponent implements OnInit, DoCheck {
   pageType: PageType;
 
   @Output()
-  message = new EventEmitter<Message>();
+  message = new EventEmitter<SimpleMessage>();
 
   reportSaveEnabled = true;
 
@@ -36,7 +36,7 @@ export class SaveReportComponent implements OnInit, DoCheck {
 
   save(dialogTemplate: TemplateRef<any>) {
     if (!this.reportSaveEnabled) {
-      this.showMessage(MessageType.Failure, 'Report Has Errors');
+      this.showMessage(MessageType.ERROR, 'Report Has Errors');
       return;
     }
     this.sections.forEach(section => {
@@ -49,7 +49,7 @@ export class SaveReportComponent implements OnInit, DoCheck {
       if( result === 'yes') {
         this.saveReort();
       } else{
-        this.showMessage(MessageType.Inform, 'Report Not Saved');
+        this.showMessage(MessageType.INFORM, 'Report Not Saved');
       }
     });
   
@@ -71,7 +71,7 @@ export class SaveReportComponent implements OnInit, DoCheck {
   }
 
   showMessage(type: MessageType, msg: string) {
-    const message = new Message();
+    const message = new SimpleMessage();
     message.messageDesc = msg;
     message.messageType = type;
     this.message.emit(message)
@@ -80,10 +80,10 @@ export class SaveReportComponent implements OnInit, DoCheck {
   saveReort() {
     this.service.saveReport().subscribe(
       (returnMsg) => {
-        this.showMessage(MessageType.Success, 'Saved Successfully');
+        this.showMessage(MessageType.CONFIRM, 'Saved Successfully');
       },
       (err) => {
-        this.showMessage(MessageType.Failure, 'Could Not Save Report');
+        this.showMessage(MessageType.ERROR, 'Could Not Save Report');
       }
     );
   }
