@@ -35,6 +35,10 @@
       "wri-footer": [
         "dist/wri-footer/wri-footer",
         "dist/wri-footer"
+      ],
+      "wri-common": [
+        "dist/wri-common/wri-common",
+        "dist/wri-common"
       ]
     }
   },

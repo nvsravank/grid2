@@ -49,7 +49,6 @@ export class MessagingComponent implements OnInit, OnChanges {
   }
 
   initMessage() {
-    console.log(this.message);
     if (this.message.messageDesc == null || this.message.messageDesc == '') return;
     if (this.message.messageType != MessageType.CONFIRM && this.message.messageType != MessageType.INFORM && this.message.messageType != MessageType.ERROR && this.message.messageType != MessageType.WARN) return;
     if (this.displayType == MessageDisplayType.INPAGE) this.showInpageMessage();
