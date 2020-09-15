@@ -10,6 +10,17 @@ export interface MultiSelectSelection {
   element: any;
   name: string;
 }
+
+export class MultiSelectSet {
+  selectionSet: MultiSelectSelection[] = [];
+  sortable: boolean = true;
+  name: string;
+  maxSelections: number;
+  currentSelectedCount: number = 0;
+}
+
+
+
 @Component({
   selector: 'app-multi-selection',
   templateUrl: './multi-selection.component.html',
@@ -21,21 +32,16 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   name: string;
 
   @Input()
-  maxSelections: number;
-  currentSelected: number=0;
+  selectionSets: MultiSelectSet[];
+  internalSelectionSets: MultiSelectSet[] = [];
 
-  @Input()
-  selections: MultiSelectSelection[];
-
-  newSelections: MultiSelectSelection[] = [];
-  fixedSelections: MultiSelectSelection[] = [];
   message: SimpleMessage = {
     messageDesc:  'To select an additional column, remove an existing column.',
     messageType: MessageType.INFORM
   };
   
   @Output()
-  newOptions = new EventEmitter<MultiSelectSelection[]>();
+  newOptions = new EventEmitter<MultiSelectSet[]>();
 
   dialogRef: MatDialogRef<any>;
   
@@ -45,21 +51,32 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.setCurrentSelections(this.selectionSets);
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.currentSelected = 0;
-    for (const selection of changes.selections.currentValue) {
-      if (selection.draggable) {
-        if(selection.selected) this.currentSelected++;
-        if(this.currentSelected > this.maxSelections) {
+    this.setCurrentSelections(changes.selectionSets.currentValue);
+  }
+
+  setCurrentSelections(selectionSets: MultiSelectSet[]){
+    this.internalSelectionSets = [];
+    for (const selectionSet of selectionSets) {
+      let newSelectionSet = new MultiSelectSet();
+      newSelectionSet.currentSelectedCount = 0;
+      newSelectionSet.maxSelections = selectionSet.maxSelections;
+      newSelectionSet.sortable = selectionSet.sortable;
+      newSelectionSet.name = selectionSet.name;
+      for (const selection of selectionSet.selectionSet)
+      {
+        if(selection.selected) newSelectionSet.currentSelectedCount++;
+        if(newSelectionSet.currentSelectedCount > selectionSet.maxSelections) {
           selection.selected = false;
-          this.currentSelected = this.maxSelections
+          newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
         }
-        this.newSelections.push({...selection});
-      } else {
-        this.fixedSelections.push({...selection});
+        newSelectionSet.selectionSet.push({...selection});
       }
+      this.internalSelectionSets.push(newSelectionSet);
     }
+
   }
 
   show(dialogTemplate: TemplateRef<any>) {
@@ -77,7 +94,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   save(){
-    this.newOptions.emit([...this.newSelections,...this.fixedSelections]);
+    this.newOptions.emit(this.internalSelectionSets);
     this.dialogRef.close();
   }
 
@@ -85,24 +102,32 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     this.dialogRef.close();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    const element = this.newSelections[event.previousIndex];
-    if ((element.selected && event.currentIndex < this.currentSelected))  {
-      moveItemInArray(this.newSelections, event.previousIndex, event.currentIndex);
+  drop(event: CdkDragDrop<string[]>, setIndex: number) {
+    const set = this.internalSelectionSets[setIndex];
+    const element = set.selectionSet[event.previousIndex];
+    if (element.selected && event.currentIndex < set.currentSelectedCount)  {
+      moveItemInArray(set.selectionSet, event.previousIndex, event.currentIndex);
       console.log("moving",element.name, event.previousIndex, event.currentIndex);
+    }
+    if (!element.selected  && event.currentIndex < set.currentSelectedCount && set.currentSelectedCount < set.maxSelections) {
+      moveItemInArray(set.selectionSet, event.previousIndex, event.currentIndex);
+      element.selected = true;
     }
 
   }
 
-  onChecked(i: number, isChecked: boolean){
+  onChecked(i: number, isChecked: boolean, setIndex: number){
     // console.log(i, isChecked); // {}, true || false
+    const set = this.internalSelectionSets[setIndex];
     if(isChecked) {
-      moveItemInArray(this.newSelections, i, this.currentSelected);
-      this.currentSelected++;
+      if (set.currentSelectedCount < set.maxSelections){
+        moveItemInArray(set.selectionSet, i, set.currentSelectedCount);
+        set.currentSelectedCount++;
+      }
     }
     else {
-      this.currentSelected--;
-      moveItemInArray(this.newSelections, i, this.currentSelected);
+      set.currentSelectedCount--;
+      moveItemInArray(set.selectionSet, i, set.currentSelectedCount);
     }
   }
 }
