@@ -16,6 +16,7 @@ export class MultiSelectSet {
   name: string;
   maxSelections: number;
   currentSelectedCount: number = 0;
+  sortableStartCount: number = 0;
 }
 
 
@@ -81,6 +82,10 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
         if(!a.selected && b.selected) return 1;
         return 0;
       });
+      newSelectionSet.sortableStartCount = 0;
+      for (const selection of newSelectionSet.selectionSet) {
+        if(selection.disabled) newSelectionSet.sortableStartCount++;
+      }
       this.internalSelectionSets.push(newSelectionSet);
     }
 
@@ -88,12 +93,23 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   show(dialogTemplate: TemplateRef<any>) {
     const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    const h = window.innerHeight;
+    console.log(rect);
     let position = {
-      left: (rect.right - 400) + 'px',
+      left: '0px',
+      top: rect.bottom + 'px'
     };
+    if(rect.right>400){
+      position = {
+        left: (rect.right - 400) + 'px',
+        top: rect.bottom + 'px'
+      };
+    }
+    let maxHeight = h - rect.bottom;
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: true,
       width: '400px',
+      maxHeight: maxHeight + 'px',
       hasBackdrop: true,
       position: position
     });
