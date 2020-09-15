@@ -5,7 +5,7 @@
 
 <!---->
 <ng-template #dialog>
-  <div class="container-fluid">
+  <div class="container-fluid" (window:resize)="onResize($event)">
     <div class="row align-items-center">
       <div class="col name" >{{name}}</div>
     </div>

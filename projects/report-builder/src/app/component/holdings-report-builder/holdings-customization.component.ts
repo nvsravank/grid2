@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Selection, DataColumn, HoldingsCustomizationOptions, AvailableColumnOptions } from 'wri-holdings';
-import { MultiSelectSelection } from '../../common/multi-selection/multi-selection.component';
+import { MultiSelectSelection, MultiSelectSet } from '../../common/multi-selection/multi-selection.component';
 
 @Component({
   selector: 'app-holdings-customization',
@@ -27,6 +27,7 @@ export class HoldingsCustomizationComponent implements OnInit {
   assetClass2AvailableDataColumns: DataColumn[] = [];
   assetClass3AvailableDataColumns: DataColumn[] = [];
   columnMultiSelection: MultiSelectSelection[] = [];
+  columnSets: MultiSelectSet[] = [];
   category1MultiSelections: MultiSelectSelection[] = [];
   category2MultiSelections: MultiSelectSelection[] = [];
   category3MultiSelections: MultiSelectSelection[] = [];
@@ -198,6 +199,13 @@ export class HoldingsCustomizationComponent implements OnInit {
     if(this.params.category2 === "assetClass3") {this.category2MultiSelections = this.setupMultiSelections(this.params.category2Data, this.assetClass3AvailableDataColumns);}
     if(this.params.category3 === "assetClass3") {this.category3MultiSelections = this.setupMultiSelections(this.params.category3Data, this.assetClass3AvailableDataColumns);}
     this.columnMultiSelection = this.setupMultiSelections(this.params.dataColumns, AvailableColumnOptions.columnOptions);
+    this.columnSets = [];
+    const columnSet: MultiSelectSet = new MultiSelectSet();
+    columnSet.selectionSet = this.columnMultiSelection;
+    columnSet.maxSelections = 10;
+    columnSet.sortable = true;
+    this.columnSets.push(columnSet);
+    //console.log(this.columnSets);
 
   }
   sortSelectedColumns(availableColumns: DataColumn[], selectedColumns: DataColumn[], unSelectedColumns: DataColumn[]) {

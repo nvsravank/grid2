@@ -91,10 +91,12 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   }
 
+  initialMaxheight = 0;
+
   show(dialogTemplate: TemplateRef<any>) {
     const rect = this.buttonRef.nativeElement.getBoundingClientRect();
     const h = window.innerHeight;
-    console.log(rect);
+    //console.log(rect);
     let position = {
       left: '0px',
       top: rect.bottom + 'px'
@@ -105,7 +107,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
         top: rect.bottom + 'px'
       };
     }
-    let maxHeight = h - rect.bottom;
+    let maxHeight = h - rect.bottom - 10;
+    this.initialMaxheight = maxHeight;
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: true,
       width: '400px',
@@ -115,6 +118,26 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     });
     // Positioning the drop down appropriately needs more work
   }
+  onResize(event) {
+    const rect = this.buttonRef.nativeElement.getBoundingClientRect();
+    const h = window.innerHeight;
+    //console.log(rect);
+    let position = {
+      left: '0px',
+      top: rect.bottom + 'px'
+    };
+    if(rect.right>400){
+      position = {
+        left: (rect.right - 400) + 'px',
+        top: rect.bottom + 'px'
+      };
+    }
+    let maxHeight = h - rect.bottom - 10;
+    if(maxHeight > this.initialMaxheight) maxHeight = this.initialMaxheight;
+    console.log(maxHeight,this.initialMaxheight);
+    this.dialogRef.updatePosition(position);
+    this.dialogRef.updateSize('400px', maxHeight + 'px');
+  }
 
   save(){
     this.newOptions.emit(this.internalSelectionSets);
@@ -123,6 +146,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   cancel() {
     this.dialogRef.close();
+    this.setCurrentSelections(this.selectionSets);
   }
 
   drop(event: CdkDragDrop<string[]>, setIndex: number) {
@@ -135,6 +159,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     if (!element.selected  && event.currentIndex < set.currentSelectedCount && set.currentSelectedCount < set.maxSelections) {
       moveItemInArray(set.selectionSet, event.previousIndex, event.currentIndex);
       element.selected = true;
+      set.currentSelectedCount++;
     }
 
   }
