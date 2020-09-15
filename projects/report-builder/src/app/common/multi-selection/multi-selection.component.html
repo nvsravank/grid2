@@ -51,12 +51,10 @@
               <div class="ml-2 selectionName">{{selection.name}}</div>
             </div>
             <div class="arrows">
-              <a *ngIf="i >  set.sortableStartCount && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="moveItemInArray(set.selectionSet,i,i-1)"><i class="fa fa-arrow-up"></i></a>
-              <a *ngIf="i <= set.sortableStartCount || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-up disabledIcon"></i></a>
-              &nbsp;
+              <a *ngIf="i >  set.sortableStartCount && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="moveItemInArray(set.selectionSet,i,i-1)"><i class="fa fa-arrow-up mr-2"></i></a>
+              <a *ngIf="i <= set.sortableStartCount || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-up disabledIcon mr-2"></i></a>
               <a *ngIf="(i !== (set.selectionSet.length - 1)) && ((selection.selected && i < set.currentSelectedCount-1) || (set.currentSelectedCount < set.maxSelections))" (click)="moveItemInArray(set.selectionSet,i+1,i)"><i class="fa fa-arrow-down"></i></a>
               <a *ngIf="(i === (set.selectionSet.length - 1)) || ((!selection.selected || i >= set.currentSelectedCount-1) && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-down disabledIcon"></i></a>
-              &nbsp;
             </div>
           </div>
         </div>
