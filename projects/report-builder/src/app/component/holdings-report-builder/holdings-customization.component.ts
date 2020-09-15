@@ -147,7 +147,6 @@ export class HoldingsCustomizationComponent implements OnInit {
     let multiSelectSelection: MultiSelectSelection = null;
     for (const selectedColumn of selectedDataColumns) {
       multiSelectSelection = {
-        draggable: true,
         selected: true,
         disabled: false,
         element: selectedColumn,
@@ -165,7 +164,6 @@ export class HoldingsCustomizationComponent implements OnInit {
       }
       if(!found) {
         multiSelectSelection = {
-          draggable: true,
           selected: false,
           disabled: false,
           element: avaiableColumn,
