@@ -4,7 +4,6 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { SimpleMessage, MessageType } from '../messaging/messaging.component';
 
 export interface MultiSelectSelection {
-  draggable: boolean;
   selected: boolean;
   disabled: boolean;
   element: any;
@@ -72,8 +71,16 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
           selection.selected = false;
           newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
         }
+        let newSelection = {...selection};
         newSelectionSet.selectionSet.push({...selection});
       }
+      newSelectionSet.selectionSet.sort((a,b) => {
+        if(a.disabled && !b.disabled) return -1;
+        if(!a.disabled && b.disabled) return 1;
+        if(a.selected && !b.selected) return -1;
+        if(!a.selected && b.selected) return 1;
+        return 0;
+      });
       this.internalSelectionSets.push(newSelectionSet);
     }
 
@@ -115,7 +122,17 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
 
   }
-
+  onCheckedNonSortable(i: number, isChecked: boolean, setIndex: number){
+    const set = this.internalSelectionSets[setIndex];
+    if(isChecked) {
+      if (set.currentSelectedCount < set.maxSelections){
+        set.currentSelectedCount++;
+      }
+    }
+    else {
+      set.currentSelectedCount--;
+    }
+  }
   onChecked(i: number, isChecked: boolean, setIndex: number){
     // console.log(i, isChecked); // {}, true || false
     const set = this.internalSelectionSets[setIndex];
@@ -127,6 +144,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     else {
       set.currentSelectedCount--;
+      console.log(i);
+      console.log(set.currentSelectedCount);
       moveItemInArray(set.selectionSet, i, set.currentSelectedCount);
     }
   }
