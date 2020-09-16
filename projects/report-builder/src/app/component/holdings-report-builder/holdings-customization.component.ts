@@ -101,8 +101,10 @@ export class HoldingsCustomizationComponent implements OnInit {
   }
 
 
-  columnsSelected(newSelections: MultiSelectSelection[]){
+  columnsSelected(newSelectionSets: MultiSelectSet[]){
+    if(!newSelectionSets || newSelectionSets.length === 0) return;
     let newDataColumns: DataColumn[] = [];
+    let newSelections = newSelectionSets[0].selectionSet;
     for (const selection of newSelections) {
       if(selection.selected) {
         newDataColumns.push(selection.element);

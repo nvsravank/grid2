@@ -16,7 +16,8 @@ export class MultiSelectSet {
   name: string;
   maxSelections: number;
   currentSelectedCount: number = 0;
-  sortableStartCount: number = 0;
+  sortableEndCount: number = 0;
+  selectedAndDisabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
 }
 
 
@@ -68,6 +69,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       for (const selection of selectionSet.selectionSet)
       {
         if(selection.selected) newSelectionSet.currentSelectedCount++;
+        if(selection.selected && selection.disabled) newSelectionSet.selectedAndDisabledCount++;
         if(newSelectionSet.currentSelectedCount > selectionSet.maxSelections) {
           selection.selected = false;
           newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
@@ -75,28 +77,34 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
         let newSelection = {...selection};
         newSelectionSet.selectionSet.push({...selection});
       }
-      newSelectionSet.selectionSet.sort((a,b) => {
-        if(a.disabled && !b.disabled) return -1;
-        if(!a.disabled && b.disabled) return 1;
-        if(a.selected && !b.selected) return -1;
-        if(!a.selected && b.selected) return 1;
-        return 0;
-      });
-      newSelectionSet.sortableStartCount = 0;
-      for (const selection of newSelectionSet.selectionSet) {
-        if(selection.disabled) newSelectionSet.sortableStartCount++;
+      if(selectionSet.sortable){
+        newSelectionSet.selectionSet.sort((a,b) => {
+          if(a.selected && !b.selected) return -1;
+          if(a.disabled && !b.disabled) return 1;
+          if(!a.disabled && b.disabled) return -1;
+          if(!a.selected && b.selected) return 1;
+          return 0;
+        });
+        newSelectionSet.sortableEndCount = newSelectionSet.selectionSet.length;
+        for (const selection of newSelectionSet.selectionSet) {
+          if(selection.disabled) newSelectionSet.sortableEndCount--;
+        }
       }
       this.internalSelectionSets.push(newSelectionSet);
     }
 
   }
 
+  // The logic around initial max height is necessary because we are allowing the content to drive the height.
+  // Without this we have to set the height property to work and that makes it too long a dialog when the content is small.
+  // There is a side effect that the size of the open dialog box cannot be longer than the initially opened size.
   initialMaxheight = 0;
+  innerContentDivHeight = 0;
 
   show(dialogTemplate: TemplateRef<any>) {
     const rect = this.buttonRef.nativeElement.getBoundingClientRect();
     const h = window.innerHeight;
-    //console.log(rect);
+    // Position logic uses a constant width box of 400px. Since the box is being right aligned, we actually right align unless the box is too close to the left side of the screen. 
     let position = {
       left: '0px',
       top: rect.bottom + 'px'
@@ -109,15 +117,22 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     let maxHeight = h - rect.bottom - 10;
     this.initialMaxheight = maxHeight;
+    this.innerContentDivHeight = maxHeight - 120;
     this.dialogRef = this.dialog.open(dialogTemplate, {
-      disableClose: true,
+      disableClose: false, //This allows closing the dialog box by clicking anywhere else. This allows the behaviour to mimick a true dropdown.
       width: '400px',
       maxHeight: maxHeight + 'px',
-      hasBackdrop: true,
+      hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position
     });
-    // Positioning the drop down appropriately needs more work
+    // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.setCurrentSelections(this.selectionSets);
+    })
   }
+
+  // The on resize event needs to be handled only for the case where the user changes the window size after inital open of the dialog.
+  // This makes the popup box behave like a true dropdown box.
   onResize(event) {
     const rect = this.buttonRef.nativeElement.getBoundingClientRect();
     const h = window.innerHeight;
@@ -132,11 +147,13 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
         top: rect.bottom + 'px'
       };
     }
-    let maxHeight = h - rect.bottom - 10;
-    if(maxHeight > this.initialMaxheight) maxHeight = this.initialMaxheight;
-    console.log(maxHeight,this.initialMaxheight);
+    let height = h - rect.bottom - 10;
+    // Because we are setting the maxHeight property when opening the dialog the height property cannot be longer than the maxHeight
+    if(height > this.initialMaxheight) height = this.initialMaxheight - 10;
+    this.innerContentDivHeight = height - 120;
+    // console.log(maxHeight);
     this.dialogRef.updatePosition(position);
-    this.dialogRef.updateSize('400px', maxHeight + 'px');
+    this.dialogRef.updateSize('400px', height + 'px');
   }
 
   save(){
@@ -179,7 +196,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     const set = this.internalSelectionSets[setIndex];
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
-        moveItemInArray(set.selectionSet, i, set.currentSelectedCount);
+        moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
         set.currentSelectedCount++;
       }
     }
@@ -187,7 +204,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       set.currentSelectedCount--;
       console.log(i);
       console.log(set.currentSelectedCount);
-      moveItemInArray(set.selectionSet, i, set.currentSelectedCount);
+      moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
     }
   }
 }

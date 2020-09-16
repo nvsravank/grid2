@@ -11,68 +11,73 @@
     </div>
   </div>
   <mat-dialog-content>
-    <div *ngFor="let set of internalSelectionSets; index as setIndex">
+    <div class="contentDiv" [style.maxHeight]="innerContentDivHeight + 'px'">
+      <div *ngFor="let set of internalSelectionSets; index as setIndex">
+        <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
+          <div class="row mt-1 mt-3 align-items-center">
+            <div class="col" >{{set.name}}</div>
+            <div class="col-5 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
+          </div>
+          <!--
+          <div class="row mb-1 p-1" *ngIf="(set.maxSelections == set.currentSelectedCount && set.maxSelections < set.selectionSet.length)">
+            <div class="col">
+              <common-messaging  
+                displayType="inpage"
+                [message]="message"
+              ></common-messaging>  
 
-      <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
-        <div class="row mt-1 mt-3 align-items-center">
-          <div class="col" >{{set.name}}</div>
-          <div class="col-4 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
-        </div>
-        <!--
-        <div class="row mb-1 p-1" *ngIf="(set.maxSelections == set.currentSelectedCount && set.maxSelections < set.selectionSet.length)">
-          <div class="col">
-            <common-messaging  
-              displayType="inpage"
-              [message]="message"
-            ></common-messaging>  
-
+            </div>
           </div>
+          -->
         </div>
-        -->
-      </div>
-      <div *ngIf="!set.sortable || (set.sortable && set.sortableStartCount !== 0)">
-        <div *ngFor="let selection of set.selectionSet; index as i">
-          <div class="item-box" *ngIf="!set.sortable || (set.sortable && selection.disabled)">
-            <div class="box">
-              <div class="pr-2">&nbsp;</div>
-              <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
-              <div class="ml-1">{{selection.name}}</div>
+        <div *ngIf="!set.sortable || (set.sortable && set.sortableStartCount !== 0)">
+          <div *ngFor="let selection of set.selectionSet; index as i">
+            <div class="item-box" *ngIf="!set.sortable || (set.sortable && selection.disabled && selection.selected)">
+              <div class="box">
+                <div class="pr-2">&nbsp;</div>
+                <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
+                <div class="ml-1">{{selection.name}}</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr>
-      <div cdkDropList class="sortable-list" (cdkDropListDropped)="drop($event, setIndex)" *ngIf="set.sortable">
-        <div *ngFor="let selection of set.selectionSet; index as i">
-          <div class="item-box sortable-box" *ngIf="!selection.disabled" cdkDrag [cdkDragDisabled]="selection.disabled">
-            <div class="box">
-              <div class="pr-1"><i class="fas fa-grip-vertical"></i></div>
-              <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)"></div>
-              <div class="ml-2 selectionName">{{selection.name}}</div>
-            </div>
-            <div class="arrows">
-              <a *ngIf="i >  set.sortableStartCount && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="moveItemInArray(set.selectionSet,i,i-1)"><i class="fa fa-arrow-up mr-2"></i></a>
-              <a *ngIf="i <= set.sortableStartCount || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-up disabledIcon mr-2"></i></a>
-              <a *ngIf="(i !== (set.selectionSet.length - 1)) && ((selection.selected && i < set.currentSelectedCount-1) || (set.currentSelectedCount < set.maxSelections))" (click)="moveItemInArray(set.selectionSet,i+1,i)"><i class="fa fa-arrow-down"></i></a>
-              <a *ngIf="(i === (set.selectionSet.length - 1)) || ((!selection.selected || i >= set.currentSelectedCount-1) && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-down disabledIcon"></i></a>
+        <hr *ngIf="set.sortable && set.sortableStartCount !== 0">
+        <div cdkDropList class="sortable-list" (cdkDropListDropped)="drop($event, setIndex)" *ngIf="set.sortable">
+          <div *ngFor="let selection of set.selectionSet; index as i">
+            <div class="item-box " [class.sortable-box]="selection.selected || set.currentSelectedCount < set.maxSelections" 
+            *ngIf="!selection.disabled" 
+            cdkDrag [cdkDragDisabled]="(selection.disabled || (!selection.selected  && set.currentSelectedCount >= set.maxSelections))">
+              <div class="box">
+                <div class="pr-1"><i class="fas fa-grip-vertical" [class.disabledIcon]="!selection.selected && set.currentSelectedCount >= set.maxSelections" ></i></div>
+                <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)"></div>
+                <div class="ml-2 selectionName">{{selection.name}}</div>
+              </div>
+              <div class="arrows">
+                <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="moveItemInArray(set.selectionSet,i,i-1)"><i class="fa fa-arrow-up mr-2"></i></a>
+                <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-up disabledIcon mr-2"></i></a>
+                <a *ngIf="(i !== (set.sortableEndCount -1 ) && ( selection.selected || set.currentSelectedCount  <  set.maxSelections) && (!selection.selected || i  <  (set.maxSelections - set.selectedAndDisabledCount - 1)))" (click)="moveItemInArray(set.selectionSet,i+1,i)"><i class="fa fa-arrow-down"></i></a>
+                <a *ngIf="(i === (set.sortableEndCount -1 ) || (!selection.selected && set.currentSelectedCount === set.maxSelections) || ( selection.selected && i === (set.maxSelections - set.selectedAndDisabledCount - 1)))"><i class="fa fa-arrow-down disabledIcon"></i></a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!--
-      <div *ngIf="!set.sortable">
-        <div class="item-box" *ngFor="let selection of set.selectionSet; index as i">
-          <div class="box">
-            <div class="pr-2">&nbsp;</div>
-            <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
-            <div class="ml-1">{{selection.name}}</div>
+        <!--This section is a repeat of the code above for non sortable section so that we can put the disabled, unchecked items at the bottom of the set.-->
+        <div *ngIf="set.sortable">
+          <div *ngFor="let selection of set.selectionSet; index as i">
+            <div class="item-box" *ngIf="(set.sortable && selection.disabled && !selection.selected)">
+              <div class="box">
+                <div class="pr-2">&nbsp;</div>
+                <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [(ngModel)]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
+                <div class="ml-1">{{selection.name}}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      -->
-    </div>
+        <hr>
+      </div> <!--Set End-->
+    </div> <!-- Content Div End-->
   </mat-dialog-content>
-  <hr>
+
   <mat-dialog-actions align="end">
     <button class="btn" (click)="save()">Apply</button>
     <button class="btn neg" (click)="cancel()">Cancel</button>
