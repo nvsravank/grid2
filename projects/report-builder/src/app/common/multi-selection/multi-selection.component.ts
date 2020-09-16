@@ -5,6 +5,7 @@ import { SimpleMessage, MessageType } from '../messaging/messaging.component';
 
 export interface MultiSelectSelection {
   selected: boolean;
+  draggable:boolean;
   disabled: boolean;
   element: any;
   name: string;
@@ -17,7 +18,7 @@ export class MultiSelectSet {
   maxSelections: number;
   currentSelectedCount: number = 0;
   sortableEndCount: number = 0; // Using end count because we are sorting the disabled items to the last of the sort list.
-  selectedAndDisabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
+  selectedAndNotDraggabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
 }
 
 
@@ -73,7 +74,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       for (const selection of selectionSet.selectionSet)
       {
         if(selection.selected) newSelectionSet.currentSelectedCount++;
-        if(selection.selected && selection.disabled) newSelectionSet.selectedAndDisabledCount++;
+        if(selection.selected && !selection.draggable) newSelectionSet.selectedAndNotDraggabledCount++;
         if(newSelectionSet.currentSelectedCount > selectionSet.maxSelections) {
           selection.selected = false;
           newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
@@ -85,14 +86,14 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
         // The sequencing of the sort returns is critical to the algorithm.
         newSelectionSet.selectionSet.sort((a,b) => {
           if(a.selected && !b.selected) return -1;
-          if(a.disabled && !b.disabled) return 1;
-          if(!a.disabled && b.disabled) return -1;
+          if(a.draggable && !b.draggable) return -1;
+          if(!a.draggable && b.draggable) return 1;
           if(!a.selected && b.selected) return 1;
           return 0;
         });
         newSelectionSet.sortableEndCount = newSelectionSet.selectionSet.length;
         for (const selection of newSelectionSet.selectionSet) {
-          if(selection.disabled) newSelectionSet.sortableEndCount--;
+          if(!selection.draggable) newSelectionSet.sortableEndCount--;
         }
       }
       this.internalSelectionSets.push(newSelectionSet);
@@ -185,7 +186,22 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       element.selected = true;
       set.currentSelectedCount++;
     }
+  }
 
+  validateAndMove(set:MultiSelectSet, fromIndex: number, toIndex: number) {
+    let fromItem = set.selectionSet[fromIndex];
+    let toItem = set.selectionSet[toIndex];
+    if((fromItem.selected && toItem.selected)
+    || (!fromItem.selected && !toItem.selected)) {
+      moveItemInArray(set.selectionSet, fromIndex, toIndex);
+      return;
+    }
+    if((!fromItem.selected && toItem.selected) && set.currentSelectedCount < set.maxSelections ) {
+      moveItemInArray(set.selectionSet, fromIndex, toIndex);
+      fromItem.selected = true;
+      set.currentSelectedCount++;
+      return;
+    }
   }
   // Simple logic to handle checking and un checking for non sortable sets.
   onCheckedNonSortable(i: number, isChecked: boolean, setIndex: number){
@@ -205,11 +221,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   // More complicated logic for sortable sets to move the selected item to the bottom of the selected area.
   onChecked(i: number, isChecked: boolean, setIndex: number){
-    // console.log(i, isChecked); // {}, true || false
+    console.log(i, isChecked); // {}, true || false
     const set = this.internalSelectionSets[setIndex];
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
-        moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
+        moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);
         set.currentSelectedCount++;
       } // else  condition is not necessary as this code is never triggered due to disabling selections.
       else {
@@ -218,7 +234,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     else {
       set.currentSelectedCount--;
-      moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
+      console.log(set);
+      moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);
     }
   }
 }

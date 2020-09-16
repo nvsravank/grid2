@@ -24,16 +24,16 @@ const Template: Story<MultiSelectionComponent> = (args: MultiSelectionComponent)
 
 let PortfolioValueSets: MultiSelectSet[] = [];
 let rowMultiSelection: MultiSelectSelection[] = [
-  {name: 'Beginning Value', selected: true, disabled: true, element:null},
-  {name: 'Net Contribution', selected: true, disabled: true, element:null},
-  {name: 'Change in Value', selected: true, disabled: true, element:null},
-  {name: 'Ending Value', selected: true, disabled: true, element:null},
-  {name: 'Return', selected: true, disabled: false, element:null},
-  {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, element:null},
+  {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
+  {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, draggable: true, element:null},
 ];
 let set = new MultiSelectSet();
-set.maxSelections  = 3;
-set.sortable = false;
+set.maxSelections  = 5;
+set.sortable = true;
 set.selectionSet = rowMultiSelection;
 PortfolioValueSets.push(set);
 
@@ -45,13 +45,13 @@ PortfolioValue.args = {
 
 let ACLValueSets: MultiSelectSet[] = [];
 let aclMultiSelection1: MultiSelectSelection[] = [
-  {name: 'AllAccounts', selected: true, disabled: true, element:null},
+  {name: 'AllAccounts', selected: true, disabled: true, draggable: false, element:null},
 ];
 let aclMultiSelection2: MultiSelectSelection[] = [
-  {name: 'Core Accounts', selected: false, disabled: false, element:null},
-  {name: 'Manual Accounts', selected: false, disabled: false, element:null},
-  {name: 'Balance Only Accounts', selected: false, disabled: false, element:null},
-  {name: 'External Accounts', selected: false, disabled: false, element:null},
+  {name: 'Core Accounts', selected: false, disabled: false, draggable: true, element:null},
+  {name: 'Manual Accounts', selected: false, disabled: false, draggable: true, element:null},
+  {name: 'Balance Only Accounts', selected: false, disabled: false, draggable: true, element:null},
+  {name: 'External Accounts', selected: false, disabled: false, draggable: true, element:null},
 ];
 let aclSet1 = new MultiSelectSet();
 aclSet1.maxSelections  = 1;

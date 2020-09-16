@@ -14,27 +14,27 @@ export class GraphTableReportBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rowMultiSelection = [
-      {name: 'Beginning Value', selected: true, disabled: true, element:null},
-      {name: 'Net Contribution', selected: true, disabled: false, element:null},
-      {name: 'Change in Value', selected: true, disabled: false, element:null},
-      {name: 'Ending Value', selected: true, disabled: false, element:null},
-      {name: 'Return', selected: true, disabled: false, element:null},
-      {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, element:null},
+    let rowMultiSelection: MultiSelectSelection[] = [
+      {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
+      {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, draggable: true, element:null},
     ];
     let set = new MultiSelectSet();
-    set.maxSelections  = 3;
-    set.sortable = false;
-    set.selectionSet = this.rowMultiSelection;
+    set.maxSelections  = 5;
+    set.sortable = true;
+    set.selectionSet = rowMultiSelection;
     this.sets.push(set);
 
     this.rowMultiSelection2 = [
-      {name: 'Beginning Value1', selected: true, disabled: true, element:null},
-      {name: 'Net Contribution1', selected: true, disabled: false, element:null},
-      {name: 'Change in Value1', selected: false, disabled: true, element:null},
-      {name: 'Ending Value1', selected: true, disabled: false, element:null},
-      {name: 'Return1', selected: true, disabled: false, element:null},
-      {name: 'Show Benchmarks associated to the portfolio1', selected: false, disabled: false, element:null},
+      {name: 'Beginning Value1', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Net Contribution1', selected: true, disabled: false, draggable: true, element:null},
+      {name: 'Change in Value1', selected: false, disabled: true, draggable: false, element:null},
+      {name: 'Ending Value1', selected: true, disabled: false, draggable: true, element:null},
+      {name: 'Return1', selected: true, disabled: false, draggable: true, element:null},
+      {name: 'Show Benchmarks associated to the portfolio1', selected: false, disabled: false, draggable: true, element:null},
     ];
     set = new MultiSelectSet();
     set.maxSelections  = 3;

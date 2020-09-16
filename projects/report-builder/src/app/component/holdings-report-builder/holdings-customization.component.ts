@@ -151,6 +151,7 @@ export class HoldingsCustomizationComponent implements OnInit {
     for (const selectedColumn of selectedDataColumns) {
       multiSelectSelection = {
         selected: true,
+        draggable: true,
         disabled: false,
         element: selectedColumn,
         name: selectedColumn.viewValue
@@ -168,6 +169,7 @@ export class HoldingsCustomizationComponent implements OnInit {
       if(!found) {
         multiSelectSelection = {
           selected: false,
+          draggable: true,
           disabled: false,
           element: avaiableColumn,
           name: avaiableColumn.viewValue
