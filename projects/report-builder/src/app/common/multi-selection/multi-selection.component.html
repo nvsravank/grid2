@@ -53,10 +53,13 @@
                 <div class="ml-2 selectionName">{{selection.name}}</div>
               </div>
               <div class="arrows">
+                <!--The logic in this section is dependent on the sort order of the sortable set.-->
                 <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="moveItemInArray(set.selectionSet,i,i-1)"><i class="fa fa-arrow-up mr-2"></i></a>
                 <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fa fa-arrow-up disabledIcon mr-2"></i></a>
-                <a *ngIf="(i !== (set.sortableEndCount -1 ) && ( selection.selected || set.currentSelectedCount  <  set.maxSelections) && (!selection.selected || i  <  (set.maxSelections - set.selectedAndDisabledCount - 1)))" (click)="moveItemInArray(set.selectionSet,i+1,i)"><i class="fa fa-arrow-down"></i></a>
+                <!--The logic below is to show the disabled arrow if it is the last of the sortable items or the item is not selected and max selections have been done or item is selected as well as the index is not equal to the max number of selections  excluding the disabled and selected items-->
                 <a *ngIf="(i === (set.sortableEndCount -1 ) || (!selection.selected && set.currentSelectedCount === set.maxSelections) || ( selection.selected && i === (set.maxSelections - set.selectedAndDisabledCount - 1)))"><i class="fa fa-arrow-down disabledIcon"></i></a>
+                <!--The logic below is the opposite of when to show an enabled arrow-->
+                <a *ngIf="(i !== (set.sortableEndCount -1 ) && ( selection.selected || set.currentSelectedCount  <  set.maxSelections) && (!selection.selected || i  <  (set.maxSelections - set.selectedAndDisabledCount - 1)))" (click)="moveItemInArray(set.selectionSet,i+1,i)"><i class="fa fa-arrow-down"></i></a>
               </div>
             </div>
           </div>

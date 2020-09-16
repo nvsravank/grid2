@@ -16,7 +16,7 @@ export class MultiSelectSet {
   name: string;
   maxSelections: number;
   currentSelectedCount: number = 0;
-  sortableEndCount: number = 0;
+  sortableEndCount: number = 0; // Using end count because we are sorting the disabled items to the last of the sort list.
   selectedAndDisabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
 }
 
@@ -58,9 +58,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     this.setCurrentSelections(changes.selectionSets.currentValue);
   }
 
+  // This is the core of the logic to make the component work.
   setCurrentSelections(selectionSets: MultiSelectSet[]){
     this.internalSelectionSets = [];
     for (const selectionSet of selectionSets) {
+      // Doing a deep copy manually here but with some logic to help do the counts necessary.
       let newSelectionSet = new MultiSelectSet();
       newSelectionSet.currentSelectedCount = 0;
       newSelectionSet.maxSelections = selectionSet.maxSelections;
@@ -74,10 +76,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
           selection.selected = false;
           newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
         }
-        let newSelection = {...selection};
         newSelectionSet.selectionSet.push({...selection});
       }
       if(selectionSet.sortable){
+        // The sort algorithm here is being done to ensure the sortable items (not disabled) are first in the list. In the sortable items, the selectable items are ahead again.
+        // The sequencing of the sort returns is critical to the algorithm.
         newSelectionSet.selectionSet.sort((a,b) => {
           if(a.selected && !b.selected) return -1;
           if(a.disabled && !b.disabled) return 1;
@@ -123,11 +126,12 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       width: '400px',
       maxHeight: maxHeight + 'px',
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
-      position: position
+      position: position,
+      backdropClass: 'dialog-overlay'
     });
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {
-      this.setCurrentSelections(this.selectionSets);
+      this.setCurrentSelections(this.selectionSets); //Reset selections.
     })
   }
 
@@ -156,6 +160,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     this.dialogRef.updateSize('400px', height + 'px');
   }
 
+  // Save emits the changes sets to the calling component.
   save(){
     this.newOptions.emit(this.internalSelectionSets);
     this.dialogRef.close();
@@ -163,7 +168,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   cancel() {
     this.dialogRef.close();
-    this.setCurrentSelections(this.selectionSets);
+    this.setCurrentSelections(this.selectionSets); //Reset the selections.
   }
 
   drop(event: CdkDragDrop<string[]>, setIndex: number) {
