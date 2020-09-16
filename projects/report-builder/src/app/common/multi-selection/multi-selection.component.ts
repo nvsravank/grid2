@@ -185,17 +185,23 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
 
   }
+  // Simple logic to handle checking and un checking for non sortable sets.
   onCheckedNonSortable(i: number, isChecked: boolean, setIndex: number){
     const set = this.internalSelectionSets[setIndex];
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
         set.currentSelectedCount++;
+      } // else  condition is not necessary as this code is never triggered due to disabling selections.
+      else {
+        set.selectionSet[i].selected = false;
       }
     }
     else {
       set.currentSelectedCount--;
     }
   }
+
+  // More complicated logic for sortable sets to move the selected item to the bottom of the selected area.
   onChecked(i: number, isChecked: boolean, setIndex: number){
     // console.log(i, isChecked); // {}, true || false
     const set = this.internalSelectionSets[setIndex];
@@ -203,6 +209,9 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       if (set.currentSelectedCount < set.maxSelections){
         moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
         set.currentSelectedCount++;
+      } // else  condition is not necessary as this code is never triggered due to disabling selections.
+      else {
+        set.selectionSet[i].selected = false;
       }
     }
     else {

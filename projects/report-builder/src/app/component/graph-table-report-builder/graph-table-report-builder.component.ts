@@ -23,7 +23,7 @@ export class GraphTableReportBuilderComponent implements OnInit {
       {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, element:null},
     ];
     let set = new MultiSelectSet();
-    set.maxSelections  = 6;
+    set.maxSelections  = 3;
     set.sortable = false;
     set.selectionSet = this.rowMultiSelection;
     this.sets.push(set);
