@@ -7,18 +7,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/*
-body {
-  background-image: url(/assets/background.png);
-}
-
-.port_head {
-  color: #333;
-  font-size: 20px;
-  margin: 20px 0px 10px 0px;
-}
-*/
-
 .report-builder {
   border: 1px solid #cfcfcf;
   background-color: #FFF;
@@ -38,4 +26,8 @@ body {
   border-radius: 0px !important; 
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.no-padding-dialog .mat-dialog-container {
+  padding: 5px 5px 40px 5px !important;
 }

@@ -36,10 +36,12 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   selectionSets: MultiSelectSet[];
   internalSelectionSets: MultiSelectSet[] = [];
 
+  /* // Not currently used. Uncomment this section if information messages are to be enabled.
   message: SimpleMessage = {
     messageDesc:  'To select an additional column, remove an existing column.',
     messageType: MessageType.INFORM
   };
+  */
   
   @Output()
   newOptions = new EventEmitter<MultiSelectSet[]>();
@@ -127,7 +129,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       maxHeight: maxHeight + 'px',
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position,
-      backdropClass: 'dialog-overlay'
+      backdropClass: 'dialog-overlay',
+      panelClass: 'no-padding-dialog'
     });
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {
@@ -176,7 +179,6 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     const element = set.selectionSet[event.previousIndex];
     if (element.selected && event.currentIndex < set.currentSelectedCount)  {
       moveItemInArray(set.selectionSet, event.previousIndex, event.currentIndex);
-      console.log("moving",element.name, event.previousIndex, event.currentIndex);
     }
     if (!element.selected  && event.currentIndex < set.currentSelectedCount && set.currentSelectedCount < set.maxSelections) {
       moveItemInArray(set.selectionSet, event.previousIndex, event.currentIndex);
@@ -216,8 +218,6 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     else {
       set.currentSelectedCount--;
-      console.log(i);
-      console.log(set.currentSelectedCount);
       moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndDisabledCount);
     }
   }
