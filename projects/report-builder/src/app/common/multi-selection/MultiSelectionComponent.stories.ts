@@ -28,14 +28,21 @@ let rowMultiSelection: MultiSelectSelection[] = [
   {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
+];
+  let rowMultiSelection2: MultiSelectSelection[] = [
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
   {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, draggable: true, element:null},
 ];
 let set = new MultiSelectSet();
-set.maxSelections  = 5;
+set.maxSelections  = 4;
 set.sortable = true;
 set.selectionSet = rowMultiSelection;
 PortfolioValueSets.push(set);
+let set2 = new MultiSelectSet();
+set2.maxSelections  = 2;
+set2.sortable = false;
+set2.selectionSet = rowMultiSelection2;
+PortfolioValueSets.push(set2);
 
 export const PortfolioValue = Template.bind({});
 PortfolioValue.args = {
@@ -45,7 +52,7 @@ PortfolioValue.args = {
 
 let ACLValueSets: MultiSelectSet[] = [];
 let aclMultiSelection1: MultiSelectSelection[] = [
-  {name: 'AllAccounts', selected: true, disabled: true, draggable: false, element:null},
+  {name: 'AllAccounts', selected: true, disabled: false, draggable: false, element:null},
 ];
 let aclMultiSelection2: MultiSelectSelection[] = [
   {name: 'Core Accounts', selected: false, disabled: false, draggable: true, element:null},
@@ -60,6 +67,7 @@ aclSet1.selectionSet = aclMultiSelection1;
 ACLValueSets.push(aclSet1);
 let aclSet2 = new MultiSelectSet();
 aclSet2.maxSelections  = 4;
+aclSet2.name = 'Account Segment';
 aclSet2.sortable = true;
 aclSet2.selectionSet = aclMultiSelection2;
 ACLValueSets.push(aclSet2);
