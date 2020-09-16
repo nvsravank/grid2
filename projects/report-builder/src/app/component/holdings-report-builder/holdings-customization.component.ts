@@ -209,7 +209,7 @@ export class HoldingsCustomizationComponent implements OnInit {
     columnSet.maxSelections = 10;
     columnSet.sortable = true;
     this.columnSets.push(columnSet);
-    //console.log(this.columnSets);
+    console.log(this.columnSets);
 
   }
   sortSelectedColumns(availableColumns: DataColumn[], selectedColumns: DataColumn[], unSelectedColumns: DataColumn[]) {

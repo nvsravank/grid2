@@ -69,9 +69,49 @@ ACL.args = {
   selectionSets: ACLValueSets
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  name: 'Button2',
+let holdingsValueSets: MultiSelectSet[] = [];
+let holdingsMultiSelection: MultiSelectSelection[] = [
+  {selected: true, draggable: true, disabled: false, element: null, name: "Asset Name"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Ticker Synbol"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "% of Account"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Quantity"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Price ($)"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Value ($)"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Cost ($)"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Unrealized Gain/Loss ($)"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Current Yield (%)"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Estimated Annual Income ($)"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Rate of Return"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Beginning Value"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Net Contribution"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Change In Value"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Management Company"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Morningstar Rating"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Asset Type"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "ACL 1 Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "ACL 2 Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "ACL 3 Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Investor ID"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Investor Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Account Number"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Account Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Account Name / Manager / Style Name as applicable"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Manager Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Product Name"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Style"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Account Type"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Tax Status"},
+];
+let holdingsSet1 = new MultiSelectSet();
+holdingsSet1.maxSelections  = 10;
+holdingsSet1.sortable = true;
+holdingsSet1.selectionSet = holdingsMultiSelection;
+holdingsValueSets.push(holdingsSet1);
+
+export const Holdings = Template.bind({});
+Holdings.args = {
+  name: 'Columns',
+  selectionSets: holdingsValueSets
 };
 
 export const Small = Template.bind({});
