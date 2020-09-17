@@ -20,39 +20,82 @@ const Template: Story<MultiSelectionComponent> = (args: MultiSelectionComponent)
   props: args,
 });
 
-
-
-let PortfolioValueSets: MultiSelectSet[] = [];
-let rowMultiSelection: MultiSelectSelection[] = [
+// Portfolio return Stories
+let PortfolioReturnSets: MultiSelectSet[] = [];
+let rowMultiSelection1: MultiSelectSelection[] = [
   {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
-  {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null, },
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
-];
-  let rowMultiSelection2: MultiSelectSelection[] = [
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
-  {name: 'Show Benchmarks associated to the portfolio', selected: false, disabled: false, draggable: true, element:null},
+]
+let rowMultiSelection6: MultiSelectSelection[] = [
+  {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
 ];
-let set = new MultiSelectSet();
-set.maxSelections  = 4;
-set.sortable = true;
-set.selectionSet = rowMultiSelection;
-PortfolioValueSets.push(set);
+let rowMultiSelection2: MultiSelectSelection[] = [
+  {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
+//    {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
+];
+let set1 = new MultiSelectSet();
+set1.maxSelections  = 6;
+set1.sortable = true;
+set1.selectionSet = rowMultiSelection1;
+PortfolioReturnSets.push(set1);
+let set6 = new MultiSelectSet();
+set6.maxSelections  = 1;
+set6.sortable = true;
+set6.selectionSet = rowMultiSelection6;
+PortfolioReturnSets.push(set6);
 let set2 = new MultiSelectSet();
-set2.maxSelections  = 2;
+set2.maxSelections  = 1;
 set2.sortable = false;
 set2.selectionSet = rowMultiSelection2;
-PortfolioValueSets.push(set2);
+PortfolioReturnSets.push(set2);
 
-export const PortfolioValue = Template.bind({});
-PortfolioValue.args = {
+export const PortfolioReturn = Template.bind({});
+PortfolioReturn.args = {
   name: 'Rows',
-  selectionSets: PortfolioValueSets,
+  selectionSets: PortfolioReturnSets,
+};
+
+let PortfolioReturnSetsR1: MultiSelectSet[] = [];
+let netContributionSubSelections: MultiSelectSelection[] =[
+  {name: 'Show Details', selected: true, disabled: false, draggable: true, element:null},
+];
+let changeInValueSubSelections: MultiSelectSelection[] =[
+  {name: 'Show Details', selected: true, disabled: false, draggable: true, element:null},
+];
+let rowMultiSelection3: MultiSelectSelection[] = [
+  {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null, subSelections:netContributionSubSelections },
+  {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null, subSelections:changeInValueSubSelections},
+  {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
+  {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
+];
+  let rowMultiSelection4: MultiSelectSelection[] = [
+    {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: true, element:null},
+//    {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
+];
+let set3 = new MultiSelectSet();
+set3.maxSelections  = 5;
+set3.sortable = true;
+set3.selectionSet = rowMultiSelection3;
+PortfolioReturnSetsR1.push(set3);
+let set4 = new MultiSelectSet();
+set4.maxSelections  = 3;
+set4.sortable = false;
+set4.selectionSet = rowMultiSelection4;
+PortfolioReturnSetsR1.push(set4);
+
+export const PortfolioReturnR1 = Template.bind({});
+PortfolioReturnR1.args = {
+  name: 'Rows',
+  selectionSets: PortfolioReturnSetsR1,
 };
 
 let ACLValueSets: MultiSelectSet[] = [];
 let aclMultiSelection1: MultiSelectSelection[] = [
-  {name: 'AllAccounts', selected: true, disabled: false, draggable: false, element:null},
+  {name: 'All Accounts', selected: true, disabled: false, draggable: false, element:null},
 ];
 let aclMultiSelection2: MultiSelectSelection[] = [
   {name: 'Core Accounts', selected: false, disabled: false, draggable: true, element:null},
@@ -62,18 +105,18 @@ let aclMultiSelection2: MultiSelectSelection[] = [
 ];
 let aclSet1 = new MultiSelectSet();
 aclSet1.maxSelections  = 1;
-aclSet1.sortable = false;
+aclSet1.sortable = true;
 aclSet1.selectionSet = aclMultiSelection1;
 ACLValueSets.push(aclSet1);
 let aclSet2 = new MultiSelectSet();
 aclSet2.maxSelections  = 4;
-aclSet2.name = 'Account Segment';
+aclSet2.name = 'Account Segments';
 aclSet2.sortable = true;
 aclSet2.selectionSet = aclMultiSelection2;
 ACLValueSets.push(aclSet2);
 export const ACL = Template.bind({});
 ACL.args = {
-  name: 'Accounts',
+  name: 'Account Segments',
   selectionSets: ACLValueSets
 };
 
@@ -113,6 +156,7 @@ let holdingsMultiSelection: MultiSelectSelection[] = [
 let holdingsSet1 = new MultiSelectSet();
 holdingsSet1.maxSelections  = 10;
 holdingsSet1.sortable = true;
+holdingsSet1.name = "Holdings";
 holdingsSet1.selectionSet = holdingsMultiSelection;
 holdingsValueSets.push(holdingsSet1);
 

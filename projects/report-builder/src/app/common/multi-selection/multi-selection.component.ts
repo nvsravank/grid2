@@ -4,11 +4,12 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { SimpleMessage, MessageType } from '../messaging/messaging.component';
 
 export interface MultiSelectSelection {
-  selected: boolean;
-  draggable:boolean;
-  disabled: boolean;
+  selected:  boolean;
+  draggable: boolean;
+  disabled:  boolean;
   element: any;
   name: string;
+  subSelections?: MultiSelectSelection[];
 }
 
 export class MultiSelectSet {
@@ -131,7 +132,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position,
       backdropClass: 'dialog-overlay',
-      panelClass: 'no-padding-dialog'
+      panelClass: 'dialog-panel'
     });
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {
@@ -206,6 +207,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   // Simple logic to handle checking and un checking for non sortable sets.
   onCheckedNonSortable(i: number, isChecked: boolean, setIndex: number){
     const set = this.internalSelectionSets[setIndex];
+    set.selectionSet[i].selected = isChecked;
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
         set.currentSelectedCount++;
@@ -221,8 +223,9 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
 
   // More complicated logic for sortable sets to move the selected item to the bottom of the selected area.
   onChecked(i: number, isChecked: boolean, setIndex: number){
-    console.log(i, isChecked); // {}, true || false
     const set = this.internalSelectionSets[setIndex];
+    set.selectionSet[i].selected = isChecked;
+    console.log(i, isChecked,set.selectionSet[i].selected); // {}, true || false
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
         moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);
@@ -234,7 +237,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     else {
       set.currentSelectedCount--;
-      console.log(set);
+      //console.log(set);
       moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);
     }
   }

@@ -9,6 +9,11 @@
   overflow: hidden;
 }
 
+.set-box {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .item-box {
   padding: 2px 8px 2px 2px;
   margin-top: 5px;
@@ -17,18 +22,39 @@
   border-radius: 3px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   box-sizing: border-box;
   background: white;
   font-size: 14px;
-  min-height: 45px;
   border-radius: 4px;
+  min-height: 45px;
+}
+
+.non-sortable-box {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.rowBox {
+  min-height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sub-detail {
+  padding-left: 35px;
 }
 
 .sortable-box {
-  cursor: ns-resize;
+  cursor: move;
 }
 
 .sortable-box:hover {
@@ -74,8 +100,14 @@
   margin-right: 5px;
 }
 
+.box input.non-sortable-check {
+  margin-left: 8px;
+  margin-right: 5px;
+}
+
 .subHeading{
   font-size: smaller;
+  text-align: right;
 }
 
 .name {
@@ -108,7 +140,7 @@
 
 hr {
   margin-top: 5px;
-  margin-bottom: 3px;
+  margin-bottom: 5px;
 }
 
 .dialog-overlay {
