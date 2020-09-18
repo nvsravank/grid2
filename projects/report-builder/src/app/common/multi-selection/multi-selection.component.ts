@@ -9,6 +9,7 @@ export interface MultiSelectSelection {
   element: any;
   name: string;
   subSelections?: MultiSelectSelection[];
+  selectionDetails?: string[];
 }
 
 export class MultiSelectSet {
@@ -21,8 +22,6 @@ export class MultiSelectSet {
   sortableEndCount: number = 0; // Using end count because we are sorting the disabled items to the last of the sort list.
   selectedAndNotDraggabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
 }
-
-
 
 @Component({
   selector: 'app-multi-selection',
