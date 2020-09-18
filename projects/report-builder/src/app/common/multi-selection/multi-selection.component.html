@@ -1,16 +1,15 @@
-<button mat-stroked-button class="show-tiles pl-2 pr-2 ml-1 mr-1" (click)="show(dialog)" #myButton>
-  <span class="name">{{name}}</span>
-  <i class="ml-2 fas fa-caret-down"></i>
-</button>
+<div  class="customDropdown" (click)="show(dialog)" #myButton>
+  <span>{{name}}</span>
+  <i class="fas fa-caret-down"></i>
+</div>
 
-<!---->
 <ng-template #dialog>
   <mat-dialog-content>
     <div class="contentDiv" [style.maxHeight]="innerContentDivHeight + 'px'" (window:resize)="onResize($event)">
       <div class="set-box" *ngFor="let set of internalSelectionSets; index as setIndex">
         <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
           <div class="row mt-1 mt-3 align-items-center">
-            <div class="col pl-0" >{{set.name}}</div>
+            <div class="col pl-0 setName" >{{set.name}}</div>
             <div class="col-5 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
           </div>
           <!--
@@ -27,7 +26,6 @@
         </div>
         <div *ngIf="!set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
-            <hr *ngIf="i !== 0">
             <div class="non-sortable-box">
               <div class="box">
                 <div><input class="non-sortable-check" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
@@ -92,15 +90,14 @@
             </div>
           </div>
         </div>
-        <hr *ngIf="setIndex !== internalSelectionSets.length - 1">
+        <hr>
       </div> <!--Set End-->
     </div> <!-- Content Div End-->
   </mat-dialog-content>
-  <hr class="mt-0">
-  <mat-dialog-actions align="end">
-    <button class="btn" (click)="save()">Apply</button>
-    <button class="btn neg" (click)="cancel()">Cancel</button>
-  </mat-dialog-actions>
+  <div class="button_row_popup">
+    <button type="submit" value="Apply" class="btn" (click)="save()">Apply</button>
+    <button type="submit" value="Cancel" class="btn neg" (click)="cancel()">Cancel</button>
+  </div>
 </ng-template>
 
 <ng-template #subSelections let-selectionSet='selectionSet'>

@@ -10,12 +10,13 @@
       </button>
     </div>
     <div class="col-auto">
-      <app-multi-selection
-        [name]="'Columns'"
-        [selectionSets]="columnSets"
-        (newOptions)="columnsSelected($event)"
-      ></app-multi-selection>
-      
+      <div class="columnComp">
+        <app-multi-selection
+          [name]="'Columns'"
+          [selectionSets]="columnSets"
+          (newOptions)="columnsSelected($event)"
+        ></app-multi-selection>
+      </div>
     </div>
   </div>
 </div>
