@@ -36,7 +36,7 @@
         </div>
         <div *ngIf="set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
-            <div class="item-box" *ngIf="set.sortable && !selection.draggable && selection.selected">
+            <div class="item-box" *ngIf="set.sortable && selection.disabled && selection.selected && !selection.draggable">
               <div class="rowBox">
                 <div class="box">
                   <div class="pr-2">&nbsp;</div>
@@ -81,16 +81,18 @@
         <!--This section is a repeat of the code above for non sortable section so that we can put the disabled, unchecked items at the bottom of the set.-->
         <div *ngIf="set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
-            <div class="item-box" *ngIf="(set.sortable && !selection.draggable && !selection.selected)">
-              <div class="box">
-                <div class="pr-2">&nbsp;</div>
-                <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
-                <div class="ml-1">{{selection.name}}</div>
+            <div class="item-box" *ngIf="(set.sortable && !selection.draggable && !selection.disabled)">
+              <div class="rowBox">
+                <div class="box">
+                  <div class="pr-2">&nbsp;</div>
+                  <div><input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)"></div>
+                  <div class="ml-1">{{selection.name}}</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <hr>
+        <hr *ngIf="setIndex !== internalSelectionSets.length - 1 && (setIndex < internalSelectionSets.length - 1 && !internalSelectionSets[setIndex+1].name)">
       </div> <!--Set End-->
     </div> <!-- Content Div End-->
   </mat-dialog-content>

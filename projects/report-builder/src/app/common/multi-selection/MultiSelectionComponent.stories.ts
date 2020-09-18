@@ -28,6 +28,7 @@ let rowMultiSelection1: MultiSelectSelection[] = [
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
+  {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
 ]
 let rowMultiSelection6: MultiSelectSelection[] = [
   {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
@@ -45,7 +46,7 @@ let set6 = new MultiSelectSet();
 set6.maxSelections  = 1;
 set6.sortable = true;
 set6.selectionSet = rowMultiSelection6;
-PortfolioReturnSets.push(set6);
+//PortfolioReturnSets.push(set6);
 let set2 = new MultiSelectSet();
 set2.maxSelections  = 1;
 set2.sortable = false;
@@ -60,10 +61,10 @@ PortfolioReturn.args = {
 
 let PortfolioReturnSetsR1: MultiSelectSet[] = [];
 let netContributionSubSelections: MultiSelectSelection[] =[
-  {name: 'Show Details', selected: true, disabled: false, draggable: true, element:null},
+  {name: 'Show Breakdowns', selected: true, disabled: false, draggable: true, element:null},
 ];
 let changeInValueSubSelections: MultiSelectSelection[] =[
-  {name: 'Show Details', selected: true, disabled: false, draggable: true, element:null},
+  {name: 'Show Breakdowns', selected: true, disabled: false, draggable: true, element:null},
 ];
 let rowMultiSelection3: MultiSelectSelection[] = [
   {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
@@ -156,7 +157,6 @@ let holdingsMultiSelection: MultiSelectSelection[] = [
 let holdingsSet1 = new MultiSelectSet();
 holdingsSet1.maxSelections  = 10;
 holdingsSet1.sortable = true;
-holdingsSet1.name = "Holdings";
 holdingsSet1.selectionSet = holdingsMultiSelection;
 holdingsValueSets.push(holdingsSet1);
 
@@ -166,7 +166,30 @@ Holdings.args = {
   selectionSets: holdingsValueSets
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  name: 'Button3',
+let accountPerformanceSets: MultiSelectSet[] = [];
+let accountPerformanceMultiSelection1: MultiSelectSelection[] = [
+  {selected: true, draggable: false, disabled: true, element: null, name: "Account"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Account Number"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Value"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Selected Period"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "YTD"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "One Year"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Three Year"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Five Year "},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Since Inception"},
+  {selected: true, draggable: true, disabled: false, element: null, name: "Inception Date"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Account Type"},
+  {selected: false, draggable: true, disabled: false, element: null, name: "Start Date"},
+];
+let accountPerformanceSet1 = new MultiSelectSet();
+accountPerformanceSet1.maxSelections  = 10;
+accountPerformanceSet1.sortable = true;
+accountPerformanceSet1.selectionSet = accountPerformanceMultiSelection1;
+accountPerformanceSets.push(accountPerformanceSet1);
+
+
+export const AccountPerformance = Template.bind({});
+AccountPerformance.args = {
+  name: 'Columns',
+  selectionSets :accountPerformanceSets,
 };
