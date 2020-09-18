@@ -12,18 +12,8 @@
             <div class="col pl-0 setName" >{{set.name}}</div>
             <div class="col-5 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
           </div>
-          <!--
-          <div class="row mb-1 p-1" *ngIf="(set.maxSelections == set.currentSelectedCount && set.maxSelections < set.selectionSet.length)">
-            <div class="col">
-              <common-messaging  
-                displayType="inpage"
-                [message]="message"
-              ></common-messaging>  
-
-            </div>
-          </div>
-        -->
         </div>
+        <!--This section is for non sortable listing. The look is different for this section with each row not being covered by a box etc and shorter selection items-->
         <div *ngIf="!set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
             <div class="non-sortable-box">
@@ -34,6 +24,11 @@
             </div>
           </div>
         </div>
+        <!--The next three divs are sortable listings. The look for all of them includes a box item-box class.-->
+        <!--First section is for the items in the sortable list that are selected but disabled and not draggable.-->
+        <!--Second section is for the draggble items. The items shown here have been sorted as per the setCurrentSelections function-->        
+        <!--Third section is for those items that are not draggable and are not disabled.-->
+        <!--Note items sent in with the settings of not selected, disabled and are not draggable are not show in any of the three sections.-->
         <div *ngIf="set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
             <div class="item-box" *ngIf="set.sortable && selection.disabled && selection.selected && !selection.draggable">
@@ -97,7 +92,7 @@
     </div> <!-- Content Div End-->
   </mat-dialog-content>
   <div class="button_row_popup">
-    <button type="submit" value="Apply" class="btn" (click)="save()">Apply</button>
+    <button type="submit" value="Apply" class="btn" (click)="save()" [disabled]="disableSave">Apply</button>
     <button type="submit" value="Cancel" class="btn neg" (click)="cancel()">Cancel</button>
   </div>
 </ng-template>

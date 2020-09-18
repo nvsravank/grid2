@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import { SimpleMessage, MessageType } from '../messaging/messaging.component';
 
 export interface MultiSelectSelection {
   selected:  boolean;
@@ -17,6 +16,7 @@ export class MultiSelectSet {
   sortable: boolean = true;
   name: string;
   maxSelections: number;
+  minSelections: number = 0;
   currentSelectedCount: number = 0;
   sortableEndCount: number = 0; // Using end count because we are sorting the disabled items to the last of the sort list.
   selectedAndNotDraggabledCount: number = 0; // This field is necessary to allow a set to have single selection set to have items that are diabled.
@@ -27,7 +27,7 @@ export class MultiSelectSet {
 @Component({
   selector: 'app-multi-selection',
   templateUrl: './multi-selection.component.html',
-  styleUrls: ['./multi-selection.component.scss']
+  styleUrls: ['./multi-selection.component.css']
 })
 export class MultiSelectionComponent implements OnInit, OnChanges {
   moveItemInArray = moveItemInArray;
@@ -35,16 +35,13 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   name: string;
 
   @Input()
+  minimumSelections: number = 0;
+  disableSave: boolean = false;
+
+  @Input()
   selectionSets: MultiSelectSet[];
   internalSelectionSets: MultiSelectSet[] = [];
 
-  /* // Not currently used. Uncomment this section if information messages are to be enabled.
-  message: SimpleMessage = {
-    messageDesc:  'To select an additional column, remove an existing column.',
-    messageType: MessageType.INFORM
-  };
-  */
-  
   @Output()
   newOptions = new EventEmitter<MultiSelectSet[]>();
 
@@ -69,7 +66,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       // Doing a deep copy manually here but with some logic to help do the counts necessary.
       let newSelectionSet = new MultiSelectSet();
       newSelectionSet.currentSelectedCount = 0;
-      newSelectionSet.maxSelections = selectionSet.maxSelections;
+      newSelectionSet.maxSelections = +selectionSet.maxSelections;
+      newSelectionSet.minSelections = +selectionSet.minSelections;
       newSelectionSet.sortable = selectionSet.sortable;
       newSelectionSet.name = selectionSet.name;
       for (const selection of selectionSet.selectionSet)
@@ -99,7 +97,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       }
       this.internalSelectionSets.push(newSelectionSet);
     }
-
+    this.checkMinimumSelections()
   }
 
   // The logic around initial max height is necessary because we are allowing the content to drive the height.
@@ -187,6 +185,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       element.selected = true;
       set.currentSelectedCount++;
     }
+    this.checkMinimumSelections()
   }
 
   validateAndMove(set:MultiSelectSet, fromIndex: number, toIndex: number) {
@@ -201,9 +200,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       moveItemInArray(set.selectionSet, fromIndex, toIndex);
       fromItem.selected = true;
       set.currentSelectedCount++;
+      this.checkMinimumSelections()
       return;
     }
   }
+
   // Simple logic to handle checking and un checking for non sortable sets.
   onCheckedNonSortable(i: number, isChecked: boolean, setIndex: number){
     const set = this.internalSelectionSets[setIndex];
@@ -219,6 +220,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     else {
       set.currentSelectedCount--;
     }
+    this.checkMinimumSelections()
   }
 
   // More complicated logic for sortable sets to move the selected item to the bottom of the selected area.
@@ -240,5 +242,21 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       //console.log(set);
       moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);
     }
+    this.checkMinimumSelections()
   }
+
+  // This function is to diable save if minimum selections are not done for the multiset.
+  checkMinimumSelections(){
+    if(this.minimumSelections <= 0) {
+      this.disableSave = false;
+      return;
+    }
+    let totalCount = 0;
+    this.internalSelectionSets.forEach(set => {
+      totalCount = totalCount + set.currentSelectedCount;
+    });
+    if(totalCount < this.minimumSelections) this.disableSave = true;
+    else this.disableSave = false;
+  }
+
 }

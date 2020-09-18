@@ -53,10 +53,10 @@ export class GraphTableReportBuilderComponent implements OnInit {
       {name: 'Show Details', selected: true, disabled: false, draggable: true, element:null},
     ];
     let rowMultiSelection3: MultiSelectSelection[] = [
-      {name: 'Beginning Value', selected: true, disabled: true, draggable: true, element:null},
-      {name: 'Net Contribution', selected: true, disabled: true, draggable: true, element:null, subSelections:netContributionSubSelections },
-      {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null, subSelections:changeInValueSubSelections},
-      {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
+      {name: 'Beginning Value', selected: true, disabled: false, draggable: true, element:null},
+      {name: 'Net Contribution', selected: true, disabled: false, draggable: true, element:null, subSelections:netContributionSubSelections },
+      {name: 'Change in Value', selected: true, disabled: false, draggable: true, element:null, subSelections:changeInValueSubSelections},
+      {name: 'Ending Value', selected: true, disabled: false, draggable: true, element:null},
       {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
     ];
       let rowMultiSelection4: MultiSelectSelection[] = [
