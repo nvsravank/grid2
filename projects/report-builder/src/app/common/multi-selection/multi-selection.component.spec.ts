@@ -30,8 +30,8 @@ describe('MultiSelectionComponent', () => {
     fixture = TestBed.createComponent(MultiSelectionComponent);
     component = fixture.componentInstance;
     component.name = '';
-    component.maxSelections = 10;
-    component.selections = [];
+    component.minimumSelections = 0;
+    component.selectionSets = [];
     fixture.detectChanges();
   });
 

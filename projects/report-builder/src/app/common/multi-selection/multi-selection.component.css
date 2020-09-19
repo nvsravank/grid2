@@ -1,3 +1,13 @@
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
+  color: inherit;
+  text-decoration: none;
+}
+
 .sortable-list {
   min-height: 30px;
   border-width: 0px;
@@ -13,42 +23,58 @@
 }
 
 .item-box {
-  padding: 2px 8px 2px 2px;
+  padding: 2px 0px 0px 0px;
   margin-top: 5px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   border: solid 1px rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: space-around;
   box-sizing: border-box;
   background: white;
   font-size: 14px;
   border-radius: 4px;
-  min-height: 45px;
+  min-height: 34px;
 }
 
 .non-sortable-box {
-  margin-top: 5px;
-  margin-bottom: 5px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  min-height: 30px;
 }
 
 .rowBox {
-  min-height: 45px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 }
 
+.justify-between{
+  justify-content: space-between;
+}
+
 .sub-detail {
-  padding-left: 35px;
+  padding: 5px 5px 5px 50px;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+.details-showing {
+  background-color: #E6E6E6;
+}
+
+.selection-details {
+  border-top: 1px solid #CCCCCC;
+  padding-left: 6rem;
+  background-color: #F6F6F6;
+  height: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .sortable-box {
@@ -77,7 +103,7 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.sortable-listlist.cdk-drop-list-dragging .sortable-box:not(.cdk-drag-placeholder) {
+.sortable-list.cdk-drop-list-dragging .sortable-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
@@ -85,22 +111,8 @@
   color: #BBBBBB
 }
 
-.box {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  box-sizing: border-box;
-  margin-left: 8px;
-}
-
-.box input {
-  margin-left: 8px;
-  margin-right: 5px;
-}
-
-.box input.non-sortable-check {
-  margin-left: 8px;
-  margin-right: 5px;
+.hiddenIcon {
+  color: #FFFFFF;
 }
 
 .subHeading{
@@ -117,7 +129,7 @@
 }
 
 .selectionName {
-  width: 220px;
+  width: 240px;
 }
 
 .setName {

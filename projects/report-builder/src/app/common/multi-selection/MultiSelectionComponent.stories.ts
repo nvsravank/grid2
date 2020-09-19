@@ -28,11 +28,8 @@ let rowMultiSelection1: MultiSelectSelection[] = [
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
-  {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
+  {name: 'Show Portfolio level Benchmarks', selected: false, disabled: false, draggable: false, element:null},
 ]
-let rowMultiSelection6: MultiSelectSelection[] = [
-  {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
-];
 let rowMultiSelection2: MultiSelectSelection[] = [
   {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
 //    {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
@@ -42,11 +39,6 @@ set1.maxSelections  = 6;
 set1.sortable = true;
 set1.selectionSet = rowMultiSelection1;
 PortfolioReturnSets.push(set1);
-let set6 = new MultiSelectSet();
-set6.maxSelections  = 1;
-set6.sortable = true;
-set6.selectionSet = rowMultiSelection6;
-//PortfolioReturnSets.push(set6);
 let set2 = new MultiSelectSet();
 set2.maxSelections  = 1;
 set2.sortable = false;
@@ -61,7 +53,7 @@ PortfolioReturn.args = {
 
 let PortfolioReturnSetsR1: MultiSelectSet[] = [];
 let netContributionSubSelections: MultiSelectSelection[] =[
-  {name: 'Show Breakdowns', selected: true, disabled: false, draggable: true, element:null},
+  {name: 'Show Breakdowns', selected: true, disabled: false, draggable: true, element:null, selectionDetails:['Contributions', 'Withdrawals'], showDetails:false},
 ];
 let changeInValueSubSelections: MultiSelectSelection[] =[
   {name: 'Show Breakdowns', selected: true, disabled: false, draggable: true, element:null},

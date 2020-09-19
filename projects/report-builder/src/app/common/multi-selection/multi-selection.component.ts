@@ -10,6 +10,7 @@ export interface MultiSelectSelection {
   name: string;
   subSelections?: MultiSelectSelection[];
   selectionDetails?: string[];
+  showDetails?: boolean;
 }
 
 export class MultiSelectSet {
@@ -256,6 +257,11 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     });
     if(totalCount < this.minimumSelections) this.disableSave = true;
     else this.disableSave = false;
+  }
+
+  showHideSelectionDetails(selection: MultiSelectSelection){
+    if(selection.showDetails) selection.showDetails = false;
+    else selection.showDetails = true; 
   }
 
 }
