@@ -163,7 +163,7 @@ let accountPerformanceMultiSelection1: MultiSelectSelection[] = [
   {selected: true, draggable: false, disabled: true, element: null, name: "Account"},
   {selected: true, draggable: true, disabled: false, element: null, name: "Account Number"},
   {selected: true, draggable: true, disabled: false, element: null, name: "Value"},
-  {selected: true, draggable: true, disabled: false, element: null, name: "Selected Period"},
+  {selected: true, draggable: true, disabled: true, element: null, name: "Selected Period"},
   {selected: true, draggable: true, disabled: false, element: null, name: "YTD"},
   {selected: true, draggable: true, disabled: false, element: null, name: "One Year"},
   {selected: true, draggable: true, disabled: false, element: null, name: "Three Year"},
