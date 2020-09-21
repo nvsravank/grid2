@@ -28,7 +28,7 @@ let rowMultiSelection1: MultiSelectSelection[] = [
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
-  {name: 'Show Portfolio level Benchmarks', selected: false, disabled: false, draggable: false, element:null},
+//  {name: 'Show Portfolio level Benchmarks', selected: false, disabled: false, draggable: false, element:null},
 ]
 let rowMultiSelection2: MultiSelectSelection[] = [
   {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
