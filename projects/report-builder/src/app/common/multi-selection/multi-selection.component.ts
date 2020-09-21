@@ -130,7 +130,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position,
       backdropClass: 'dialog-overlay',
-      panelClass: 'dialog-panel'
+      panelClass: 'multi-select-dialog-panel'
     });
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {

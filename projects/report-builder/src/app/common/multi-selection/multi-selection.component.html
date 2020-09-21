@@ -1,6 +1,6 @@
 <div  class="customDropdown" (click)="show(dialog)" #myButton>
   <span>{{name}}</span>
-  <i class="fas fa-caret-down ml-1"></i>
+  <i class="fas fa-caret-down multi-select-ml-1"></i>
 </div>
 
 <ng-template #dialog>
@@ -8,8 +8,8 @@
     <div class="contentDiv" [style.maxHeight]="innerContentDivHeight + 'px'" (window:resize)="onResize($event)">
       <div class="set-box" *ngFor="let set of internalSelectionSets; index as setIndex">
         <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
-          <div class="row mt-1 mt-3 align-items-center">
-            <div class="col pl-0 setName" >{{set.name}}</div>
+          <div class="rowBox multi-select-mt-3 align-items-center">
+            <div class="col setName" >{{set.name}}</div>
             <div class="col-5 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
           </div>
         </div>
@@ -17,8 +17,8 @@
         <div *ngIf="!set.sortable">
           <div *ngFor="let selection of set.selectionSet; index as i">
             <div class="non-sortable-box rowBox">
-              <input class="ml-2" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-              <div class="ml-2">{{selection.name}}</div>
+              <input class="multi-select-ml-2" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+              <div class="multi-select-ml-2">{{selection.name}}</div>
             </div>
           </div>
         </div>
@@ -31,9 +31,9 @@
           <div *ngFor="let selection of set.selectionSet; index as i">
             <div class="item-box" *ngIf="set.sortable && selection.disabled && selection.selected && !selection.draggable">
               <div class="rowBox">
-                <i class="ml-2 fas fa-grip-vertical hiddenIcon" ></i>
-                <input class="ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-                <div class="ml-2">{{selection.name}}</div>
+                <i class="multi-select-ml-2 fas fa-grip-vertical hiddenIcon" ></i>
+                <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+                <div class="multi-select-ml-2">{{selection.name}}</div>
               </div>
             </div>
           </div>
@@ -46,14 +46,14 @@
             cdkDrag [cdkDragDisabled]="(!selection.draggable || (!selection.selected  && set.currentSelectedCount >= set.maxSelections))">
               <div class="rowBox justify-between">
                 <div class="rowBox">
-                  <i class="ml-2 fas fa-grip-vertical" [class.disabledIcon]="!selection.selected && set.currentSelectedCount >= set.maxSelections" ></i>
-                  <input class="ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)">
-                  <div class="ml-2 selectionName">{{selection.name}}</div>
+                  <i class="multi-select-ml-2 fas fa-grip-vertical" [class.disabledIcon]="!selection.selected && set.currentSelectedCount >= set.maxSelections" ></i>
+                  <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)">
+                  <div class="multi-select-ml-2 selectionName">{{selection.name}}</div>
                 </div>
-                <div class="arrows mr-1">
+                <div class="arrows multi-select-mr-1">
                   <!--The logic in this section is dependent on the sort order of the sortable set.-->
-                  <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="validateAndMove(set,i,i-1)"><i class="fas fa-arrow-up mr-2"></i></a>
-                  <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fas fa-arrow-up disabledIcon mr-2"></i></a>
+                  <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="validateAndMove(set,i,i-1)"><i class="fas fa-arrow-up multi-select-mr-2"></i></a>
+                  <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fas fa-arrow-up disabledIcon multi-select-mr-2"></i></a>
                   <!--The logic below is to show the disabled arrow if it is the last of the sortable items or the item is not selected and max selections have been done or item is selected as well as the index is not equal to the max number of selections  excluding the disabled and selected items-->
                   <a *ngIf="(i === (set.sortableEndCount -1 ) || (!selection.selected && set.currentSelectedCount === set.maxSelections) || ( selection.selected && i === (set.maxSelections - set.selectedAndNotDraggabledCount - 1)))"><i class="fas fa-arrow-down disabledIcon"></i></a>
                   <!--The logic below is the opposite of when to show an enabled arrow-->
@@ -72,9 +72,9 @@
           <div *ngFor="let selection of set.selectionSet; index as i">
             <div class="item-box" *ngIf="(set.sortable && !selection.draggable && !selection.disabled)">
               <div class="rowBox">
-                <i class="ml-2 fas fa-grip-vertical hiddenIcon" ></i>
-                <input class="ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-                <div class="ml-2">{{selection.name}}</div>
+                <i class="multi-select-ml-2 fas fa-grip-vertical hiddenIcon" ></i>
+                <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+                <div class="multi-select-ml-2">{{selection.name}}</div>
               </div>
             </div>
           </div>
@@ -96,8 +96,8 @@
       <div class="sub-detail rowBox" [class.details-showing]="selection.showDetails" >
         <a *ngIf="selection.selectionDetails && !selection.showDetails && selection.selected" (click)="showHideSelectionDetails(selection)"><i class="ml-1 mr-1 fas fa-plus-circle" ></i></a>
         <a *ngIf="selection.selectionDetails &&  selection.showDetails && selection.selected" (click)="showHideSelectionDetails(selection)"><i class="ml-1 mr-1 fas fa-minus-circle"></i></a>
-        <input class="ml-1" type="checkbox" [disabled]="selection.disabled" [(ngModel)]="selection.selected" >
-        <div class="ml-2">{{selection.name}}</div>
+        <input class="multi-select-ml-1" type="checkbox" [disabled]="selection.disabled" [(ngModel)]="selection.selected" >
+        <div class="multi-select-ml-2">{{selection.name}}</div>
       </div>
       <ng-container *ngIf="selection.selectionDetails && selection.showDetails && selection.selected">
         <ng-container *ngFor="let detail of selection.selectionDetails">
