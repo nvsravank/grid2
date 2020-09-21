@@ -28,23 +28,26 @@ let rowMultiSelection1: MultiSelectSelection[] = [
   {name: 'Change in Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Ending Value', selected: true, disabled: true, draggable: true, element:null},
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
-//  {name: 'Show Portfolio level Benchmarks', selected: false, disabled: false, draggable: false, element:null},
+  {name: 'Show Portfolio level Benchmarks', selected: false, disabled: false, draggable: false, element:null},
 ]
+/*
 let rowMultiSelection2: MultiSelectSelection[] = [
   {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
 //    {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
 ];
+*/
 let set1 = new MultiSelectSet();
 set1.maxSelections  = 6;
 set1.sortable = true;
 set1.selectionSet = rowMultiSelection1;
 PortfolioReturnSets.push(set1);
+/*
 let set2 = new MultiSelectSet();
 set2.maxSelections  = 1;
 set2.sortable = false;
 set2.selectionSet = rowMultiSelection2;
 PortfolioReturnSets.push(set2);
-
+*/
 export const PortfolioReturn = Template.bind({});
 PortfolioReturn.args = {
   name: 'Rows',
