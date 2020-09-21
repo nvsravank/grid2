@@ -84,8 +84,8 @@
     </div> <!-- Content Div End-->
   </mat-dialog-content>
   <div class="button_row_popup">
-    <button type="submit" value="Apply" class="btn" (click)="save()" [disabled]="disableSave">Apply</button>
-    <button type="submit" value="Cancel" class="btn neg" (click)="cancel()">Cancel</button>
+    <input type="submit" value="Apply"  title="Apply" class="btn" (click)="save()" [disabled]="disableSave">
+    <input type="submit" value="Cancel" title="Cancel" class="btn neg" (click)="cancel()">
   </div>
 </ng-template>
 
