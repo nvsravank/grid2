@@ -169,6 +169,9 @@ hr {
 .multi-select-mr-1 {
   margin-right:   0.25rem !important; 
 }
+.multi-select-mr-2 {
+  margin-right:   0.5rem !important; 
+}
 .multi-select-mt-3 {
   margin-top: 0.75rem !important;
 }

@@ -8,7 +8,7 @@
     <div class="contentDiv" [style.maxHeight]="innerContentDivHeight + 'px'" (window:resize)="onResize($event)">
       <div class="set-box" *ngFor="let set of internalSelectionSets; index as setIndex">
         <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
-          <div class="rowBox multi-select-mt-3 align-items-center">
+          <div class="row multi-select-mt-3 align-items-center">
             <div class="col setName" >{{set.name}}</div>
             <div class="col-5 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
           </div>
