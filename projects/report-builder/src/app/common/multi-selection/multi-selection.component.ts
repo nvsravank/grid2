@@ -122,16 +122,18 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     let maxHeight = h - rect.bottom - 10;
     this.initialMaxheight = maxHeight;
-    this.innerContentDivHeight = maxHeight - 120;
+    this.innerContentDivHeight = maxHeight - 90;
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: false, //This allows closing the dialog box by clicking anywhere else. This allows the behaviour to mimick a true dropdown.
       width: '400px',
       maxHeight: maxHeight + 'px',
+      height: maxHeight + 'px',
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position,
       backdropClass: 'dialog-overlay',
       panelClass: 'multi-select-dialog-panel'
     });
+    console.log('Initial window height: '+ h, rect, this.initialMaxheight, this.innerContentDivHeight);
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {
       this.setCurrentSelections(this.selectionSets); //Reset selections.
@@ -143,6 +145,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   onResize(event) {
     const rect = this.buttonRef.nativeElement.getBoundingClientRect();
     const h = window.innerHeight;
+    console.log('Resized window height: '+ h, rect, this.initialMaxheight, this.innerContentDivHeight);
     //console.log(rect);
     let position = {
       left: '0px',
@@ -156,8 +159,8 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     }
     let height = h - rect.bottom - 10;
     // Because we are setting the maxHeight property when opening the dialog the height property cannot be longer than the maxHeight
-    if(height > this.initialMaxheight) height = this.initialMaxheight - 10;
-    this.innerContentDivHeight = height - 120;
+    if(height > this.initialMaxheight) height = this.initialMaxheight;
+    this.innerContentDivHeight = height - 90;
     // console.log(maxHeight);
     this.dialogRef.updatePosition(position);
     this.dialogRef.updateSize('400px', height + 'px');

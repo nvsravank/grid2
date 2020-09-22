@@ -84,3 +84,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .columnComp {
   width: 130px;
 }
+
+div::-webkit-scrollbar {
+  width: 8px;
+}
+
+div::-webkit-scrollbar-thumb {
+  background: #b2b2b2;
+}
+
+div::-webkit-scrollbar-thumb:window-inactive {
+  background: #b2b2b2;
+}
