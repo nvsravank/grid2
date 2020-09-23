@@ -1,3 +1,4 @@
+/* settings the colors for the arrows to be consistent and not use link colors*/
 a {
   cursor: pointer;
   text-decoration: none;
@@ -8,104 +9,40 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
   text-decoration: none;
 }
 
-.sortable-list {
-  min-height: 30px;
-  border-width: 0px;
-  display: block;
-  background: white;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
+/* Each set gets its own div to control spacing. */
 .set-box {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
+/*Item box is used for sortable sets for each item separately.*/
 .item-box {
-  /*padding: 2px 0px 0px 0px;*/
   padding:7px 10px;
- /* margin-top: 5px;*/
- margin-right: 4px;
+  margin-right: 4px;
   margin-bottom: 5px;
   border: solid 1px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 4px; /*This can be made brandable if necessary.*/
   color: rgba(0, 0, 0, 0.87);
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /*This is necessary for when details need to be shown for each item.*/
   align-items: stretch;
   justify-content: space-around;
   box-sizing: border-box;
   background: white;
-  font-size: 14px;
-  border-radius: 4px;
+  font-size: 12px;
   min-height: 34px;
-  overflow-x: hidden;
+  overflow-x: hidden;/*This is necessary to get the details sections to the edge of the item box.*/
 }
-
-.item-box .rowBox input[type='checkbox']{
-  margin-top: 0px;
-}
-.item-box .rowBox .selectionName{
-  margin-left: 10px !important;
-  font-size: 12px;
-  color: #333333;
-  margin-top: -2px;
-}
-.item-box .rowBox .fa-grip-vertical{
-  margin-right: 15px;
-  color:#686666;
-  font-size: 12px;
-}
-.item-box  .rowBox .arrows .fas{
-  font-size: 12px;
-  color:#686666;
-}
-.item-box  .rowBox .arrows a{
-  margin-left: 10px;
-}
-
-
-.rowBox {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  margin-top: 3px;
-}
-
-.justify-between{
-  justify-content: space-between;
-}
-
-.sub-detail {
-  padding: 5px 5px 5px 50px;
-  border-top: solid 1px rgba(0, 0, 0, 0.2);
-}
-
-.details-showing {
-  background-color: #E6E6E6;
-}
-
-.selection-details {
-  border-top: 1px solid #CCCCCC;
-  padding-left: 6rem;
-  background-color: #F6F6F6;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-}
-
+/*Items in a sortable set that are actually draggable are given the sortable box class to enable different icon.*/
 .sortable-box {
   cursor: move;
 }
-
 .sortable-box:hover {
   border: 1px solid #E6E6E6;
   background-color: #E6E6E6;
   box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.29)
 }
-
+/*These classes are used while dragging an item and are coming from the cdkDrag component. Class names cannot be changed.*/
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
@@ -126,25 +63,25 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.disabledIcon {
-  opacity: 25% !important;
+/*These next few settings are to set the spacings properly and the colors for the different elements of an item.*/
+.item-box .rowBox input[type='checkbox']{
+  margin-top: 0px;
 }
-
-.hiddenIcon {
-  visibility: hidden;
-}
-
-.subHeading{
+.item-box .rowBox .selectionName{
+  margin-left: 10px !important;
   font-size: 12px;
-  text-align: right;
-  margin-right: 4px;
-  padding: 0px;
+  color: #333333;
+  margin-top: -2px;
 }
-
-.name {
-  font-size: 14px;
+.item-box .rowBox .fa-grip-vertical{
+  margin-right: 15px;
+  color:#686666;
+  font-size: 12px;
 }
-
+.item-box .rowBox .arrows .fas{
+  font-size: 12px;
+  color:#686666;
+}
 .arrows {
   width: 50px;
   float: right;
@@ -152,61 +89,103 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
 .arrows a{
   text-align: right;
 }
-
-.mainSelection {
-  width: 165px;
+.item-box  .rowBox .arrows a{
+  margin-left: 10px;
+}
+.disabledIcon {
+  opacity: 25% !important;
 }
 
+.hiddenIcon {
+  visibility: hidden;
+}
+.mainSelection { /*Main selection is used for a sortable item that is draggable only. The width allows the arrows to be next to each other.*/
+  width: 155px;
+}
+
+
+
+
+/*Set headings are shown with set name and maximum selections if applicable.*/
 .setName {
   font-weight: bold;
   font-size: 13px;
   padding-left: 0px;
 }
+.maxSelections{
+  font-size: 12px;
+  text-align: right;
+  margin-right: 4px;
+  padding: 0px;
+}
 
+/*hr is used only to separate sets. 
+This hr is not always visible.
+This is visible only when there are more than one set and 
+the set has no name and max selections equal the number of items sent in the set.*/
 hr {
   margin-top: 8px;
   margin-bottom: 10px;
   height: 1px;
 }
 
-.sub-detail-main-box {
+/*These next few classes are to stlye the details of an item correctly.*/
+.sub-detail {
+  padding: 5px 5px 5px 50px;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  min-height: 29px;
+  display: flex;
+  flex-direction: row;
+  align-items: center !important;
+}
+.subSelectionInput {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.subDetailMainBox {/*This class is used to remove the padding from the item box so that the detail section can have end to end color and border on top.*/
   margin: 7px 0 -7px -10px;
   width: calc(1200% + 20px);
 }
-
-.dialog-overlay {
-  background-color: white;
+.linkPointer{
+  cursor: pointer;
 }
 
+.details-showing {
+  background-color: #E6E6E6;
+}
+/*This is the thrid level of details within an item.*/
+.sub-detail-selection-details {
+  border-top: 1px solid #CCCCCC;
+  padding-left: 6rem;
+  background-color: #F6F6F6;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+/*This property is set to ensure that the minimum width of the box is 130 px when the multi select is not being shown.*/
 .customDropdown {
   min-width: 130px;
 }
+
+/*These properties set the overall properties of the dialog box*/
+.dialog-overlay {
+  background-color: white;
+}
+.contentDiv{
+  overflow-y: auto;
+}
+/*ng-deep is a special angular selector that might be deprecated.
+If so please move this to the application level CSS. The class names have been made sepcific to make it work without issues*/
 ::ng-deep .multi-select-dialog-panel .mat-dialog-container {
   padding: 10px !important;
   box-shadow: 0 1px 6px 0 rgba(0,0,0,0.3);
   overflow: unset;
 }
-.contentDiv{
-  overflow-y: auto;
-}
-.multi-select-ml-1 {
-  margin-left:   0.25rem !important; 
-}
-/*.multi-select-ml-2 {
-  margin-left:   0.5rem !important; 
-}
-.multi-select-ml-3 {
-  margin-left:   0.75rem !important; 
-}
-.multi-select-mr-1 {
-  margin-right:   0.25rem !important; 
-}*/
-.multi-select-mt-3 {
-  margin-top: 0.75rem !important;
-}
-.multi-select-mb-1 {
-  margin-bottom: 5px;
-}
+
 /* Custome Scrollbar for Div Starts */
 div::-webkit-scrollbar, .mat-dialog-content::-webkit-scrollbar {
   width: 8px;
@@ -225,26 +204,76 @@ div::-webkit-scrollbar-thumb:window-inactive, .mat-dialog-content::-webkit-scrol
   background: #b2b2b2;
 }
 /* Custome Scrollbar for Div Ends */
-.non-sortable-box{
-  /*
-  border: 1px solid rgba(0,0,0,0.2);
+
+/*Non sortable items are styled with non sortable box.*/
+.nonSortableBox{
+/*
+  border-top: 1px solid rgba(0,0,0,0.2);
   */
-  padding: 7px 10px;
-  height: 34px;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+
+  padding: 0px 10px;
   margin-right: 4px;
   margin-bottom: 5px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-height: 30px;
+  flex-direction: row;
+  align-items: top;
+  min-height: 24px;
 }
-.non-sortable-box input{
-  margin-left: 22px;
-  margin-bottom: 5px;
+.nonSortableBox input{
+  margin-bottom: 4px;
+  margin-top: 2px;
 }
-.non-sortable-box div{
+.nonSortableSelectionName{
   margin-left: 10px;
   font-size: 12px;
 }
+
+/*Utility classes*/
+.rowBox {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  margin-top: 3px;
+}
+
+.justify-between{
+  justify-content: space-between;
+}
+
+.multi-select-ml-1 {
+  margin-left:   0.25rem !important; 
+}
+/*
+.multi-select-ml-2 {
+  margin-left:   0.5rem !important; 
+}
+.multi-select-ml-3 {
+  margin-left:   0.75rem !important; 
+}
+.multi-select-mr-1 {
+  margin-right:   0.25rem !important; 
+}*/
+.multi-select-mt-3 {
+  margin-top: 0.75rem !important;
+}
+.multi-select-mb-1 {
+  margin-bottom: 5px;
+}
+
+
+/* Unused classes to be removed after next build.
+.name {
+  font-size: 14px;
+}
+.sortable-list {
+  min-height: 30px;
+  border-width: 0px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+*/

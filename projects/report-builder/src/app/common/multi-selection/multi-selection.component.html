@@ -9,15 +9,15 @@
       <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
         <div class="row multi-select-mt-3 align-items-center multi-select-mb-1">
           <div class="col setName" >{{set.name}}</div>
-          <div class="col-6 subHeading" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
+          <div class="col-6 maxSelections" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
         </div>
       </div>
       <!--This section is for non sortable listing. The look is different for this section with each row not being covered by a box etc and shorter selection items-->
       <div *ngIf="!set.sortable">
         <div *ngFor="let selection of set.selectionSet; index as i">
-          <div class="non-sortable-box rowBox">
-            <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-            <div class="multi-select-ml-2">{{selection.name}}</div>
+          <div class="nonSortableBox rowBox">
+            <input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+            <div class="nonSortableSelectionName">{{selection.name}}</div>
           </div>
         </div>
       </div>
@@ -25,14 +25,14 @@
       <!--First section is for the items in the sortable list that are selected but disabled and not draggable.-->
       <!--Second section is for the draggble items. The items shown here have been sorted as per the setCurrentSelections function-->        
       <!--Third section is for those items that are not draggable and are not disabled.-->
-      <!--Note items sent in with the settings of not selected, disabled and are not draggable are not show in any of the three sections.-->
+      <!--Note items sent in with the settings of not selected, and disabled are not shown in any of the three sections.-->
       <div *ngIf="set.sortable">
         <div *ngFor="let selection of set.selectionSet; index as i">
           <div class="item-box" *ngIf="set.sortable && selection.disabled && selection.selected && !selection.draggable">
             <div class="rowBox">
-              <i class="multi-select-ml-3 fas fa-grip-vertical hiddenIcon" ></i>
-              <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-              <div class="multi-select-ml-2 selectionName">{{selection.name}}</div>
+              <i class="fas fa-grip-vertical hiddenIcon" ></i>
+              <input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+              <div class="selectionName">{{selection.name}}</div>
             </div>
           </div>
         </div>
@@ -40,14 +40,14 @@
       <!--hr *ngIf="set.sortable && set.sortableEndCount !== set.selectionSet.length"-->
       <div cdkDropList class="sortable-list" (cdkDropListDropped)="drop($event, setIndex)" *ngIf="set.sortable && set.sortableEndCount !== 0">
         <div *ngFor="let selection of set.selectionSet; index as i">
-          <div class="item-box " [class.sortable-box]="selection.selected || set.currentSelectedCount < set.maxSelections" 
+          <div class="item-box" [class.sortable-box]="selection.selected || set.currentSelectedCount < set.maxSelections" 
           *ngIf="selection.draggable" 
           cdkDrag [cdkDragDisabled]="(!selection.draggable || (!selection.selected  && set.currentSelectedCount >= set.maxSelections))">
             <div class="rowBox justify-between">
               <div class="rowBox">
-                <i class="multi-select-ml-3 fas fa-grip-vertical" [class.disabledIcon]="!selection.selected && set.currentSelectedCount >= set.maxSelections" ></i>
-                <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)">
-                <div class="multi-select-ml-2 selectionName mainSelection">{{selection.name}}</div>
+                <i class="fas fa-grip-vertical" [class.disabledIcon]="!selection.selected && set.currentSelectedCount >= set.maxSelections" ></i>
+                <input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onChecked(i, $event, setIndex)">
+                <div class="selectionName mainSelection">{{selection.name}}</div>
               </div>
               <div class="arrows multi-select-mr-1">
                 <!--The logic in this section is dependent on the sort order of the sortable set.-->
@@ -71,9 +71,9 @@
         <div *ngFor="let selection of set.selectionSet; index as i">
           <div class="item-box" *ngIf="(set.sortable && !selection.draggable && !selection.disabled)">
             <div class="rowBox">
-              <i class="multi-select-ml-3 fas fa-grip-vertical hiddenIcon" ></i>
-              <input class="multi-select-ml-3" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
-              <div class="multi-select-ml-2 selectionName">{{selection.name}}</div>
+              <i class="fas fa-grip-vertical hiddenIcon" ></i>
+              <input type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount == set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
+              <div class="selectionName">{{selection.name}}</div>
             </div>
           </div>
         </div>
@@ -89,17 +89,18 @@
 
 <!--This section is to be used only for the sub section-->
 <ng-template #subSelections let-parentSelection='parentSelection'>
-  <div *ngIf="parentSelection.selected && parentSelection.subSelections" class="sub-detail-main-box">
+  <div *ngIf="parentSelection.selected && parentSelection.subSelections" class="subDetailMainBox">
     <ng-container *ngFor="let selection of parentSelection.subSelections; index as i">
       <div class="sub-detail rowBox" [class.details-showing]="selection.showDetails" >
-        <a *ngIf="selection.selectionDetails && !selection.showDetails && selection.selected" (click)="showHideSelectionDetails(selection)"><i class="ml-1 mr-1 fas fa-plus-circle" ></i></a>
-        <a *ngIf="selection.selectionDetails &&  selection.showDetails && selection.selected" (click)="showHideSelectionDetails(selection)"><i class="ml-1 mr-1 fas fa-minus-circle"></i></a>
-        <input class="multi-select-ml-1" type="checkbox" [disabled]="selection.disabled" [(ngModel)]="selection.selected" >
-        <div class="multi-select-ml-2 selectionName">{{selection.name}}</div>
+        <div class="linkPointer" *ngIf="selection.selectionDetails && !selection.showDetails" (click)="showHideSelectionDetails(selection)"><i class="multi-select-ml-1 fas fa-plus-circle" ></i></div>
+        <div class="linkPointer" *ngIf="selection.selectionDetails &&  selection.showDetails" (click)="showHideSelectionDetails(selection)"><i class="multi-select-ml-1 fas fa-minus-circle"></i></div>
+        <div *ngIf="!selection.selectionDetails"> <i class="hiddenIcon multi-select-ml-1 fas fa-minus-circle"></i></div>
+        <input class="subSelectionInput" type="checkbox" [disabled]="selection.disabled" [(ngModel)]="selection.selected" >
+        <div class="selectionName">{{selection.name}}</div>
       </div>
-      <ng-container *ngIf="selection.selectionDetails && selection.showDetails && selection.selected">
+      <ng-container *ngIf="selection.selectionDetails && selection.showDetails">
         <ng-container *ngFor="let detail of selection.selectionDetails">
-          <div class="selection-details">{{detail}}</div>
+          <div class="sub-detail-selection-details">{{detail}}</div>
         </ng-container>
       </ng-container>
     </ng-container>
