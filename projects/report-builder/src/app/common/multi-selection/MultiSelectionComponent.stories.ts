@@ -44,7 +44,7 @@ PortfolioReturnSets.push(set1);
 /*
 let set2 = new MultiSelectSet();
 set2.maxSelections  = 1;
-set2.sortable = false;
+set2.sortable = true;
 set2.selectionSet = rowMultiSelection2;
 PortfolioReturnSets.push(set2);
 */
@@ -69,7 +69,7 @@ let rowMultiSelection3: MultiSelectSelection[] = [
   {name: 'Return', selected: true, disabled: false, draggable: true, element:null},
 ];
   let rowMultiSelection4: MultiSelectSelection[] = [
-    {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: true, element:null},
+    {name: 'Show Portfolio level Benchmarks', selected: true, disabled: false, draggable: false, element:null},
 //    {name: 'Show Contribution and Change Details ', selected: false, disabled: false, draggable: true, element:null},  
 ];
 let set3 = new MultiSelectSet();
@@ -79,7 +79,7 @@ set3.selectionSet = rowMultiSelection3;
 PortfolioReturnSetsR1.push(set3);
 let set4 = new MultiSelectSet();
 set4.maxSelections  = 3;
-set4.sortable = false;
+set4.sortable = true;
 set4.selectionSet = rowMultiSelection4;
 PortfolioReturnSetsR1.push(set4);
 
@@ -179,6 +179,7 @@ let accountPerformanceMultiSelection1: MultiSelectSelection[] = [
 let accountPerformanceSet1 = new MultiSelectSet();
 accountPerformanceSet1.maxSelections  = 10;
 accountPerformanceSet1.sortable = true;
+accountPerformanceSet1.name = "Heading 1";
 accountPerformanceSet1.selectionSet = accountPerformanceMultiSelection1;
 accountPerformanceSets.push(accountPerformanceSet1);
 

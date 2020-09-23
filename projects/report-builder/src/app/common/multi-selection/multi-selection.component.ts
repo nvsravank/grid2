@@ -114,9 +114,9 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       left: '0px',
       top: rect.bottom + 'px'
     };
-    if(rect.right>400){
+    if(rect.right>300){
       position = {
-        left: (rect.right - 400) + 'px',
+        left: (rect.right - 300) + 'px',
         top: rect.bottom + 'px'
       };
     }
@@ -125,9 +125,9 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     this.innerContentDivHeight = maxHeight - 90;
     this.dialogRef = this.dialog.open(dialogTemplate, {
       disableClose: false, //This allows closing the dialog box by clicking anywhere else. This allows the behaviour to mimick a true dropdown.
-      width: '400px',
+      width: '300px',
       maxHeight: maxHeight + 'px',
-      height: maxHeight + 'px',
+      // height: maxHeight + 'px',
       hasBackdrop: true, //This is necessary for the drag drop to work in a dialog box.
       position: position,
       backdropClass: 'dialog-overlay',
@@ -151,9 +151,9 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       left: '0px',
       top: rect.bottom + 'px'
     };
-    if(rect.right>400){
+    if(rect.right>300){
       position = {
-        left: (rect.right - 400) + 'px',
+        left: (rect.right - 300) + 'px',
         top: rect.bottom + 'px'
       };
     }
@@ -163,7 +163,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
     this.innerContentDivHeight = height - 90;
     // console.log(maxHeight);
     this.dialogRef.updatePosition(position);
-    this.dialogRef.updateSize('400px', height + 'px');
+    this.dialogRef.updateSize('300px', height + 'px');
   }
 
   // Save emits the changes sets to the calling component.
