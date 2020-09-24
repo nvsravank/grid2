@@ -64,21 +64,21 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
 }
 
 /*These next few settings are to set the spacings properly and the colors for the different elements of an item.*/
-.sortableItemInput{
+.sortable-item-input{
   margin-top: 0px;
 }
-.item-box .rowBox .selectionName{
+.item-box .row-box .selection-name{
   margin-left: 10px !important;
   font-size: 12px;
   color: #333333;
   margin-top: -2px;
 }
-.item-box .rowBox .fa-grip-vertical{
+.item-box .row-box .fa-grip-vertical{
   margin-right: 15px;
   color:#686666;
   font-size: 12px;
 }
-.item-box .rowBox .arrows .fas{
+.item-box .row-box .arrows .fas{
   font-size: 12px;
   color:#686666;
 }
@@ -92,14 +92,14 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
 .item-box  .rowBox .arrows a{
   margin-left: 10px;
 }
-.disabledIcon {
+.disabled-icon {
   opacity: 25% !important;
 }
 
-.hiddenIcon {
+.hidden-icon {
   visibility: hidden;
 }
-.mainSelection { /*Main selection is used for a sortable item that is draggable only. The width allows the arrows to be next to each other.*/
+.main-selection { /*Main selection is used for a sortable item that is draggable only. The width allows the arrows to be next to each other.*/
   width: 155px;
 }
 
@@ -107,12 +107,12 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
 
 
 /*Set headings are shown with set name and maximum selections if applicable.*/
-.setName {
+.set-name {
   font-weight: bold;
   font-size: 13px;
   padding-left: 0px;
 }
-.maxSelections{
+.max-selections{
   font-size: 12px;
   text-align: right;
   margin-right: 4px;
@@ -130,30 +130,30 @@ hr {
 }
 
 /*These next few classes are to stlye the details of an item correctly.*/
-.subDetail {
+.sub-detail {
   padding: 5px 5px 5px 50px;
   border-top: solid 1px rgba(0, 0, 0, 0.2);
   font-size: 12px;
   min-height: 29px;
 }
-.subSelectionInput {
+.sub-selection-input {
   margin-left: 10px;
   margin-top: 3px;
   font-size: 12px;
 }
 
-.subDetailMainBox {/*This class is used to remove the padding from the item box so that the detail section can have end to end color and border on top.*/
+.sub-detail-main-box {/*This class is used to remove the padding from the item box so that the detail section can have end to end color and border on top.*/
   margin: 7px 0 -7px -10px;
   width: calc(1200% + 20px);
 }
-.linkPointer{
+.link-pointer{
   cursor: pointer;
 }
-.linkPointer .fas{
+.link-pointer .fas{
   font-size: 14px;
   margin-top: 3px;
 }
-.subDetailSelectionName{
+.sub-detail-selection-name{
   margin-left: 10px !important;
   font-size: 12px;
   color: #333333;
@@ -164,7 +164,7 @@ hr {
   background-color: #E6E6E6;
 }
 /*This is the third level of details within an item.*/
-.subDetailSelectionDetails {
+.sub-detail-selection-details {
   border-top: 1px solid #CCCCCC;
   padding-left: 100px;
   background-color: #F6F6F6;
@@ -175,7 +175,7 @@ hr {
 }
 
 /*This property is set to ensure that the minimum width of the box is 130 px when the multi select is not being shown.*/
-.customDropdown {
+.custom-dropdown {
   min-width: 130px;
 }
 
@@ -183,7 +183,7 @@ hr {
 .dialog-overlay {
   background-color: white;
 }
-.contentDiv{
+.content-area{
   overflow-y: auto;
 }
 /*ng-deep is a special angular selector that might be deprecated.
@@ -214,7 +214,7 @@ div::-webkit-scrollbar-thumb:window-inactive, .mat-dialog-content::-webkit-scrol
 /* Custome Scrollbar for Div Ends */
 
 /*Non sortable items are styled with non sortable box.*/
-.nonSortableBox{
+.non-sortable-box{
 /*
   border-top: 1px solid rgba(0,0,0,0.2);
   */
@@ -230,17 +230,17 @@ div::-webkit-scrollbar-thumb:window-inactive, .mat-dialog-content::-webkit-scrol
   align-items: top;
   min-height: 24px;
 }
-.nonSortableItemInput{
+.non-sortable-item-input{
   margin-bottom: 4px;
   margin-top: 2px;
 }
-.nonSortableSelectionName{
+.non-sortable-selection-name{
   margin-left: 10px;
   font-size: 12px;
 }
 
 /*Utility classes*/
-.rowBox {
+.row-box {
   display: flex;
   flex-direction: row;
   align-items: start;
