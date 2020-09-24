@@ -175,7 +175,7 @@ hr {
 }
 
 /*This property is set to ensure that the minimum width of the box is 130 px when the multi select is not being shown.*/
-.custom-dropdown {
+.customDropdown {
   min-width: 130px;
 }
 
@@ -243,7 +243,7 @@ div::-webkit-scrollbar-thumb:window-inactive, .mat-dialog-content::-webkit-scrol
 .row-box {
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: flex-start;
   margin-top: 3px;
 }
 
