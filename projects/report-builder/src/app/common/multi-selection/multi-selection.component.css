@@ -78,20 +78,24 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
   color:#686666;
   font-size: 12px;
 }
-.item-box .row-box .arrows .fas{
+.arrow-icon{
   font-size: 12px;
   color:#686666;
+  margin-left: 10px;
 }
 .arrows {
   width: 50px;
   float: right;
+  margin-top: 2px;
 }
 .arrows a{
   text-align: right;
 }
+/*
 .item-box  .rowBox .arrows a{
   margin-left: 10px;
 }
+*/
 .disabled-icon {
   opacity: 25% !important;
 }
@@ -103,20 +107,26 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
   width: 155px;
 }
 
-
-
-
 /*Set headings are shown with set name and maximum selections if applicable.*/
 .set-name {
   font-weight: bold;
   font-size: 13px;
   padding-left: 0px;
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
 }
 .max-selections{
   font-size: 12px;
   text-align: right;
   margin-right: 4px;
   padding: 0px;
+  flex: 0 0 50%;
+  max-width: 40%;
+}
+.set-name-row {
+  align-items: center;
+  justify-content: space-between;
 }
 
 /*hr is used only to separate sets. 
@@ -215,19 +225,13 @@ div::-webkit-scrollbar-thumb:window-inactive, .mat-dialog-content::-webkit-scrol
 
 /*Non sortable items are styled with non sortable box.*/
 .non-sortable-box{
-/*
   border-top: 1px solid rgba(0,0,0,0.2);
-  */
-  border-bottom: 1px solid rgba(0,0,0,0.2);
-
-  padding: 0px 10px;
+  padding: 5px 0px 5px 10px;
   margin-right: 4px;
-  margin-bottom: 5px;
-  font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
-  align-items: top;
+  align-items: center;
   min-height: 24px;
 }
 .non-sortable-item-input{

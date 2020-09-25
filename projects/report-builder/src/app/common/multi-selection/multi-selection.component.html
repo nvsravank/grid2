@@ -7,20 +7,20 @@
   <div class="content-area" [style.maxHeight]="innerContentDivHeight + 'px'" (window:resize)="onResize($event)">
     <div class="set-box" *ngFor="let set of internalSelectionSets; index as setIndex">
       <div class="container-fluid" *ngIf="set.name || set.maxSelections < set.selectionSet.length">
-        <div class="row multi-select-mt-3 align-items-center multi-select-mb-1">
-          <div class="col set-name" >{{set.name}}</div>
-          <div class="col-6 max-selections" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
+        <div class="row set-name-row multi-select-mb-1" [class.multi-select-mt-3]="setIndex !==0">
+          <div class="set-name" >{{set.name}} </div>
+          <div class="max-selections" *ngIf="set.maxSelections < set.selectionSet.length">Select up to {{set.maxSelections}}</div>
         </div>
       </div>
       <!--This section is for non sortable listing. The look is different for this section with each row not being covered by a box etc and shorter selection items-->
-      <div *ngIf="!set.sortable">
-        <div *ngFor="let selection of set.selectionSet; index as i">
-          <div class="non-sortable-box row-box">
+      <ng-container *ngIf="!set.sortable">
+        <ng-container *ngFor="let selection of set.selectionSet; index as i">
+          <div class="non-sortable-box" [style.border-width]="(i === 0 && !(set.name || set.maxSelections < set.selectionSet.length))?'0':'1px'">
             <input class="non-sortable-item-input" type="checkbox" [disabled]="selection.disabled || (!selection.selected && set.currentSelectedCount === set.maxSelections)" [ngModel]="selection.selected" (ngModelChange)="onCheckedNonSortable(i, $event,setIndex)">
             <div class="non-sortable-selection-name">{{selection.name}}</div>
           </div>
-        </div>
-      </div>
+        </ng-container>
+      </ng-container>
       <!--The next three divs are sortable listings. The look for all of them includes a box item-box class.-->
       <!--First section is for the items in the sortable list that are selected but disabled and not draggable.-->
       <!--Second section is for the draggble items. The items shown here have been sorted as per the setCurrentSelections function-->        
@@ -51,12 +51,12 @@
               </div>
               <div class="arrows multi-select-mr-1">
                 <!--The logic in this section is dependent on the sort order of the sortable set.-->
-                <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="validateAndMove(set,i,i-1)"><i class="fas fa-arrow-up multi-select-mr-2"></i></a>
-                <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="fas fa-arrow-up disabled-icon multi-select-mr-2"></i></a>
+                <a *ngIf="i  >  0 && ( selection.selected || set.currentSelectedCount <  set.maxSelections)" (click)="validateAndMove(set,i,i-1)"><i class="arrow-icon fas fa-arrow-up multi-select-mr-2"></i></a>
+                <a *ngIf="i === 0 || (!selection.selected && set.currentSelectedCount >= set.maxSelections)"><i class="arrow-icon fas fa-arrow-up disabled-icon multi-select-mr-2"></i></a>
                 <!--The logic below is to show the disabled arrow if it is the last of the sortable items or the item is not selected and max selections have been done or item is selected as well as the index is not equal to the max number of selections  excluding the disabled and selected items-->
-                <a *ngIf="(i === (set.sortableEndCount -1 ) || (!selection.selected && set.currentSelectedCount === set.maxSelections) || ( selection.selected && i === (set.maxSelections - set.selectedAndNotDraggabledCount - 1)))"><i class="fas fa-arrow-down disabled-icon"></i></a>
+                <a *ngIf="(i === (set.sortableEndCount -1 ) || (!selection.selected && set.currentSelectedCount === set.maxSelections) || ( selection.selected && i === (set.maxSelections - set.selectedAndNotDraggabledCount - 1)))"><i class="arrow-icon fas fa-arrow-down disabled-icon"></i></a>
                 <!--The logic below is the opposite of when to show an enabled arrow-->
-                <a *ngIf="(i !== (set.sortableEndCount -1 ) && ( selection.selected || set.currentSelectedCount  <  set.maxSelections) && (!selection.selected || i  <  (set.maxSelections - set.selectedAndNotDraggabledCount - 1)))" (click)="validateAndMove(set,i,i+1)"><i class="fas fa-arrow-down"></i></a>
+                <a *ngIf="(i !== (set.sortableEndCount -1 ) && ( selection.selected || set.currentSelectedCount  <  set.maxSelections) && (!selection.selected || i  <  (set.maxSelections - set.selectedAndNotDraggabledCount - 1)))" (click)="validateAndMove(set,i,i+1)"><i class="arrow-icon fas fa-arrow-down"></i></a>
               </div>
             </div>              
             <ng-container 
