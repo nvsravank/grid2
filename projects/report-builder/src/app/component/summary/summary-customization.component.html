@@ -1,0 +1,117 @@
+<div mat-dialog-title class="container-fluid">
+  <div class="row">
+    <h2 class="col">Customize Summary Component</h2>
+  </div>
+</div>
+<div mat-dialog-content class="container-fluid m-1 p-1">
+  Option 1:
+  <mat-form-field class="chip-list">
+    <mat-chip-list #chipList aria-label="Data selection">
+      <mat-chip
+        *ngFor="let dataPoint of selectedData"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(dataPoint)">
+        {{dataPoint}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New Data Point"
+        #dataInput
+        [formControl]="dataInputCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"/>
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let dataPoint of filteredData | async" [value]="dataPoint">
+        {{dataPoint}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  Option 2:
+  <div cdkDropListGroup>
+    <div class="chip-box">
+      <mat-chip-list
+      class="data-point-box"
+
+      cdkDropList 
+      [cdkDropListData]="option2AvailableData"
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)">
+        <mat-chip
+          class="data-point-chip"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="addChip(dataPoint)"
+          cdkDrag
+          *ngFor="let dataPoint of option2AvailableData">
+          {{dataPoint}}
+          <mat-icon matChipRemove *ngIf="removable">add</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="chip-box">
+      <mat-chip-list
+      class="data-point-box"
+
+      cdkDropList 
+      [cdkDropListData]="option2SelectedData"
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)">
+        <mat-chip
+          class="data-point-chip selected-data-point-chip"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="removeChip(dataPoint)"
+          cdkDrag
+          *ngFor="let dataPoint of option2SelectedData">
+          <div class="container-fluid">
+            <div class="row justify-content-between pt-1">
+              <div class="col">{{dataPoint}}</div>
+              <div class="col-auto"><mat-icon matChipRemove *ngIf="removable">cancel</mat-icon></div>
+            </div>
+          </div>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="option-3-box my-2 mx-1">Option 3:</div>
+  <div class="option-3-box mb-2">
+    <mat-chip-list #chipList aria-label="Data selection">
+      <mat-chip draggable="true" (dragstart)="dragStartHandler($event, i)"
+        *ngFor="let dataPoint of option3Available; index as i"
+        [removable]="true"
+        (removed)="add3(dataPoint)">
+        {{dataPoint.label}}
+        <mat-icon matChipRemove>add</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="option-3-box gridster-box">
+    <gridster [options]="baseOptions" class="gridsterStyles">
+      <gridster-item [item]="item" *ngFor="let item of option3Selected" class="pill">
+        <div class="container-fluid pl-0 pr-0">
+          <div class="d-flex justify-content-between row pl-0 pr-0 pt-1 pb-1">
+            <div class="item-buttons col-auto">
+              <a class="drag-handler" *ngIf="item.dragEnabled">
+                <img class="icon ml-2" src="assets/move.png"/>
+              </a>
+            </div>
+            <div class="col-auto>">{{item.label}}</div>
+            <div class="item-buttons col-auto">
+              <a *ngIf="item.delete" (click)="remove3Item($event, item)">
+                <img class="icon mr-2" src="assets/remove.png"/>
+              </a>
+            </div>
+          </div>
+        </div>
+      </gridster-item>
+    </gridster>
+  </div>
+</div>
+<div mat-dialog-actions class="float-right">
+  <button mat-button color="primary" cdkFocusInitial mat-dialog-close>Save</button>
+  <button mat-button color="primary" mat-dialog-close>Cancel</button>
+</div>

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule} from '@angular/material/chips';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { DynamicModule } from 'ng-dynamic-component';
 import { GridsterModule } from 'angular-gridster2';
@@ -41,6 +45,8 @@ import { PurifyHTMLPipe } from './common/purify-html.pipe';
 import { SaveReportComponent } from './page/report-builder/save-report/save-report.component';
 import { MultiSelectionComponent } from './common/multi-selection/multi-selection.component';
 import { MessagingComponent } from './common/messaging/messaging.component';
+import { SummaryComponent } from './component/summary/summary.component';
+import { SummaryCustomizationComponent } from './component/summary/summary-customization.component';
 
 @NgModule({
   declarations: [
@@ -58,19 +64,21 @@ import { MessagingComponent } from './common/messaging/messaging.component';
     SaveReportComponent,
     MultiSelectionComponent,
     MessagingComponent,
+    SummaryComponent,
+    SummaryCustomizationComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     DragDropModule,
-    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule, MatCheckboxModule,
+    MatButtonModule, MatIconModule, MatSelectModule, MatDialogModule, MatExpansionModule, MatCheckboxModule, MatAutocompleteModule, MatChipsModule, MatInputModule, MatFormFieldModule,
     MatTabsModule,
     MDBBootstrapModule.forRoot(),
     GridsterModule,
-    DynamicModule.withComponents([GraphTableReportBuilderComponent, HeaderReportBuilderComponent, FooterReportBuilderComponent, HoldingsReportBuilderComponent, GraphReportBuilderComponent]),
+    DynamicModule.withComponents([GraphTableReportBuilderComponent, HeaderReportBuilderComponent, FooterReportBuilderComponent, HoldingsReportBuilderComponent, GraphReportBuilderComponent, SummaryComponent]),
     WRIHoldingsModule,
     WRIHeaderModule,
     WRIFooterModule,

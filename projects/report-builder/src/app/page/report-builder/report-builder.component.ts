@@ -3,6 +3,7 @@ import { GraphReportBuilderComponent } from '../../component/graph-report-builde
 import { HoldingsReportBuilderComponent } from '../../component/holdings-report-builder/holdings-report-builder.component';
 import { FooterReportBuilderComponent } from '../../component/footer-report-builder/footer-report-builder.component';
 import { HeaderReportBuilderComponent } from '../../component/header-report-builder/header-report-builder.component';
+import { SummaryComponent } from '../../component/summary/summary.component';
 import { GraphTableReportBuilderComponent } from '../../component/graph-table-report-builder/graph-table-report-builder.component';
 import { Safe, Section, SectionType, PageType } from './section';
 import { MessageType, SimpleMessage } from '../../common/messaging/messaging.component';
@@ -41,7 +42,7 @@ export class ReportBuilderComponent implements OnInit {
   constructor( private route: ActivatedRoute) {
     // Initialize componenets that can be added.
     this.components = [
-      {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
+      {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Summary', type: SummaryComponent, edit: true},
       {cols: 6, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Multi Page Holdings', type: HoldingsReportBuilderComponent, edit: true},
       {cols: 3, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph', type: GraphReportBuilderComponent, edit: true},
       {cols: 4, rows: 2, y: 0, x: 0, hasContent: true,  dragEnabled: true, resizeEnabled: true, delete: true, label: 'Graph and Table', type: GraphTableReportBuilderComponent, edit: true},
