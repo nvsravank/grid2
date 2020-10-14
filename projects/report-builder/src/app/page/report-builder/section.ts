@@ -163,7 +163,7 @@ export class Section {
     if (this.type === SectionType.Dynamic) {this.height = grid.rows * 86 + 4; }
   };
   emptyCellDrop(event: DragEvent, item: GridsterItem) {
-    let index = +event.dataTransfer.getData('text/plain');
+    let index = +event.dataTransfer.getData('Text');
     const component = this.components[index];
     let newItem = {...component};
     newItem.x = item.x;

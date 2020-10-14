@@ -167,7 +167,7 @@ export class SummaryCustomizationComponent {
     emptyCellDropCallback: this.emptyCellDrop.bind(this),
   }
   emptyCellDrop(event: DragEvent, item: GridsterItem) {
-    let index = +event.dataTransfer.getData('text/plain');
+    let index = +event.dataTransfer.getData('Text');
 
     if (index >= 0) {
       transferArrayItem(this.option3Available,this.option3Selected,index,this.option3Selected.length)
@@ -185,7 +185,7 @@ export class SummaryCustomizationComponent {
   option3Selected: Array<GridsterItem> = []
 
   dragStartHandler(event: DragEvent, index: number) {
-    event.dataTransfer.setData('text/plain', index.toString());
+    event.dataTransfer.setData('Text', index.toString());
     event.dataTransfer.dropEffect = 'copy';
   }
   remove3Item($event, item: GridsterItem) {

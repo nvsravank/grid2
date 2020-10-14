@@ -71,7 +71,7 @@ export class ReportBuilderComponent implements OnInit {
   }
 
   dragStartHandler(event: DragEvent, index: number) {
-    event.dataTransfer.setData('text/plain', index.toString());
+    event.dataTransfer.setData('Text', index.toString());
     event.dataTransfer.dropEffect = 'copy';
   }
 
