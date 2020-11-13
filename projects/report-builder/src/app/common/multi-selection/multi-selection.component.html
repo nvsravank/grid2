@@ -89,6 +89,16 @@
 
 <!--This section is to be used only for the sub section-->
 <ng-template #subSelections let-parentSelection='parentSelection'>
+  <div *ngIf="parentSelection.selected && parentSelection.selectionOptions && parentSelection.selectionOptions.options" class="selection-options-main-box">
+    <div class="selection-options-set">
+      <ng-container *ngFor="let selection of parentSelection.selectionOptions.options; index as i">
+        <div class="row-box">
+          <input class="selection-option-input" type="radio" id="{{selection.name}}" name="{{parentSelection.name}}" [value]="i" [(ngModel)]="parentSelection.selectionOptions.selectedOptionIndex">
+          <label class="sub-detail-selection-name" for="{{selection.name}}">{{selection.name}}</label>
+        </div>
+      </ng-container>
+    </div>
+  </div>
   <div *ngIf="parentSelection.selected && parentSelection.subSelections" class="sub-detail-main-box">
     <ng-container *ngFor="let selection of parentSelection.subSelections; index as i">
       <div class="sub-detail row-box" [class.details-showing]="selection.showDetails" >

@@ -1,14 +1,22 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef, OnChanges, SimpleChanges, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { isArray } from 'util';
 
-export interface MultiSelectSelection {
+export interface SingleSelection{
+  name: String;
+  element: any;
+}
+export interface SingleOptionSet {
+  options: SingleSelection[];
+  selectedOptionIndex?: number;
+}
+export interface MultiSelectSelection extends SingleSelection{
   selected:  boolean;
   draggable: boolean;
   disabled:  boolean;
-  element: any;
-  name: string;
   subSelections?: MultiSelectSelection[];
+  selectionOptions?: SingleOptionSet;
   selectionDetails?: string[];
   showDetails?: boolean;
 }
@@ -53,7 +61,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.setCurrentSelections(this.selectionSets);
+    //this.setCurrentSelections(this.selectionSets);
   }
   ngOnChanges(changes: SimpleChanges) {
     this.setCurrentSelections(changes.selectionSets.currentValue);
@@ -78,7 +86,27 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
           selection.selected = false;
           newSelectionSet.currentSelectedCount = selectionSet.maxSelections;
         }
-        newSelectionSet.selectionSet.push({...selection});
+        let newSelection: MultiSelectSelection = {...selection};
+        //copy selection options if necessary.
+        if(selection.selectionOptions && 
+          selection.selectionOptions.options && 
+          isArray(selection.selectionOptions.options) && 
+          selection.selectionOptions.options.length > 1)
+        {
+          let newSelectedOptionIndex: number = 0;
+          //If an option is sent in the request and it is a valid choice, then use it.
+          if(selection.selectionOptions.selectedOptionIndex && selection.selectionOptions.selectedOptionIndex >=0 && selection.selectionOptions.options.length > selection.selectionOptions.selectedOptionIndex) {
+            newSelectedOptionIndex = +selection.selectionOptions.selectedOptionIndex;
+          } 
+          console.log(newSelectedOptionIndex);
+          console.log(selection);
+          let newOptionSet: SingleOptionSet = {
+            options: selection.selectionOptions.options,
+            selectedOptionIndex: newSelectedOptionIndex
+          };
+          newSelection.selectionOptions = newOptionSet;
+        }
+        newSelectionSet.selectionSet.push(newSelection);
       }
       if(selectionSet.sortable){
         // The sort algorithm here is being done to ensure the sortable items (not disabled) are first in the list. In the sortable items, the selectable items are ahead again.
@@ -133,7 +161,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
       backdropClass: 'dialog-overlay',
       panelClass: 'multi-select-dialog-panel'
     });
-    console.log('Initial window height: '+ h, rect, this.initialMaxheight, this.innerContentDivHeight);
+    //console.log('Initial window height: '+ h, rect, this.initialMaxheight, this.innerContentDivHeight);
     // This code is necessary so that when a user clicks the backdrop, we can close the backdrop and reset the entries.
     this.dialogRef.backdropClick().subscribe(() => {
       this.setCurrentSelections(this.selectionSets); //Reset selections.
@@ -230,7 +258,7 @@ export class MultiSelectionComponent implements OnInit, OnChanges {
   onChecked(i: number, isChecked: boolean, setIndex: number){
     const set = this.internalSelectionSets[setIndex];
     set.selectionSet[i].selected = isChecked;
-    console.log(i, isChecked,set.selectionSet[i].selected); // {}, true || false
+    //console.log(i, isChecked,set.selectionSet[i].selected); // {}, true || false
     if(isChecked) {
       if (set.currentSelectedCount < set.maxSelections){
         moveItemInArray(set.selectionSet, i, set.currentSelectedCount - set.selectedAndNotDraggabledCount);

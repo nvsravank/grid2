@@ -141,21 +141,27 @@ hr {
 }
 
 /*These next few classes are to stlye the details of an item correctly.*/
-.sub-detail {
+.sub-detail{
   padding: 5px 5px 5px 50px;
   border-top: solid 1px rgba(0, 0, 0, 0.2);
   font-size: 12px;
   min-height: 29px;
 }
-.sub-selection-input {
+.selection-options-set{
+  padding: 5px 5px 5px 22px;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  min-height: 29px;
+}
+.sub-selection-input, .selection-option-input {
   margin-left: 10px;
   margin-top: 3px;
   font-size: 12px;
 }
 
-.sub-detail-main-box {/*This class is used to remove the padding from the item box so that the detail section can have end to end color and border on top.*/
+.sub-detail-main-box, .selection-options-main-box {/*This class is used to remove the padding from the item box so that the detail section can have end to end color and border on top.*/
   margin: 7px 0 -7px -10px;
-  width: calc(1200% + 20px);
+  width: calc(100% + 20px);
 }
 .link-pointer{
   cursor: pointer;
